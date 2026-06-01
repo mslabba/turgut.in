@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Turgut Technologies | Building Powerful Digital Products</title>
+    <link rel="icon" type="image/svg+xml" href="images/turgut-logo.svg">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Geist:wght@400;500;600&amp;family=JetBrains+Mono&amp;display=swap"
@@ -152,7 +153,8 @@
     <nav
         class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
         <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-3">
+                <img src="images/turgut-logo.svg" alt="Turgut Logo" class="w-8 h-8 object-contain">
                 <span
                     class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">Turgut
                     Technologies</span>
@@ -736,6 +738,7 @@
                         <div
                             class="bg-white/10 backdrop-blur-lg border border-white/20 p-8 md:p-10 rounded-3xl shadow-2xl">
                             <form id="contact-form" class="space-y-6">
+                                <input type="hidden" name="access_key" value="267f0c76-a2cb-40c2-bfd8-f9f2ef2330d6">
                                 <div>
                                     <label for="form-name" class="block text-body-md font-bold mb-2 text-white">Full
                                         Name</label>
@@ -782,7 +785,10 @@
         class="bg-surface-container-low dark:bg-surface-container-highest border-t border-outline-variant dark:border-outline">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-gutter max-w-container-max mx-auto px-margin-desktop py-16">
             <div class="col-span-2 md:col-span-1 space-y-6">
-                <div class="text-headline-md font-headline-md font-bold text-on-surface">Turgut Technologies</div>
+                <div class="flex items-center gap-3">
+                    <img src="images/turgut-logo.svg" alt="Turgut Logo" class="w-8 h-8 object-contain">
+                    <div class="text-headline-md font-headline-md font-bold text-on-surface">Turgut Technologies</div>
+                </div>
                 <p class="text-on-surface-variant text-body-md max-w-xs">Building the future of digital products for the
                     sports, education, and social ecosystems.</p>
                 <div class="flex gap-4">
@@ -879,17 +885,44 @@
                         buttonIcon.classList.add('animate-spin');
                     }
 
-                    // Simulate API call
-                    setTimeout(() => {
-                        // Smoothly hide form and show success state
-                        form.classList.add('transition-all', 'duration-500', 'opacity-0', 'pointer-events-none');
+                    // Send form data via Fetch API to Web3Forms
+                    const formData = new FormData(form);
+                    
+                    fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Smoothly hide form and show success state
+                            form.classList.add('transition-all', 'duration-500', 'opacity-0', 'pointer-events-none');
+                            setTimeout(() => {
+                                form.classList.add('hidden');
+                                successState.classList.remove('hidden');
+                                successState.classList.add('animate-in', 'fade-in', 'zoom-in-95', 'duration-500');
+                            }, 500);
+                        } else {
+                            // Reset button state and display error alert
+                            alert(data.message || 'Something went wrong. Please try again.');
+                            resetFormButton();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Submission error:', error);
+                        alert('Network error. Please check your connection and try again.');
+                        resetFormButton();
+                    });
 
-                        setTimeout(() => {
-                            form.classList.add('hidden');
-                            successState.classList.remove('hidden');
-                            successState.classList.add('animate-in', 'fade-in', 'zoom-in-95', 'duration-500');
-                        }, 500);
-                    }, 1200);
+                    function resetFormButton() {
+                        button.disabled = false;
+                        button.classList.remove('opacity-75', 'cursor-not-allowed');
+                        buttonText.textContent = 'Send Message';
+                        if (buttonIcon) {
+                            buttonIcon.textContent = 'send';
+                            buttonIcon.classList.remove('animate-spin');
+                        }
+                    }
                 });
             }
 
