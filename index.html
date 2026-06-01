@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Turgut Technologies | Building Powerful Digital Products</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Geist:wght@400;500;600&amp;family=JetBrains+Mono&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <!-- Calendly widget assets -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e0e3e5",
+                        "on-surface": "#191c1e",
+                        "outline": "#777587",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#dad7ff",
+                        "on-tertiary-container": "#d1dcf4",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#e2dfff",
+                        "on-tertiary-fixed": "#111c2d",
+                        "secondary-fixed-dim": "#d2bbff",
+                        "secondary": "#712ae2",
+                        "tertiary-container": "#566175",
+                        "surface-dim": "#d8dadc",
+                        "tertiary-fixed": "#d8e3fb",
+                        "on-secondary-fixed": "#25005a",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container": "#eceef0",
+                        "tertiary": "#3e495d",
+                        "outline-variant": "#c7c4d8",
+                        "inverse-surface": "#2d3133",
+                        "secondary-container": "#8a4cfc",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-background": "#191c1e",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface-variant": "#464555",
+                        "surface": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#0f0069",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-fixed-variant": "#3c475a",
+                        "primary-container": "#4f46e5",
+                        "secondary-fixed": "#eaddff",
+                        "tertiary-fixed-dim": "#bcc7de",
+                        "on-primary": "#ffffff",
+                        "primary": "#3525cd",
+                        "surface-tint": "#4d44e3",
+                        "background": "#f7f9fb",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#5a00c6",
+                        "inverse-primary": "#c3c0ff",
+                        "on-secondary-container": "#fffbff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Geist"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "code": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "display-lg": ["72px", { "lineHeight": "80px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                        "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "code": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .primary-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+
+        .mesh-gradient {
+            background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+    <!-- Scroll Progress Indicator -->
+    <div id="scroll-progress"
+        class="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary to-secondary z-[100] w-0 transition-all duration-75">
+    </div>
+    <!-- TopNavBar -->
+    <nav
+        class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+            <div class="flex items-center gap-2">
+                <span
+                    class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">Turgut
+                    Technologies</span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+                <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200"
+                    href="#products">Products</a>
+                <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200"
+                    href="#services">Services</a>
+                <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200"
+                    href="#process">Process</a>
+                <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200"
+                    href="#company">Company</a>
+            </div>
+            <button id="book-a-demo-btn"
+                class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+                Book a Demo
+            </button>
+        </div>
+    </nav>
+    <main>
+        <!-- Hero Section -->
+        <section
+            class="relative pt-24 pb-32 overflow-hidden px-margin-mobile md:px-margin-desktop animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
+                    <div
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed text-label-sm font-label-sm">
+                        <span class="material-symbols-outlined text-[18px]">verified</span>
+                        Innovating for the Future
+                    </div>
+                    <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg tracking-tight leading-tight">
+                        Building Powerful <span class="gradient-text">Digital Products</span> That Transform Businesses
+                    </h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        Turgut develops cutting-edge SaaS platforms, web applications, mobile apps, and digital growth
+                        solutions that scale with your ambitions.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="#products"
+                            class="primary-gradient px-8 py-4 rounded-xl text-on-primary font-headline-md text-body-md shadow-xl hover:shadow-primary-container/30 transition-all flex items-center justify-center gap-2">
+                            Explore Products
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </a>
+                        <a href="#contact"
+                            class="bg-white px-8 py-4 rounded-xl text-primary font-headline-md text-body-md border border-outline-variant shadow-sm hover:bg-surface-container transition-all inline-block text-center">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+                <div
+                    class="relative lg:h-[600px] flex items-center justify-center animate-in fade-in slide-in-from-right-8 duration-1000">
+                    <div class="absolute -z-10 w-[120%] h-[120%] bg-primary/5 rounded-full blur-3xl"></div>
+                    <div class="relative w-full max-w-lg aspect-square">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-3xl rotate-6 blur-md">
+                        </div>
+                        <img class="rounded-3xl shadow-2xl border border-white/20 object-cover w-full h-full relative z-10"
+                            data-alt="A minimalistic, high-tech hero illustration for a software company. Clean 3D abstract shapes, soft gradients in blue and purple, floating UI elements like glass panes and simple code snippets, white background, sophisticated and premium SaaS aesthetic, high-fidelity, professional."
+                            src="images/screen.png">
+                    </div>
+                </div>
+            </div>
+            <!-- Scroll Down Bouncing Cue -->
+            <div
+                class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 hidden md:flex flex-col items-center gap-1 cursor-pointer group">
+                <a href="#trust"
+                    class="flex flex-col items-center text-on-surface-variant hover:text-primary transition-colors text-[11px] font-bold tracking-widest uppercase">
+                    <span class="opacity-70 group-hover:opacity-100 transition-opacity">Scroll Down</span>
+                    <span class="material-symbols-outlined text-[20px] animate-bounce mt-1">keyboard_arrow_down</span>
+                </a>
+            </div>
+        </section>
+        <!-- Trust Section -->
+        <section id="trust"
+            class="py-16 bg-surface-container-low border-y border-outline-variant/30 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div class="max-w-container-max mx-auto px-margin-desktop">
+                <div class="text-center mb-12">
+                    <h2 class="text-label-sm font-label-sm text-outline uppercase tracking-widest">Trusted Technology
+                        Partner</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-gutter text-center">
+                    <div class="space-y-1">
+                        <div class="text-headline-lg font-headline-lg gradient-text">10+</div>
+                        <div class="text-body-md text-on-surface-variant">Years Experience</div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="text-headline-lg font-headline-lg gradient-text">5+</div>
+                        <div class="text-body-md text-on-surface-variant">SaaS Products</div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="text-headline-lg font-headline-lg gradient-text">100%</div>
+                        <div class="text-body-md text-on-surface-variant">Expertise</div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="text-headline-lg font-headline-lg gradient-text">50+</div>
+                        <div class="text-body-md text-on-surface-variant">Global Clients</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Products Section -->
+        <section
+            class="py-32 px-margin-mobile md:px-margin-desktop animate-in fade-in slide-in-from-bottom-8 duration-700"
+            id="products">
+            <div class="max-w-container-max mx-auto">
+                <div class="mb-16">
+                    <h2 class="font-headline-lg text-headline-lg mb-4">Our <span class="gradient-text">Product
+                            Ecosystem</span></h2>
+                    <p class="text-body-lg text-on-surface-variant max-w-2xl">Proprietary solutions built to solve
+                        real-world problems for niche industries.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                    <!-- PowerAuction -->
+                    <div class="glass-card p-10 rounded-3xl flex flex-col h-full group">
+                        <div class="mb-8 flex justify-between items-start">
+                            <img alt="PowerAuction Logo" class="w-16 h-16 rounded-xl object-contain"
+                                src="images/logo-final.png">
+                            <span
+                                class="px-4 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-label-sm">Sports
+                                Tech</span>
+                        </div>
+                        <h3 class="font-headline-md text-headline-md mb-3">PowerAuction</h3>
+                        <p class="text-body-md text-on-surface-variant mb-6 flex-grow">Advanced sports player auction
+                            software designed for live bidding, team balance tracking, and real-time management.</p>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span
+                                class="bg-surface-container px-3 py-1 rounded-full text-label-sm border border-outline-variant">Live
+                                Auctions</span>
+                            <span
+                                class="bg-surface-container px-3 py-1 rounded-full text-label-sm border border-outline-variant">Team
+                                Management</span>
+                        </div>
+                        <a class="text-primary font-label-sm flex items-center gap-2 group-hover:gap-3 transition-all"
+                            href="https://thepowerauction.com" target="_blank" rel="noopener noreferrer">
+                            Learn more <span class="material-symbols-outlined">east</span>
+                        </a>
+                    </div>
+                    <!-- Connectedu -->
+                    <div class="glass-card p-10 rounded-3xl flex flex-col h-full group">
+                        <div class="mb-8 flex justify-between items-start">
+                            <img alt="Connectedu Logo" class="h-12 w-auto object-contain" src="images/logo-text.png">
+                            <span
+                                class="px-4 py-1 rounded-full bg-primary-fixed text-on-primary-fixed text-label-sm">EdTech</span>
+                        </div>
+                        <h3 class="font-headline-md text-headline-md mb-3">Connectedu</h3>
+                        <p class="text-body-md text-on-surface-variant mb-6 flex-grow">Comprehensive School ERP and
+                            parent communication suite simplifying administration, attendance, and fee collections.</p>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span
+                                class="bg-surface-container px-3 py-1 rounded-full text-label-sm border border-outline-variant">ERP</span>
+                            <span
+                                class="bg-surface-container px-3 py-1 rounded-full text-label-sm border border-outline-variant">Parent
+                                Comms</span>
+                        </div>
+                        <a class="text-primary font-label-sm flex items-center gap-2 group-hover:gap-3 transition-all"
+                            href="https://connectedu.in" target="_blank" rel="noopener noreferrer">
+                            Learn more <span class="material-symbols-outlined">east</span>
+                        </a>
+                    </div>
+                    <!-- SocialAuto -->
+                    <div class="glass-card p-10 rounded-3xl flex flex-col h-full group relative overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 px-6 py-2 bg-primary text-on-primary text-label-sm rounded-bl-3xl font-bold">
+                            Coming Soon</div>
+                        <div class="mb-8 flex justify-between items-start">
+                            <div
+                                class="w-16 h-16 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center text-white">
+                                <span class="material-symbols-outlined text-[32px]">auto_awesome</span>
+                            </div>
+                        </div>
+                        <h3 class="font-headline-md text-headline-md mb-3">SocialAuto</h3>
+                        <p class="text-body-md text-on-surface-variant mb-6 flex-grow">Seamless social media automation
+                            tools for agencies and content creators looking to scale their digital footprint.</p>
+                        <div class="opacity-50 pointer-events-none">
+                            <a class="text-outline font-label-sm flex items-center gap-2" href="#">
+                                Launching Q2 2026 <span class="material-symbols-outlined">schedule</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Sportsademy -->
+                    <div class="glass-card p-10 rounded-3xl flex flex-col h-full group relative overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 px-6 py-2 bg-secondary text-white text-label-sm rounded-bl-3xl font-bold">
+                            Launching Soon</div>
+                        <div class="mb-8 flex justify-between items-start">
+                            <div
+                                class="w-16 h-16 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white">
+                                <span class="material-symbols-outlined text-[32px]">sports_soccer</span>
+                            </div>
+                        </div>
+                        <h3 class="font-headline-md text-headline-md mb-3">Sportsademy</h3>
+                        <p class="text-body-md text-on-surface-variant mb-6 flex-grow">Integrated club and academy
+                            management software focusing on performance tracking and athlete development.</p>
+                        <div class="opacity-50 pointer-events-none">
+                            <a class="text-outline font-label-sm flex items-center gap-2" href="#">
+                                Pre-registration open <span class="material-symbols-outlined">upcoming</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Services Section -->
+        <section class="py-32 bg-surface-container-lowest animate-in fade-in slide-in-from-bottom-8 duration-700"
+            id="services">
+            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+                <div class="text-center mb-20">
+                    <h2 class="font-headline-lg text-headline-lg mb-4">World-Class <span
+                            class="gradient-text">Engineering Services</span></h2>
+                    <p class="text-body-lg text-on-surface-variant max-w-2xl mx-auto">We don't just write code; we
+                        architect solutions that drive competitive advantage.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                    <div
+                        class="p-8 rounded-2xl bg-surface hover:bg-surface-container-high border border-outline-variant/30 transition-all duration-300">
+                        <div class="mb-6 text-primary">
+                            <span class="material-symbols-outlined text-[48px]">terminal</span>
+                        </div>
+                        <h4 class="font-headline-md text-body-lg font-bold mb-3">Custom Software</h4>
+                        <p class="text-body-md text-on-surface-variant">Tailored applications designed from the ground
+                            up to fit your unique business workflows.</p>
+                    </div>
+                    <div
+                        class="p-8 rounded-2xl bg-surface hover:bg-surface-container-high border border-outline-variant/30 transition-all duration-300">
+                        <div class="mb-6 text-primary">
+                            <span class="material-symbols-outlined text-[48px]">web</span>
+                        </div>
+                        <h4 class="font-headline-md text-body-lg font-bold mb-3">Web Development</h4>
+                        <p class="text-body-md text-on-surface-variant">Modern, performant web platforms built with
+                            React, Next.js and robust backend systems.</p>
+                    </div>
+                    <div
+                        class="p-8 rounded-2xl bg-surface hover:bg-surface-container-high border border-outline-variant/30 transition-all duration-300">
+                        <div class="mb-6 text-primary">
+                            <span class="material-symbols-outlined text-[48px]">devices</span>
+                        </div>
+                        <h4 class="font-headline-md text-body-lg font-bold mb-3">Mobile Apps</h4>
+                        <p class="text-body-md text-on-surface-variant">Native and cross-platform mobile experiences for
+                            iOS and Android using Flutter.</p>
+                    </div>
+                    <div
+                        class="p-8 rounded-2xl bg-surface hover:bg-surface-container-high border border-outline-variant/30 transition-all duration-300">
+                        <div class="mb-6 text-primary">
+                            <span class="material-symbols-outlined text-[48px]">trending_up</span>
+                        </div>
+                        <h4 class="font-headline-md text-body-lg font-bold mb-3">SEO &amp; Digital Growth</h4>
+                        <p class="text-body-md text-on-surface-variant">Strategic digital marketing and optimization to
+                            ensure your product reaches the right audience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Why Choose Section (Bento Grid Style) -->
+        <section id="company"
+            class="py-32 px-margin-mobile md:px-margin-desktop bg-background animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div class="max-w-container-max mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div
+                        class="md:col-span-2 md:row-span-2 glass-card p-12 rounded-3xl flex flex-col justify-end min-h-[400px]">
+                        <h2 class="font-headline-lg text-headline-lg mb-4">Why Industry Leaders <span
+                                class="gradient-text">Choose Us</span></h2>
+                        <p class="text-body-lg text-on-surface-variant">Our philosophy centers on building long-term
+                            value through technical excellence and strategic partnership.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-3xl">
+                        <span class="material-symbols-outlined text-primary mb-4">psychology</span>
+                        <h5 class="font-headline-md text-body-lg font-bold mb-2">Product Mindset</h5>
+                        <p class="text-body-md text-on-surface-variant">We think like product owners, not just
+                            contractors.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-3xl">
+                        <span class="material-symbols-outlined text-primary mb-4">groups</span>
+                        <h5 class="font-headline-md text-body-lg font-bold mb-2">Experienced Team</h5>
+                        <p class="text-body-md text-on-surface-variant">Senior engineers with decades of combined
+                            expertise.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-3xl">
+                        <span class="material-symbols-outlined text-primary mb-4">speed</span>
+                        <h5 class="font-headline-md text-body-lg font-bold mb-2">Scalable Solutions</h5>
+                        <p class="text-body-md text-on-surface-variant">Architecture built to handle 10x growth
+                            seamlessly.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-3xl">
+                        <span class="material-symbols-outlined text-primary mb-4">support_agent</span>
+                        <h5 class="font-headline-md text-body-lg font-bold mb-2">Long-Term Support</h5>
+                        <p class="text-body-md text-on-surface-variant">Continuous maintenance and strategic evolution.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Tech Stack Section -->
+        <section
+            class="py-24 border-y border-outline-variant/30 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div class="max-w-container-max mx-auto px-margin-desktop overflow-hidden">
+                <div class="text-center mb-16">
+                    <h2 class="text-label-sm font-label-sm text-outline uppercase tracking-widest">Our Technology Stack
+                    </h2>
+                </div>
+                <div
+                    class="flex flex-wrap justify-center gap-x-16 gap-y-12 items-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-headline-md text-on-surface-variant">React</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-headline-md text-on-surface-variant">Next.js</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-headline-md text-on-surface-variant">TypeScript</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-headline-md text-on-surface-variant">Laravel</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-headline-md text-on-surface-variant">Node.js</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-headline-md text-on-surface-variant">Flutter</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-headline-md text-on-surface-variant">AWS</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-headline-md text-on-surface-variant">PostgreSQL</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Process Section -->
+        <section
+            class="py-32 px-margin-mobile md:px-margin-desktop animate-in fade-in slide-in-from-bottom-8 duration-700"
+            id="process">
+            <div class="max-w-container-max mx-auto">
+                <div class="text-center mb-24">
+                    <h2 class="font-headline-lg text-headline-lg mb-4">Our <span class="gradient-text">Delivery
+                            Framework</span></h2>
+                    <p class="text-body-lg text-on-surface-variant max-w-2xl mx-auto">A structured journey from
+                        conceptualization to global deployment.</p>
+                </div>
+                <div class="relative grid grid-cols-1 md:grid-cols-5 gap-8">
+                    <!-- Progress Line (Desktop) -->
+                    <div
+                        class="hidden md:block absolute top-12 left-[10%] right-[10%] h-[2px] bg-outline-variant/30 z-0">
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div
+                            class="w-24 h-24 rounded-full bg-surface border-4 border-primary/20 flex items-center justify-center mb-6 shadow-xl">
+                            <span class="text-headline-md font-bold text-primary">01</span>
+                        </div>
+                        <h6 class="font-headline-md text-body-lg font-bold mb-2">Discover</h6>
+                        <p class="text-body-md text-on-surface-variant px-4">Deep diving into requirements and goals.
+                        </p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div
+                            class="w-24 h-24 rounded-full bg-surface border-4 border-primary/20 flex items-center justify-center mb-6 shadow-xl">
+                            <span class="text-headline-md font-bold text-primary">02</span>
+                        </div>
+                        <h6 class="font-headline-md text-body-lg font-bold mb-2">Design</h6>
+                        <p class="text-body-md text-on-surface-variant px-4">Iterative prototyping and UI/UX crafting.
+                        </p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div
+                            class="w-24 h-24 rounded-full bg-surface border-4 border-primary/20 flex items-center justify-center mb-6 shadow-xl">
+                            <span class="text-headline-md font-bold text-primary">03</span>
+                        </div>
+                        <h6 class="font-headline-md text-body-lg font-bold mb-2">Develop</h6>
+                        <p class="text-body-md text-on-surface-variant px-4">Agile engineering with continuous feedback.
+                        </p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div
+                            class="w-24 h-24 rounded-full bg-surface border-4 border-primary/20 flex items-center justify-center mb-6 shadow-xl">
+                            <span class="text-headline-md font-bold text-primary">04</span>
+                        </div>
+                        <h6 class="font-headline-md text-body-lg font-bold mb-2">Launch</h6>
+                        <p class="text-body-md text-on-surface-variant px-4">Quality assurance and seamless deployment.
+                        </p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div
+                            class="w-24 h-24 rounded-full bg-surface border-4 border-primary/20 flex items-center justify-center mb-6 shadow-xl">
+                            <span class="text-headline-md font-bold text-primary">05</span>
+                        </div>
+                        <h6 class="font-headline-md text-body-lg font-bold mb-2">Support</h6>
+                        <p class="text-body-md text-on-surface-variant px-4">Ongoing scaling and strategic maintenance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Testimonials -->
+        <section class="py-32 bg-surface-container-low animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-gutter items-center">
+                    <div class="lg:col-span-1 space-y-6">
+                        <h2 class="font-headline-lg text-headline-lg">Success Stories</h2>
+                        <p class="text-body-lg text-on-surface-variant">See how our product engineering approach helps
+                            customers launch world-class websites and mobile applications.</p>
+                        <div class="flex gap-4">
+                            <button id="testimonial-prev"
+                                class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-white transition-all opacity-50 cursor-not-allowed"
+                                aria-label="Previous Success Story" disabled>
+                                <span class="material-symbols-outlined">west</span>
+                            </button>
+                            <button id="testimonial-next"
+                                class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-white transition-all"
+                                aria-label="Next Success Story">
+                                <span class="material-symbols-outlined">east</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-3 overflow-hidden w-full relative py-4">
+                        <div id="testimonials-track" class="flex transition-transform duration-500 ease-in-out -mx-3">
+                            <!-- Testimonial 1: Abdul Kalam -->
+                            <div class="testimonial-card w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
+                                <div
+                                    class="glass-card p-8 rounded-3xl flex flex-col justify-between h-full border border-outline-variant/20 shadow-md">
+                                    <div>
+                                        <div class="flex gap-1 text-secondary mb-6">
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                        </div>
+                                        <p class="text-body-md mb-8 italic text-on-surface-variant">"Turgut Technologies
+                                            designed and developed a highly modern, responsive website for IKON
+                                            Engineering. Their product engineering mindset, emphasis on fast load
+                                            speeds, and premium custom layout have vastly elevated our online brand
+                                            presence."</p>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-12 h-12 rounded-full primary-gradient flex items-center justify-center text-white font-bold text-headline-md text-[16px] shadow-md shadow-primary-container/20">
+                                            AK</div>
+                                        <div>
+                                            <div class="font-bold text-body-md">Abdul Kalam</div>
+                                            <div class="text-label-sm text-on-surface-variant">IKON Engineering</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Testimonial 2: Shibu Sir -->
+                            <div class="testimonial-card w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
+                                <div
+                                    class="glass-card p-8 rounded-3xl flex flex-col justify-between h-full border border-outline-variant/20 shadow-md">
+                                    <div>
+                                        <div class="flex gap-1 text-secondary mb-6">
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                        </div>
+                                        <p class="text-body-md mb-8 italic text-on-surface-variant">"We entrusted Turgut
+                                            with both our public website and our core school management software. Chirag
+                                            Kids Home has benefited immensely from their intuitive, secure, and robust
+                                            ERP platform, which has saved our administrative team hours of work every
+                                            single week."</p>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-headline-md text-[16px] shadow-md shadow-indigo-500/20">
+                                            SS</div>
+                                        <div>
+                                            <div class="font-bold text-body-md">Shibu Sir</div>
+                                            <div class="text-label-sm text-on-surface-variant">Chirag Kids Home</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Testimonial 3: Sadham A Das -->
+                            <div class="testimonial-card w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
+                                <div
+                                    class="glass-card p-8 rounded-3xl flex flex-col justify-between h-full border border-outline-variant/20 shadow-md">
+                                    <div>
+                                        <div class="flex gap-1 text-secondary mb-6">
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                        </div>
+                                        <p class="text-body-md mb-8 italic text-on-surface-variant">"Conducting the
+                                            player auction for KACL Season 3 using Turgut's PowerAuction software was a
+                                            phenomenal experience. The real-time bidding tracker, live squad valuations,
+                                            and stable connection made our event a massive hit with all team owners."
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-headline-md text-[16px] shadow-md shadow-purple-500/20">
+                                            SD</div>
+                                        <div>
+                                            <div class="font-bold text-body-md">Sadham A Das</div>
+                                            <div class="text-label-sm text-on-surface-variant">KACL Season 3</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Testimonial 4: Siju Illikkal -->
+                            <div class="testimonial-card w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
+                                <div
+                                    class="glass-card p-8 rounded-3xl flex flex-col justify-between h-full border border-outline-variant/20 shadow-md">
+                                    <div>
+                                        <div class="flex gap-1 text-secondary mb-6">
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined text-[20px]"
+                                                style="font-variation-settings: 'FILL' 1;">star</span>
+                                        </div>
+                                        <p class="text-body-md mb-8 italic text-on-surface-variant">"PowerAuction was
+                                            the star of VASCO Season 7's player drafting. The system processed
+                                            high-stakes, fast-paced live bidding with absolute zero latency, giving us
+                                            complete confidence throughout the entire draft process."</p>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-12 h-12 rounded-full bg-gradient-to-tr from-orange-500 to-red-600 flex items-center justify-center text-white font-bold text-headline-md text-[16px] shadow-md shadow-orange-500/20">
+                                            SI</div>
+                                        <div>
+                                            <div class="font-bold text-body-md">Siju Illikkal</div>
+                                            <div class="text-label-sm text-on-surface-variant">VASCO Season 7</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- CTA Section -->
+        <section id="contact"
+            class="py-32 px-margin-mobile md:px-margin-desktop relative overflow-hidden animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div
+                class="max-w-container-max mx-auto bg-primary text-on-primary p-12 md:p-20 rounded-[48px] relative overflow-hidden shadow-2xl">
+                <div class="absolute inset-0 primary-gradient opacity-90"></div>
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-6 text-center lg:text-left space-y-8">
+                        <h2
+                            class="font-headline-lg text-headline-lg-mobile md:text-headline-lg tracking-tight leading-tight">
+                            Ready to Build Your Next Digital Product?</h2>
+                        <p class="text-body-lg text-primary-fixed max-w-xl mx-auto lg:mx-0">Partner with Turgut
+                            Technologies to bring your vision to life with precision engineering and creative
+                            excellence.</p>
+                        <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
+                            <button id="schedule-consultation-btn"
+                                class="bg-white text-primary px-8 py-4 rounded-xl font-headline-md text-body-md shadow-xl hover:scale-105 transition-all inline-flex items-center justify-center gap-2 cursor-pointer">
+                                <span class="material-symbols-outlined text-[20px]">calendar_today</span>
+                                Schedule a Consultation
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <div
+                            class="bg-white/10 backdrop-blur-lg border border-white/20 p-8 md:p-10 rounded-3xl shadow-2xl">
+                            <form id="contact-form" class="space-y-6">
+                                <div>
+                                    <label for="form-name" class="block text-body-md font-bold mb-2 text-white">Full
+                                        Name</label>
+                                    <input type="text" id="form-name" name="name" required autocomplete="name"
+                                        placeholder="John Doe"
+                                        class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/20 transition-all font-body-md text-[16px]">
+                                </div>
+                                <div>
+                                    <label for="form-email" class="block text-body-md font-bold mb-2 text-white">Email
+                                        Address</label>
+                                    <input type="email" id="form-email" name="email" required autocomplete="email"
+                                        placeholder="john@example.com"
+                                        class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/20 transition-all font-body-md text-[16px]">
+                                </div>
+                                <div>
+                                    <label for="form-message"
+                                        class="block text-body-md font-bold mb-2 text-white">Project Details</label>
+                                    <textarea id="form-message" name="message" required rows="4"
+                                        placeholder="Tell us about your project, timeline, and goals..."
+                                        class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/20 transition-all font-body-md text-[16px] resize-none"></textarea>
+                                </div>
+                                <button type="submit"
+                                    class="w-full bg-white text-primary hover:bg-surface-container font-headline-md text-body-md py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 font-bold cursor-pointer min-h-[48px]">
+                                    <span>Send Message</span>
+                                    <span class="material-symbols-outlined text-[20px]">send</span>
+                                </button>
+                            </form>
+                            <!-- Form Feedback States -->
+                            <div id="form-success" class="hidden text-center py-8 space-y-4">
+                                <span
+                                    class="material-symbols-outlined text-[64px] text-green-300 animate-bounce">check_circle</span>
+                                <h3 class="text-headline-md font-bold text-white">Thank You!</h3>
+                                <p class="text-body-lg text-primary-fixed max-w-md mx-auto">Your message has been sent
+                                    successfully. Our team will get back to you within 24 hours.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="bg-surface-container-low dark:bg-surface-container-highest border-t border-outline-variant dark:border-outline">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-gutter max-w-container-max mx-auto px-margin-desktop py-16">
+            <div class="col-span-2 md:col-span-1 space-y-6">
+                <div class="text-headline-md font-headline-md font-bold text-on-surface">Turgut Technologies</div>
+                <p class="text-on-surface-variant text-body-md max-w-xs">Building the future of digital products for the
+                    sports, education, and social ecosystems.</p>
+                <div class="flex gap-4">
+                    <a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span
+                            class="material-symbols-outlined">public</span></a>
+                    <a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span
+                            class="material-symbols-outlined">alternate_email</span></a>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Products</h6>
+                <ul class="space-y-3">
+                    <li class=""><a
+                            class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all text-body-md"
+                            href="https://thepowerauction.com" target="_blank"
+                            rel="noopener noreferrer">PowerAuction</a></li>
+                    <li class=""><a
+                            class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all text-body-md"
+                            href="https://connectedu.in" target="_blank" rel="noopener noreferrer">Connectedu</a></li>
+                    <li class=""><a
+                            class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all text-body-md"
+                            href="#">SocialAuto</a></li>
+                    <li class=""><a
+                            class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all text-body-md"
+                            href="#">Sportsademy</a></li>
+                </ul>
+            </div>
+            <div class="space-y-4">
+                <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Company</h6>
+                <ul class="space-y-3">
+                    <li class=""><a
+                            class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all text-body-md"
+                            href="#">Development Process</a></li>
+                    <li class=""><a
+                            class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all text-body-md"
+                            href="#">Careers</a></li>
+                    <li class=""><a
+                            class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all text-body-md"
+                            href="#">Privacy Policy</a></li>
+                    <li class=""><a
+                            class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all text-body-md"
+                            href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="space-y-4">
+                <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Subscribe</h6>
+                <p class="text-body-md text-on-surface-variant">Stay updated with our latest releases.</p>
+                <div class="relative">
+                    <input
+                        class="w-full bg-surface border border-outline-variant rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        placeholder="Email address" type="email">
+                    <button class="absolute right-2 top-2 p-1 text-primary"><span
+                            class="material-symbols-outlined">send</span></button>
+                </div>
+            </div>
+        </div>
+        <div
+            class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 text-center md:text-left">
+            <p class="text-on-surface-variant text-body-md">© 2024 Turgut Technologies. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Micro-interactions and effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                });
+            });
+
+            // Contact Form Submission Handler
+            const form = document.getElementById('contact-form');
+            const successState = document.getElementById('form-success');
+
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const button = form.querySelector('button[type="submit"]');
+                    const buttonText = button.querySelector('span:first-of-type');
+                    const buttonIcon = button.querySelector('.material-symbols-outlined');
+
+                    // Set loading state
+                    button.disabled = true;
+                    button.classList.add('opacity-75', 'cursor-not-allowed');
+                    buttonText.textContent = 'Sending...';
+                    if (buttonIcon) {
+                        buttonIcon.textContent = 'autorenew';
+                        buttonIcon.classList.add('animate-spin');
+                    }
+
+                    // Simulate API call
+                    setTimeout(() => {
+                        // Smoothly hide form and show success state
+                        form.classList.add('transition-all', 'duration-500', 'opacity-0', 'pointer-events-none');
+
+                        setTimeout(() => {
+                            form.classList.add('hidden');
+                            successState.classList.remove('hidden');
+                            successState.classList.add('animate-in', 'fade-in', 'zoom-in-95', 'duration-500');
+                        }, 500);
+                    }, 1200);
+                });
+            }
+
+            // Scroll Progress Indicator
+            const progress = document.getElementById('scroll-progress');
+            if (progress) {
+                window.addEventListener('scroll', () => {
+                    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrolled = (window.scrollY / scrollHeight) * 100;
+                    progress.style.width = scrolled + '%';
+                }, { passive: true });
+            }
+
+            // Back to Top Button Interaction
+            const backToTop = document.getElementById('back-to-top');
+            if (backToTop) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 400) {
+                        backToTop.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                        backToTop.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                    } else {
+                        backToTop.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                        backToTop.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                    }
+                }, { passive: true });
+
+                backToTop.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Testimonials Sliding Carousel
+            let currentSliderIndex = 0;
+            const testimonialCards = document.querySelectorAll('.testimonial-card');
+            const track = document.getElementById('testimonials-track');
+            const prevBtn = document.getElementById('testimonial-prev');
+            const nextBtn = document.getElementById('testimonial-next');
+
+            if (track && prevBtn && nextBtn && testimonialCards.length > 0) {
+                function getMaxSliderIndex() {
+                    const width = window.innerWidth;
+                    if (width >= 1024) return testimonialCards.length - 3; // 3 visible on desktop
+                    if (width >= 768) return testimonialCards.length - 2;  // 2 visible on tablet
+                    return testimonialCards.length - 1;                     // 1 visible on mobile
+                }
+
+                function updateSlider() {
+                    const cardWidth = testimonialCards[0].getBoundingClientRect().width;
+                    track.style.transform = `translateX(-${currentSliderIndex * cardWidth}px)`;
+
+                    // Update buttons
+                    prevBtn.disabled = currentSliderIndex === 0;
+                    prevBtn.classList.toggle('opacity-50', currentSliderIndex === 0);
+                    prevBtn.classList.toggle('cursor-not-allowed', currentSliderIndex === 0);
+
+                    const maxIndex = getMaxSliderIndex();
+                    nextBtn.disabled = currentSliderIndex >= maxIndex;
+                    nextBtn.classList.toggle('opacity-50', currentSliderIndex >= maxIndex);
+                    nextBtn.classList.toggle('cursor-not-allowed', currentSliderIndex >= maxIndex);
+                }
+
+                nextBtn.addEventListener('click', () => {
+                    const maxIndex = getMaxSliderIndex();
+                    if (currentSliderIndex < maxIndex) {
+                        currentSliderIndex++;
+                        updateSlider();
+                    }
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    if (currentSliderIndex > 0) {
+                        currentSliderIndex--;
+                        updateSlider();
+                    }
+                });
+
+                window.addEventListener('resize', () => {
+                    const maxIndex = getMaxSliderIndex();
+                    if (currentSliderIndex > maxIndex) {
+                        currentSliderIndex = maxIndex;
+                    }
+                    updateSlider();
+                }, { passive: true });
+
+                // Initial update
+                updateSlider();
+            }
+
+            // Calendly Popup Integration
+            const calendlyButtons = document.querySelectorAll('#book-a-demo-btn, #schedule-consultation-btn');
+            calendlyButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (typeof Calendly !== 'undefined') {
+                        Calendly.initPopupWidget({
+                            url: 'https://calendly.com/mslabba-turgut/30min'
+                        });
+                    } else {
+                        // Fallback in case script fails to load
+                        window.open('https://calendly.com/mslabba-turgut/30min', '_blank', 'noopener,noreferrer');
+                    }
+                });
+            });
+        });
+
+        // Simple scroll reveal
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in', 'fade-in', 'slide-in-from-bottom-8', 'duration-700');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top"
+        class="fixed bottom-8 right-8 z-[60] w-12 h-12 bg-white/85 dark:bg-surface/85 backdrop-blur-md border border-outline-variant/30 text-primary rounded-full shadow-xl flex items-center justify-center cursor-pointer transition-all duration-300 opacity-0 translate-y-4 pointer-events-none hover:scale-110 hover:shadow-2xl hover:text-secondary group"
+        aria-label="Back to Top">
+        <span
+            class="material-symbols-outlined text-[24px] transition-transform group-hover:-translate-y-1">keyboard_arrow_up</span>
+    </button>
+
+</body>
+
+</html>
