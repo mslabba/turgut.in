@@ -1,0 +1,26 @@
+{
+  "name": "InRay Labs",
+  "short_name": "InRay Labs",
+  "description": "Building Intelligent Software for a Smarter Tomorrow",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f9fb",
+  "theme_color": "#3525cd",
+  "icons": [
+    {
+      "src": "images/turgut-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "images/logo-final.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/logo-final.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
