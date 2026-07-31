@@ -21,11 +21,12 @@
   <meta name="twitter:image" content="/blog/assets/images/og-default.jpg">
   
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="https://inraylabs.com/assets/images/latest/transparent-logo.png">
+  <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
 
-  <!-- Connectedu main site styles (header/footer/nav) -->
-  <link rel="stylesheet" href="https://inraylabs.com/assets/css/styles-v2.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
   <!-- Blog-specific styles -->
   <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
@@ -41,38 +42,25 @@
 </head>
 <body class="ice-body">
 
-  <header class="header" id="blog-top">
-  <div class="container">
-    <div class="nav-container">
-      <a href="https://inraylabs.com" class="logo-wrapper">
-        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="inRay Labs Logo" class="logo-icon">
-        <span class="logo-text">inRay Labs</span>
-      </a>
-
-      <nav>
-        <ul class="nav-menu">
-          <li><a href="https://inraylabs.com/#products" class="nav-link">Products</a></li>
-          <li><a href="https://inraylabs.com/#services" class="nav-link">Services</a></li>
-          <li><a href="https://inraylabs.com/#industries" class="nav-link">Industries</a></li>
-          <li><a href="https://inraylabs.com/#process" class="nav-link">Process</a></li>
-          <li><a href="https://inraylabs.com/about" class="nav-link">About Us</a></li>
-          <li><a href="/blog/" class="nav-link active">Blog</a></li>
-          <li><a href="https://inraylabs.com/#contact" class="nav-link">Contact</a></li>
-        </ul>
-      </nav>
-
-      <div class="nav-actions">
-        <a href="https://inraylabs.com/#contact" class="btn btn-primary book-demo-btn">Book a Demo</a>
-      </div>
-
-      <button class="mobile-menu-toggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+  <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+    <a href="https://inraylabs.com" class="flex items-center gap-3 group">
+      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+      <a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
     </div>
+    <a href="https://inraylabs.com/#contact" class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+      Book a Demo
+    </a>
   </div>
-</header>
+</nav>
 
 
   <main class="ice-main">
@@ -148,54 +136,51 @@
     </section>
   </main>
 
-  <footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-col brand-col">
-        <a href="https://inraylabs.com" class="logo-wrapper">
-          <img src="https://inraylabs.com/images/turgut-logo.svg" alt="inRay Labs Logo" class="logo-icon">
-          <span class="logo-text">inRay Labs</span>
-        </a>
-        <p class="footer-desc">Engineering, SaaS Architecture & AI Innovations</p>
-        <p class="footer-reg">INRAY LABS PRIVATE LIMITED<br>CIN: U62099KL2026PTC104994</p>
+  <footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+  <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
       </div>
-
-      <div class="footer-col">
-        <h4 class="footer-heading">Navigation</h4>
-        <ul class="footer-links">
-          <li><a href="https://inraylabs.com/">Home</a></li>
-          <li><a href="https://inraylabs.com/about">About Us</a></li>
-          <li><a href="/blog/">Blog</a></li>
-          <li><a href="https://inraylabs.com/#products">Products</a></li>
-          <li><a href="https://inraylabs.com/#services">Services</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4 class="footer-heading">Categories</h4>
-        <ul class="footer-links">
-          <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/engineering/">Engineering</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4 class="footer-heading">Legal</h4>
-        <ul class="footer-links">
-          <li><a href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
-          <li><a href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
-          <li><a href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
-          <li><a href="https://inraylabs.com/#contact">Contact</a></li>
-        </ul>
+      <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
+      <div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+        <p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+        <p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
       </div>
     </div>
-
-    <div class="footer-bottom">
-      <p>&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
-      <div class="footer-legal">
-        <a href="https://inraylabs.com/privacy-policy">Privacy</a>
-        <a href="https://inraylabs.com/terms-and-conditions">Terms</a>
-        <a href="https://inraylabs.com/cookie-policy">Cookies</a>
-      </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+      <ul class="space-y-3">
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/engineering/">Engineering</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal & Contact</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+    <p class="text-on-surface-variant text-body-md">&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+    <div class="flex gap-6 text-body-md">
+      <a href="https://inraylabs.com/privacy-policy" class="text-on-surface-variant hover:text-primary">Privacy</a>
+      <a href="https://inraylabs.com/terms-and-conditions" class="text-on-surface-variant hover:text-primary">Terms</a>
+      <a href="https://inraylabs.com/cookie-policy" class="text-on-surface-variant hover:text-primary">Cookies</a>
     </div>
   </div>
 </footer>
