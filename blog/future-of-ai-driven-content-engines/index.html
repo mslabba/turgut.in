@@ -210,7 +210,11 @@
       </div>
     </header>
 
-    <div class="ice-container"><div class="ice-featured-image-wrapper"><img src="/blog/assets/images/ai-content.jpg" alt="The Future of AI-Driven Content Engines and Automated Static Sites" class="ice-featured-image"></div></div>
+    
+    <div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+      <img src="/blog/assets/images/ai-content.jpg" alt="The Future of AI-Driven Content Engines and Automated Static Sites" class="w-full max-h-[500px] object-cover">
+    </div>
+    
 
     <!-- Content & TOC Sidebar Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -267,13 +271,17 @@
         </div>
 
         <!-- Prev / Next Navigation -->
-        <div class="ice-prev-next-nav">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 pt-8 border-t border-outline-variant/30">
   
-  {{^PREV_POST}}
-  <div class="ice-prev-next-placeholder"></div>
-  {{/PREV_POST}}
 
-  <a href="/blog/building-scalable-saas-products/" class="ice-prev-next-card ice-next"><span class="ice-prev-next-label">Next &rarr;</span><span class="ice-prev-next-title">Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture</span></a>
+  
+  <a href="/blog/building-scalable-saas-products/" class="glass-card p-6 rounded-2xl border border-outline-variant/40 hover:border-primary transition-all flex flex-col gap-1 text-right group">
+    <span class="text-xs font-bold uppercase tracking-wider text-primary flex items-center justify-end gap-1">
+      Next Article <span class="material-symbols-outlined text-sm">arrow_forward</span>
+    </span>
+    <span class="font-semibold text-on-surface text-base group-hover:text-primary transition-colors line-clamp-2">Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture</span>
+  </a>
+  
 </div>
 
       </article>
