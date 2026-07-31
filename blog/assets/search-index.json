@@ -1,0 +1,28 @@
+[
+  {
+    "title": "Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture",
+    "slug": "building-scalable-saas-products",
+    "description": "Insights into architecting high-performance, multi-tenant SaaS platforms with modular design systems and zero server bloat.",
+    "category": "SaaS Architecture",
+    "tags": [
+      "SaaS",
+      "Architecture",
+      "Multi-Tenant"
+    ],
+    "url": "https://inraylabs.com/blog/building-scalable-saas-products/",
+    "date": "2026-07-23T00:00:00.000Z"
+  },
+  {
+    "title": "The Future of AI-Driven Content Engines and Automated Static Sites",
+    "slug": "future-of-ai-driven-content-engines",
+    "description": "Discover how headless AI agent pipelines paired with static site generation revolutionize content publishing and SEO performance.",
+    "category": "AI & Automation",
+    "tags": [
+      "AI",
+      "Automation",
+      "Static Site Generator"
+    ],
+    "url": "https://inraylabs.com/blog/future-of-ai-driven-content-engines/",
+    "date": "2026-07-22T00:00:00.000Z"
+  }
+]

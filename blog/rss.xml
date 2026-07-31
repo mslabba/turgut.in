@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>inRay Labs Blog</title>
+    <link>https://inraylabs.com/blog/</link>
+    <description>Engineering, SaaS Architecture &amp; AI Innovations</description>
+    <language>en</language>
+    <atom:link href="https://inraylabs.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture</title>
+      <link>https://inraylabs.com/blog/building-scalable-saas-products/</link>
+      <guid>https://inraylabs.com/blog/building-scalable-saas-products/</guid>
+      <pubDate>Thu, 23 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Insights into architecting high-performance, multi-tenant SaaS platforms with modular design systems and zero server bloat.</description>
+      <category>SaaS Architecture</category>
+    </item>
+    <item>
+      <title>The Future of AI-Driven Content Engines and Automated Static Sites</title>
+      <link>https://inraylabs.com/blog/future-of-ai-driven-content-engines/</link>
+      <guid>https://inraylabs.com/blog/future-of-ai-driven-content-engines/</guid>
+      <pubDate>Wed, 22 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Discover how headless AI agent pipelines paired with static site generation revolutionize content publishing and SEO performance.</description>
+      <category>AI &amp; Automation</category>
+    </item>
+  </channel>
+</rss>
