@@ -1,5 +1,20 @@
 [
   {
+    "title": "Hermes Agent: The Autonomous AI Colleague and Its Real-World Use Cases",
+    "slug": "hermes-agent-use-cases-autonomous-ai",
+    "description": "An in-depth exploration of Hermes Agent by Nous Research—its persistent memory, self-learning skill loop, multi-platform integrations, and game-changing enterprise use cases.",
+    "category": "AI & Automation",
+    "tags": [
+      "AI",
+      "Autonomous Agents",
+      "Hermes Agent",
+      "Automation",
+      "Machine Learning"
+    ],
+    "url": "https://inraylabs.com/blog/hermes-agent-use-cases-autonomous-ai/",
+    "date": "2026-08-14T00:00:00.000Z"
+  },
+  {
     "title": "Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture",
     "slug": "building-scalable-saas-products",
     "description": "Insights into architecting high-performance, multi-tenant SaaS platforms with modular design systems and zero server bloat.",

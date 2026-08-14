@@ -7,6 +7,14 @@
     <language>en</language>
     <atom:link href="https://inraylabs.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>Hermes Agent: The Autonomous AI Colleague and Its Real-World Use Cases</title>
+      <link>https://inraylabs.com/blog/hermes-agent-use-cases-autonomous-ai/</link>
+      <guid>https://inraylabs.com/blog/hermes-agent-use-cases-autonomous-ai/</guid>
+      <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
+      <description>An in-depth exploration of Hermes Agent by Nous Research—its persistent memory, self-learning skill loop, multi-platform integrations, and game-changing enterprise use cases.</description>
+      <category>AI &amp; Automation</category>
+    </item>
+    <item>
       <title>Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture</title>
       <link>https://inraylabs.com/blog/building-scalable-saas-products/</link>
       <guid>https://inraylabs.com/blog/building-scalable-saas-products/</guid>

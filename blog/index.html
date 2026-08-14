@@ -12,15 +12,13 @@
   <meta property="og:title" content="inRay Labs Blog - Engineering, SaaS Architecture & AI Innovations">
   <meta property="og:description" content="Engineering, SaaS Architecture & AI Innovations">
   <meta property="og:url" content="https://inraylabs.com/blog/">
-  <meta property="og:image" content="https://inraylabs.com/images/hero-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image" content="/blog/assets/images/og-default.jpg">
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="inRay Labs Blog - Engineering, SaaS Architecture & AI Innovations">
   <meta name="twitter:description" content="Engineering, SaaS Architecture & AI Innovations">
-  <meta name="twitter:image" content="https://inraylabs.com/images/hero-image.png">
+  <meta name="twitter:image" content="/blog/assets/images/og-default.jpg">
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
@@ -171,7 +169,7 @@
       
       <div class="max-w-xl mx-auto my-6 relative">
   <div class="relative flex items-center">
-    <span aria-hidden="true" class="material-symbols-outlined absolute left-4 text-outline pointer-events-none">search</span>
+    <span class="material-symbols-outlined absolute left-4 text-outline pointer-events-none">search</span>
     <input type="text" id="ice-search-input" class="w-full bg-surface border border-outline-variant/80 rounded-full pl-12 pr-12 py-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm" placeholder="Search articles by keyword, topic or title..." aria-label="Search articles">
     <button id="ice-search-clear" class="absolute right-4 text-on-surface-variant hover:text-on-surface text-xl font-bold" style="display: none;" aria-label="Clear search">&times;</button>
   </div>
@@ -187,6 +185,31 @@
 
     <section class="py-12">
       <div class="ice-featured-wrapper"><h2>Featured Article</h2>
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/hermes-agent.jpg" alt="Hermes Agent: The Autonomous AI Colleague and Its Real-World Use Cases" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">AI & Automation</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/hermes-agent-use-cases-autonomous-ai/">Hermes Agent: The Autonomous AI Colleague and Its Real-World Use Cases</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">An in-depth exploration of Hermes Agent by Nous Research—its persistent memory, self-learning skill loop, multi-platform integrations, and game-changing enterprise use cases.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">inRay Labs AI Team</span>
+          <span>&bull;</span>
+          <span>Aug 14, 2026</span>
+          <span>&bull;</span>
+          <span>5 min read</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+      <div class="mb-6 flex items-center justify-between border-b border-outline-variant/30 pb-4">
+        <h2 class="text-headline-md font-bold text-on-surface">Latest Articles</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
     <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
       <img src="/blog/assets/images/saas-arch.jpg" alt="Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture" class="w-full h-48 object-cover" loading="lazy">
       <div class="p-6 flex flex-col flex-grow">
@@ -204,14 +227,7 @@
         </div>
       </div>
     </article>
-  </div>
-
-      <div class="mb-6 flex items-center justify-between border-b border-outline-variant/30 pb-4">
-        <h2 class="text-headline-md font-bold text-on-surface">Latest Articles</h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        
+  
     <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
       <img src="/blog/assets/images/ai-content.jpg" alt="The Future of AI-Driven Content Engines and Automated Static Sites" class="w-full h-48 object-cover" loading="lazy">
       <div class="p-6 flex flex-col flex-grow">
