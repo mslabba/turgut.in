@@ -1,4 +1,17 @@
 User-agent: *
 Allow: /
 
+# Explicit AI Answer Engine & Search Bot Discovery
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://inraylabs.com/sitemap.xml

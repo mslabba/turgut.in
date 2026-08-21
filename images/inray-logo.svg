@@ -1,9 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
-  <!-- InRay Labs Official Logo Mark -->
+  <!-- InRay Labs Official Logo Mark (Light Context: Electric Blue on Light/Transparent) -->
   <g fill="#0038FF">
+    <!-- 'i' Dot -->
     <rect x="80" y="80" width="50" height="24" rx="2" />
+    <!-- 'i' Stem with angled bottom -->
     <path d="M 80,120 L 130,120 L 130,320 L 80,360 Z" />
+    <!-- 'R' Loop & Legs -->
     <path d="M 148,120 L 250,120 C 295,120 325,145 325,190 C 325,235 295,260 250,260 L 210,260 C 210,260 300,350 325,385 C 310,395 270,410 240,400 C 190,380 148,270 148,270 Z" />
+    <!-- Upward Arrow integrated into R -->
     <path d="M 148,320 C 170,260 200,210 240,170 L 215,170 L 255,140 L 255,195 L 235,175 C 200,210 175,250 155,300 Z" fill="#FFFFFF" />
   </g>
 </svg>

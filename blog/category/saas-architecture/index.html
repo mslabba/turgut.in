@@ -8,90 +8,10 @@
   <link rel="canonical" href="https://inraylabs.com/blog/category/saas-architecture/">
   
   <!-- Tailwind CSS & Google Fonts -->
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          "colors": {
-            "surface-variant": "#e0e3e5",
-            "on-surface": "#191c1e",
-            "outline": "#777587",
-            "on-error": "#ffffff",
-            "error-container": "#ffdad6",
-            "on-tertiary": "#ffffff",
-            "on-primary-container": "#dad7ff",
-            "on-tertiary-container": "#d1dcf4",
-            "error": "#ba1a1a",
-            "surface-container-lowest": "#ffffff",
-            "primary-fixed": "#e2dfff",
-            "on-tertiary-fixed": "#111c2d",
-            "secondary-fixed-dim": "#d2bbff",
-            "secondary": "#712ae2",
-            "tertiary-container": "#566175",
-            "surface-dim": "#d8dadc",
-            "tertiary-fixed": "#d8e3fb",
-            "on-secondary-fixed": "#25005a",
-            "surface-container-low": "#f2f4f6",
-            "surface-container": "#eceef0",
-            "tertiary": "#3e495d",
-            "outline-variant": "#c7c4d8",
-            "inverse-surface": "#2d3133",
-            "secondary-container": "#8a4cfc",
-            "surface-container-highest": "#e0e3e5",
-            "on-background": "#191c1e",
-            "surface-container-high": "#e6e8ea",
-            "on-surface-variant": "#464555",
-            "surface": "#f7f9fb",
-            "on-error-container": "#93000a",
-            "on-primary-fixed": "#0f0069",
-            "primary-fixed-dim": "#c3c0ff",
-            "on-primary-fixed-variant": "#3323cc",
-            "on-secondary": "#ffffff",
-            "inverse-on-surface": "#eff1f3",
-            "on-tertiary-fixed-variant": "#3c475a",
-            "primary-container": "#4f46e5",
-            "secondary-fixed": "#eaddff",
-            "tertiary-fixed-dim": "#bcc7de",
-            "on-primary": "#ffffff",
-            "primary": "#3525cd",
-            "surface-tint": "#4d44e3",
-            "background": "#f7f9fb",
-            "surface-bright": "#f7f9fb",
-            "on-secondary-fixed-variant": "#5a00c6",
-            "inverse-primary": "#c3c0ff",
-            "on-secondary-container": "#fffbff"
-          },
-          "borderRadius": {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
-          },
-          "spacing": {
-            "container-max": "1280px",
-            "gutter": "24px",
-            "margin-mobile": "16px",
-            "margin-desktop": "48px",
-            "unit": "4px"
-          },
-          "fontFamily": {
-            "headline-md": ["Inter"],
-            "label-sm": ["Geist"],
-            "display-lg": ["Inter"],
-            "headline-lg": ["Inter"],
-            "body-md": ["Inter"],
-            "code": ["JetBrains Mono"],
-            "display-lg-mobile": ["Inter"],
-            "body-lg": ["Inter"]
-          }
-        }
-      }
-    }
-  </script>
+  
   <style>
     .glass-card {
       background: rgba(255, 255, 255, 0.75);
@@ -117,17 +37,49 @@
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     }
-  </style>
+  
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid #0038FF !important;
+            outline-offset: 2px !important;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+    </style>
 
   <!-- Blog-specific styles -->
   <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inraylabs.com/blog/category/saas-architecture/">
+    <meta property="og:title" content="SaaS Architecture Articles | inRay Labs Blog">
+    <meta property="og:description" content="Browse all articles under the category SaaS Architecture on inRay Labs Blog.">
+    <meta property="og:image" content="/images/hero-image.png">
+    <meta property="og:site_name" content="InRay Labs">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@inraylabs">
+    <meta name="twitter:title" content="SaaS Architecture Articles | inRay Labs Blog">
+    <meta name="twitter:description" content="Browse all articles under the category SaaS Architecture on inRay Labs Blog.">
+    <meta name="twitter:image" content="/images/hero-image.png">
 </head>
 <body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2.5 focus:bg-[#0038FF] focus:text-white focus:rounded-lg focus:shadow-xl font-bold">
+        Skip to main content
+    </a>
+
 
   <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
   <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
     <a href="https://inraylabs.com" class="flex items-center gap-3 group">
-      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <img src="/images/inray-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
       <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
     </a>
     <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
@@ -145,7 +97,7 @@
 </nav>
 
 
-  <main class="max-w-container-max mx-auto px-margin-desktop py-12">
+  <main id="main-content" class="max-w-container-max mx-auto px-margin-desktop py-12">
     <!-- Breadcrumbs -->
     <div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
       <a href="https://inraylabs.com" class="hover:text-primary underline transition-colors">Home</a>
@@ -165,7 +117,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         
     <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
-      <img src="/blog/assets/images/saas-arch.jpg" alt="Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture" class="w-full h-48 object-cover" loading="lazy">
+      <img width="600" height="400" decoding="async" src="/blog/assets/images/saas-arch.jpg" alt="Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture" class="w-full h-48 object-cover" loading="lazy">
       <div class="p-6 flex flex-col flex-grow">
         <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">SaaS Architecture</span>
         <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
@@ -190,7 +142,7 @@
   <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
     <div class="space-y-4">
       <div class="flex items-center gap-3">
-        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <img src="/images/inray-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
         <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
       </div>
       <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
@@ -212,7 +164,7 @@
     <div class="space-y-4">
       <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
       <ul class="space-y-3">
-        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/engineering/">Engineering</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/saas-architecture/">Engineering</a></li><li><a href="/blog/category/ai-and-automation/">Product Insights</a></li>
       </ul>
     </div>
     <div class="space-y-4">
