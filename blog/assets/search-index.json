@@ -1,5 +1,21 @@
 [
   {
+    "title": "We Put an AI Voice Agent to Work: Automating ConnectEdu School Outreach",
+    "slug": "we-put-an-ai-voice-agent-to-work-automating-connectedu-school-outreach",
+    "description": "A real-world inRay Labs experiment using xAI's Voice Agent Builder to automate initial school outreach calls and lead qualification for ConnectEdu.",
+    "category": "AI & Automation",
+    "tags": [
+      "AI",
+      "Voice Agents",
+      "ConnectEdu",
+      "xAI",
+      "Automation",
+      "Sales Outreach"
+    ],
+    "url": "https://inraylabs.com/blog/we-put-an-ai-voice-agent-to-work-automating-connectedu-school-outreach/",
+    "date": "2026-08-21T00:00:00.000Z"
+  },
+  {
     "title": "Hermes Agent: The Autonomous AI Colleague and Its Real-World Use Cases",
     "slug": "hermes-agent-use-cases-autonomous-ai",
     "description": "An in-depth exploration of Hermes Agent by Nous Research—its persistent memory, self-learning skill loop, multi-platform integrations, and game-changing enterprise use cases.",
