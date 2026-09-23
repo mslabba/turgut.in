@@ -7,6 +7,14 @@
     <language>en</language>
     <atom:link href="https://inraylabs.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>How I Run My Day With a Team of Grok Bots</title>
+      <link>https://inraylabs.com/blog/how-i-run-my-day-with-a-team-of-grok-bots/</link>
+      <guid>https://inraylabs.com/blog/how-i-run-my-day-with-a-team-of-grok-bots/</guid>
+      <pubDate>Wed, 23 Sep 2026 00:00:00 GMT</pubDate>
+      <description>I run a team of Grok Bots for content, Slack/Jira/Gmail PA work, ConnectEdu campaigns, 24/7 leads, video review, and a scrum-style status group — and I’m still experimenting.</description>
+      <category>AI &amp; Automation</category>
+    </item>
+    <item>
       <title>We Put an AI Voice Agent to Work: Automating ConnectEdu School Outreach</title>
       <link>https://inraylabs.com/blog/we-put-an-ai-voice-agent-to-work-automating-connectedu-school-outreach/</link>
       <guid>https://inraylabs.com/blog/we-put-an-ai-voice-agent-to-work-automating-connectedu-school-outreach/</guid>
