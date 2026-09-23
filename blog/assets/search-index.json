@@ -1,5 +1,21 @@
 [
   {
+    "title": "How I Run My Day With a Team of Grok Bots",
+    "slug": "how-i-run-my-day-with-a-team-of-grok-bots",
+    "description": "I run a team of Grok Bots for content, Slack/Jira/Gmail PA work, ConnectEdu campaigns, 24/7 leads, video review, and a scrum-style status group — and I’m still experimenting.",
+    "category": "AI & Automation",
+    "tags": [
+      "AI",
+      "Grok Bot",
+      "Automation",
+      "Multi-Agent",
+      "ConnectEdu",
+      "InRay Labs"
+    ],
+    "url": "https://inraylabs.com/blog/how-i-run-my-day-with-a-team-of-grok-bots/",
+    "date": "2026-09-23T00:00:00.000Z"
+  },
+  {
     "title": "We Put an AI Voice Agent to Work: Automating ConnectEdu School Outreach",
     "slug": "we-put-an-ai-voice-agent-to-work-automating-connectedu-school-outreach",
     "description": "A real-world inRay Labs experiment using xAI's Voice Agent Builder to automate initial school outreach calls and lead qualification for ConnectEdu.",
