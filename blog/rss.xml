@@ -7,6 +7,14 @@
     <language>en</language>
     <atom:link href="https://inraylabs.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>How to Scope an AI Agent Project That Actually Ships (5 Steps)</title>
+      <link>https://inraylabs.com/blog/how-to-scope-an-ai-agent-project/</link>
+      <guid>https://inraylabs.com/blog/how-to-scope-an-ai-agent-project/</guid>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Scope an AI agent around one workflow, one system of record, tool permissions, a human handoff, and a done metric. Five steps you can do this week.</description>
+      <category>AI &amp; Automation</category>
+    </item>
+    <item>
       <title>How I Run My Day With a Team of Grok Bots</title>
       <link>https://inraylabs.com/blog/how-i-run-my-day-with-a-team-of-grok-bots/</link>
       <guid>https://inraylabs.com/blog/how-i-run-my-day-with-a-team-of-grok-bots/</guid>

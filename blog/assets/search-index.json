@@ -1,5 +1,19 @@
 [
   {
+    "title": "How to Scope an AI Agent Project That Actually Ships (5 Steps)",
+    "slug": "how-to-scope-an-ai-agent-project",
+    "description": "Scope an AI agent around one workflow, one system of record, tool permissions, a human handoff, and a done metric. Five steps you can do this week.",
+    "category": "AI & Automation",
+    "tags": [
+      "AI",
+      "Automation",
+      "AI Agents",
+      "InRay Labs"
+    ],
+    "url": "https://inraylabs.com/blog/how-to-scope-an-ai-agent-project/",
+    "date": "2026-09-29T00:00:00.000Z"
+  },
+  {
     "title": "How I Run My Day With a Team of Grok Bots",
     "slug": "how-i-run-my-day-with-a-team-of-grok-bots",
     "description": "I run a team of Grok Bots for content, Slack/Jira/Gmail PA work, ConnectEdu campaigns, 24/7 leads, video review, and a scrum-style status group — and I’m still experimenting.",
