@@ -7,6 +7,14 @@
     <language>en</language>
     <atom:link href="https://inraylabs.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>How Job Aggregators Work Around the World: Regional Models and Global Scale</title>
+      <link>https://inraylabs.com/blog/how-job-aggregators-work-around-the-world/</link>
+      <guid>https://inraylabs.com/blog/how-job-aggregators-work-around-the-world/</guid>
+      <pubDate>Fri, 16 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A job aggregator serving many countries runs many pipelines at once: regional sources, localized search, per-market ranking, and compliance rules per country.</description>
+      <category>Product Insights</category>
+    </item>
+    <item>
       <title>How Job Aggregators Work: From Millions of Listings to One Search Box</title>
       <link>https://inraylabs.com/blog/how-job-aggregators-work/</link>
       <guid>https://inraylabs.com/blog/how-job-aggregators-work/</guid>

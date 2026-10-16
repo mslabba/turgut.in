@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Job Aggregators Work Around the World: Regional Models and Global Scale | inRay Labs Blog</title>
+  <meta name="description" content="A job aggregator serving many countries runs many pipelines at once: regional sources, localized search, per-market ranking, and compliance rules per country.">
+  <link rel="canonical" href="https://inraylabs.com/blog/how-job-aggregators-work-around-the-world/">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How Job Aggregators Work Around the World: Regional Models and Global Scale">
+  <meta property="og:description" content="A job aggregator serving many countries runs many pipelines at once: regional sources, localized search, per-market ranking, and compliance rules per country.">
+  <meta property="og:url" content="https://inraylabs.com/blog/how-job-aggregators-work-around-the-world/">
+  <meta property="og:image" content="/blog/assets/images/how-job-aggregators-work-around-the-world.jpg">
+  <meta property="article:published_time" content="2026-10-16T00:00:00.000Z">
+  <meta property="article:section" content="Product Insights">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Job Aggregators Work Around the World: Regional Models and Global Scale">
+  <meta name="twitter:description" content="A job aggregator serving many countries runs many pipelines at once: regional sources, localized search, per-market ranking, and compliance rules per country.">
+  <meta name="twitter:image" content="/blog/assets/images/how-job-aggregators-work-around-the-world.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e0e3e5",
+            "on-surface": "#191c1e",
+            "outline": "#777587",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-container": "#d1dcf4",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary-fixed": "#111c2d",
+            "secondary-fixed-dim": "#d2bbff",
+            "secondary": "#712ae2",
+            "tertiary-container": "#566175",
+            "surface-dim": "#d8dadc",
+            "tertiary-fixed": "#d8e3fb",
+            "on-secondary-fixed": "#25005a",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "tertiary": "#3e495d",
+            "outline-variant": "#c7c4d8",
+            "inverse-surface": "#2d3133",
+            "secondary-container": "#8a4cfc",
+            "surface-container-highest": "#e0e3e5",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "on-surface-variant": "#464555",
+            "surface": "#f7f9fb",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#0f0069",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eff1f3",
+            "on-tertiary-fixed-variant": "#3c475a",
+            "primary-container": "#4f46e5",
+            "secondary-fixed": "#eaddff",
+            "tertiary-fixed-dim": "#bcc7de",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface-tint": "#4d44e3",
+            "background": "#f7f9fb",
+            "surface-bright": "#f7f9fb",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#fffbff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-max": "1280px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "unit": "4px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "label-sm": ["Geist"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "code": ["JetBrains Mono"],
+            "display-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .primary-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .mesh-gradient {
+      background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How Job Aggregators Work Around the World: Regional Models and Global Scale",
+    "description": "A job aggregator serving many countries runs many pipelines at once: regional sources, localized search, per-market ranking, and compliance rules per country.",
+    "image": ["/blog/assets/images/how-job-aggregators-work-around-the-world.jpg"],
+    "datePublished": "2026-10-16T00:00:00.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Muhammed Shihabudeen Labba"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "inRay Labs Blog",
+      "url": "https://inraylabs.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://inraylabs.com/blog/how-job-aggregators-work-around-the-world/"
+    }
+  }
+  </script>
+
+  <!-- Blog-specific styles -->
+  <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+
+  <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+    <a href="https://inraylabs.com" class="flex items-center gap-3 group">
+      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+      <a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
+    </div>
+    <a href="https://inraylabs.com/#contact" class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+      Book a Demo
+    </a>
+  </div>
+</nav>
+
+
+  <main class="max-w-container-max mx-auto px-margin-desktop py-12">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+      <a href="https://inraylabs.com" class="hover:text-primary underline transition-colors">Home</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/" class="hover:text-primary underline transition-colors">Blog</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/category/product-insights/" class="hover:text-primary underline transition-colors">Product Insights</a>
+      <span class="text-xs opacity-50">/</span>
+      <span class="text-on-surface font-medium truncate max-w-xs">How Job Aggregators Work Around the World: Regional Models and Global Scale</span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10 max-w-4xl">
+      <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20 inline-block mb-4">Product Insights</span>
+      <h1 class="text-headline-md md:text-headline-lg font-bold text-on-surface tracking-tight mb-4 leading-tight">How Job Aggregators Work Around the World: Regional Models and Global Scale</h1>
+      <div class="flex flex-wrap items-center gap-4 text-body-md text-on-surface-variant border-b border-outline-variant/30 pb-6">
+        <span class="font-semibold text-on-surface">By Muhammed Shihabudeen Labba</span>
+        <span>•</span>
+        <span>October 16, 2026</span>
+        <span>•</span>
+        <span>6 min read</span>
+      </div>
+    </header>
+
+    
+    <div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+      <img src="/blog/assets/images/how-job-aggregators-work-around-the-world.jpg" onerror="this.onerror=null; this.src='../assets/images/how-job-aggregators-work.jpg';" alt="How Job Aggregators Work Around the World: Regional Models and Global Scale" class="w-full max-h-[500px] object-cover">
+    </div>
+    
+
+    <!-- Content & TOC Sidebar Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Sidebar TOC -->
+      <aside class="lg:col-span-4 order-2 lg:order-1">
+        <div class="sticky top-28 glass-card p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+          <h4 class="font-bold text-on-surface text-body-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">toc</span>
+            <span>Table of Contents</span>
+          </h4>
+          <nav class="toc-nav text-body-md text-on-surface-variant space-y-2">
+            <div class="ice-toc-card">
+  <div class="ice-toc-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+      <line x1="3" y1="18" x2="3.01" y2="18"></line>
+    </svg>
+    <span>Table of Contents</span>
+  </div>
+  <nav class="ice-toc-nav">
+    <ul><li><a href="#one-product-many-markets">One product, many markets</a></li><li><a href="#where-listings-come-from">Where listings come from in each market</a></li><li><a href="#location-is-not-simple">Location is never as simple as it looks</a></li><li><a href="#search-across-languages">Search has to speak the local language</a></li><li><a href="#compliance-country-by-country">The rules change at every border</a></li><li><a href="#ranking-is-local-too">Ranking is local too</a></li><li><a href="#the-architecture-that-holds-it-together">The architecture that holds it together</a></li><li><a href="#faq">Frequently asked questions</a></li><li><a href="#talk-to-us">Talk to us about your platform</a></li></ul>
+  </nav>
+</div>
+
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Article Body -->
+      <article class="lg:col-span-8 order-1 lg:order-2 ice-post-content font-body-md text-on-surface leading-relaxed prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-relaxed">
+        <p>Job aggregators look the same everywhere: a search box, a list of jobs, an apply button. But under the surface, no two countries work the same way. A job aggregator that serves ten countries is really running ten different data pipelines and ten different rulebooks inside one product. This article explains how aggregators adapt to regional markets: where the listings come from, how locations are normalized, how search works across languages, and how compliance changes from country to country.</p>
+
+<h2 id="one-product-many-markets">One product, many markets</h2>
+<p>In a single country, a job aggregator is a plumbing problem: connect feeds, clean the data, index it, search it. Going global turns it into a coordination problem. Every country has its own dominant job boards, applicant tracking systems, languages, data rules, and even ways of writing a job title.</p>
+<p>The mistake many teams make is treating a new country as "the same system, translated." The systems that survive treat each country as a separate data universe sharing one platform underneath. The search box is the same; almost everything behind it is localized.</p>
+
+<h2 id="where-listings-come-from">Where listings come from in each market</h2>
+<p>The first regional difference is the source mix. Listings arrive from three places: structured feeds (ATS and HR software integrations, XML feeds from job boards), direct employer postings, and crawled career pages. But the weight of each source changes dramatically by country. In mature markets, a few large applicant tracking systems dominate, so a handful of integrations covers a huge share of listings. In others, listings are scattered across dozens of local boards and thousands of employer career sites, so crawling does the heavy lifting. An aggregator launching in a new region starts with a source audit: which systems and boards actually carry the country's job volume?</p>
+
+<h2 id="location-is-not-simple">Location is never as simple as it looks</h2>
+<p>Location is the single messiest field in job aggregation, and it gets worse across borders. Different boards describe "where the job is" in completely different formats: one uses a clean list of country names, another uses free text like "APAC, EMEA, LATAM," a third uses region names plus flags, and a fourth often leaves the field empty or just says "Remote."</p>
+<p>So the aggregator normalizes every listing into one canonical shape — a country code, a region tag, a city, and a flag for remote, on-site, or hybrid. The "Remote" case is where candidates get confused: most "remote" listings are really "remote within one country" — the board says "Remote" but the ad says residents of one country only. Aggregators parse eligibility text into structured rules — allowed and excluded countries, required time zones — so a searcher in Germany does not waste applications on jobs they can never take.</p>
+<p>Cross-border search also needs local geo intelligence: Indian job seekers search by city, European searches often filter by commuting distance, and Gulf markets filter heavily by visa eligibility. One search ranking cannot serve all of these.</p>
+
+<h2 id="search-across-languages">Search has to speak the local language</h2>
+<p>Translating the interface is the easy part. The hard part is indexing job descriptions written in different languages. A "software developer" posting in São Paulo might say "desenvolvedor de software"; a German posting says "Softwareentwickler". If the index treats these as unrelated strings, international search falls apart.</p>
+<p>The practical solution has two layers. First, the index uses language-specific analyzers — each language gets its own stemming and tokenization, because German compound words and English phrases do not break apart the same way. Second, the platform builds a shared taxonomy of roles and skills that maps localized titles to one canonical job family. That taxonomy is built market by market, and it is never finished.</p>
+
+<h2 id="compliance-country-by-country">The rules change at every border</h2>
+<p>Every region brings its own compliance rules. Europe's GDPR sets strict rules on storing personal data — including applicant data and search history. Other regions have their own data-residency expectations, consent rules, and retention limits. An aggregator operating globally cannot have one data policy; it needs a compliance matrix, with per-country retention periods, deletion workflows, and hosting choices.</p>
+<p>This affects engineering directly. Every record needs a "jurisdiction" field from day one, so the system can apply the right retention rule to each record and prove it can delete data on request. Compliance becomes a data problem instead of a legal scramble later.</p>
+
+<h2 id="ranking-is-local-too">Ranking is local too</h2>
+<p>What makes a job "relevant" differs by region. Freshness matters more in fast-moving markets where listings go stale in days. Elsewhere, company reputation or salary transparency weighs more. Some regions rank official career-page listings above scraped copies of the same job; others prioritize verified employers.</p>
+<p>Good aggregators therefore parameterize ranking: the ranking formula is shared, but the weights are tuned per market based on click-through and application data. The system learns each country's behavior separately instead of averaging the world into one model.</p>
+
+<h2 id="the-architecture-that-holds-it-together">The architecture that holds it together</h2>
+<p>So what does the system actually look like? A multi-region job aggregator is typically built as one shared platform with per-country configuration:</p>
+<ul>
+<li><strong>Per-region source connectors</strong> — integrations and crawlers configured for each market's actual boards and ATS systems.</li>
+<li><strong>A normalization layer</strong> with regional rules — especially for location, currency, and job-type fields.</li>
+<li><strong>Per-language indexes</strong> with language-specific analyzers, plus a shared cross-locale role taxonomy.</li>
+<li><strong>Per-country ranking weights</strong>, learned from local user behavior.</li>
+<li><strong>A compliance matrix</strong> — jurisdiction on every record, per-country retention and deletion.</li>
+<li><strong>Regional data hosting</strong> where the law requires it.</li>
+</ul>
+<p>The pattern is: shared platform, regional configuration. New countries launch faster because the engine exists — but each still gets its own source audit, its own taxonomy work, and its own ranking tuning. There is no "flip a switch" for a new market, only a well-practiced playbook.</p>
+
+<h2 id="faq">Frequently asked questions</h2>
+
+<h3>Do job aggregators work in every country?</h3>
+<p>No. Aggregators work country by country, because each market needs its own source connectors, its own language index, and its own compliance rules. The largest aggregators cover dozens of countries, but coverage is always uneven — strong in mature markets, thinner where listings are scattered across small local boards.</p>
+
+<h3>Why does "remote" sometimes mean "remote in my country only"?</h3>
+<p>Because boards and employers say "remote" loosely, but tax, payroll, and legal constraints restrict where the worker can live. Aggregators parse the eligibility text into structured rules (allowed and excluded countries, time zones) so searchers only see jobs they can actually apply for.</p>
+
+<h3>What makes a job aggregator truly localized?</h3>
+<p>Four things: the right local sources (not just global boards), language-aware search with a regional job-title taxonomy, per-market ranking tuned to local behavior, and per-country data compliance. Translation alone is not localization.</p>
+
+<h3>What is the hardest part of running a job aggregator across many countries?</h3>
+<p>Normalization — turning each market's inconsistent data (locations, titles, currencies, job types) into one clean schema. Crawling and indexing are solved problems; cleaning fifty different ways of saying "where is this job" is the ongoing work.</p>
+
+<h2 id="talk-to-us">Talk to us about your platform</h2>
+<p>If you are planning a job aggregator, a regional job board, or any multi-country listing platform, we can help you design the source connectors, the normalization layer, and the localized search your market needs. <a href="https://inraylabs.com/#contact">Get in touch with InRay Labs</a> — we build data-heavy SaaS platforms that work at scale.</p>
+
+
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How Job Aggregators Work Around the World: Regional Models and Global Scale",
+  "description": "A job aggregator serving many countries runs many pipelines at once: regional sources, localized search, per-market ranking, and compliance rules per country.",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammed Shihabudeen Labba"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "InRay Labs"
+  },
+  "datePublished": "2026-10-16",
+  "mainEntityOfPage": "https://inraylabs.com/blog/how-job-aggregators-work-around-the-world/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do job aggregators work in every country?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Aggregators work country by country, because each market needs its own source connectors, its own language index, and its own compliance rules. The largest aggregators cover dozens of countries, but coverage is always uneven \u2014 strong in mature markets, thinner where listings are scattered across small local boards."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does \u201cremote\u201d sometimes mean \u201cremote in my country only\u201d?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because boards and employers say \u201cremote\u201d loosely, but tax, payroll, and legal constraints restrict where the worker can live. Aggregators parse the eligibility text into structured rules (allowed and excluded countries, time zones) so searchers only see jobs they can actually apply for."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What makes a job aggregator truly localized?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Four things: the right local sources (not just global boards), language-aware search with a regional job-title taxonomy, per-market ranking tuned to local behavior, and per-country data compliance. Translation alone is not localization."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the hardest part of running a job aggregator across many countries?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Normalization \u2014 turning each market\u2019s inconsistent data (locations, titles, currencies, job types) into one clean schema. Crawling and indexing are solved problems; cleaning fifty different ways of saying \u201cwhere is this job\u201d is the ongoing work."
+      }
+    }
+  ]
+}
+</script>
+
+
+        <!-- Tags -->
+        <div class="mt-12 pt-6 border-t border-outline-variant/30 flex flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold text-on-surface-variant mr-2">Tags:</span>
+          <a href="/blog/tag/saas/" class="ice-tag-pill">#SaaS</a> <a href="/blog/tag/inray-labs/" class="ice-tag-pill">#InRay Labs</a> <a href="/blog/tag/architecture/" class="ice-tag-pill">#Architecture</a> </div>
+
+        <!-- Prev / Next Navigation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 pt-8 border-t border-outline-variant/30">
+  
+      <a href="/blog/job-feed-management-at-scale/" class="glass-card p-6 rounded-2xl border border-outline-variant/40 hover:border-primary transition-all flex flex-col gap-1 text-left group">
+    <span class="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1">
+      <span class="material-symbols-outlined text-sm">arrow_back</span> Previous Article
+    </span>
+    <span class="font-semibold text-on-surface text-base group-hover:text-primary transition-colors line-clamp-2">Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform</span>
+  </a>
+</div>
+
+      </article>
+    </div>
+
+    <!-- Related Posts -->
+    <section class="mt-20 pt-12 border-t border-outline-variant/30">
+      <h3 class="text-headline-md font-bold text-on-surface mb-8">Related Articles</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+    
+    
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-job-aggregators-work.jpg" alt="How Job Aggregators Work: From Millions of Listings to One Search Box" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-job-aggregators-work/">How Job Aggregators Work: From Millions of Listings to One Search Box</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does a job aggregator work? Listings are pulled from ATS feeds, XML feeds and career pages, normalized into one schema, deduplicated, indexed — and served through one fast search.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 16, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/job-feed-management-at-scale.jpg" alt="Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">SaaS Architecture</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/job-feed-management-at-scale/">Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Job feed management at scale means scheduled, streamed imports: parse huge feeds in batches, isolate ingestion from live traffic, dedup deterministically, and fail safely.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 16, 2026</span>
+          <span>&bull;</span>
+          <span>7 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/saas-arch.jpg" alt="Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">SaaS Architecture</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/building-scalable-saas-products/">Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Insights into architecting high-performance, multi-tenant SaaS platforms with modular design systems and zero server bloat.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>July 23, 2026</span>
+          <span>&bull;</span>
+          <span>1 min read</span>
+        </div>
+      </div>
+    </article>
+  
+  
+  
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+  <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
+      </div>
+      <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
+      <div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+        <p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+        <p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
+      </div>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+      <ul class="space-y-3">
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal & Contact</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+    <p class="text-on-surface-variant text-body-md">&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+    <div class="flex gap-6 text-body-md">
+      <a href="https://inraylabs.com/privacy-policy" class="text-on-surface-variant hover:text-primary">Privacy</a>
+      <a href="https://inraylabs.com/terms-and-conditions" class="text-on-surface-variant hover:text-primary">Terms</a>
+      <a href="https://inraylabs.com/cookie-policy" class="text-on-surface-variant hover:text-primary">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
