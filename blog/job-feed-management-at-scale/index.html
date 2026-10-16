@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform | inRay Labs Blog</title>
+  <meta name="description" content="Job feed management at scale means scheduled, streamed imports: parse huge feeds in batches, isolate ingestion from live traffic, dedup deterministically, and fail safely.">
+  <link rel="canonical" href="https://inraylabs.com/blog/job-feed-management-at-scale/">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform">
+  <meta property="og:description" content="Job feed management at scale means scheduled, streamed imports: parse huge feeds in batches, isolate ingestion from live traffic, dedup deterministically, and fail safely.">
+  <meta property="og:url" content="https://inraylabs.com/blog/job-feed-management-at-scale/">
+  <meta property="og:image" content="/blog/assets/images/job-feed-management-at-scale.jpg">
+  <meta property="article:published_time" content="2026-10-16T00:00:00.000Z">
+  <meta property="article:section" content="SaaS Architecture">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform">
+  <meta name="twitter:description" content="Job feed management at scale means scheduled, streamed imports: parse huge feeds in batches, isolate ingestion from live traffic, dedup deterministically, and fail safely.">
+  <meta name="twitter:image" content="/blog/assets/images/job-feed-management-at-scale.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e0e3e5",
+            "on-surface": "#191c1e",
+            "outline": "#777587",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-container": "#d1dcf4",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary-fixed": "#111c2d",
+            "secondary-fixed-dim": "#d2bbff",
+            "secondary": "#712ae2",
+            "tertiary-container": "#566175",
+            "surface-dim": "#d8dadc",
+            "tertiary-fixed": "#d8e3fb",
+            "on-secondary-fixed": "#25005a",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "tertiary": "#3e495d",
+            "outline-variant": "#c7c4d8",
+            "inverse-surface": "#2d3133",
+            "secondary-container": "#8a4cfc",
+            "surface-container-highest": "#e0e3e5",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "on-surface-variant": "#464555",
+            "surface": "#f7f9fb",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#0f0069",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eff1f3",
+            "on-tertiary-fixed-variant": "#3c475a",
+            "primary-container": "#4f46e5",
+            "secondary-fixed": "#eaddff",
+            "tertiary-fixed-dim": "#bcc7de",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface-tint": "#4d44e3",
+            "background": "#f7f9fb",
+            "surface-bright": "#f7f9fb",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#fffbff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-max": "1280px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "unit": "4px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "label-sm": ["Geist"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "code": ["JetBrains Mono"],
+            "display-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .primary-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .mesh-gradient {
+      background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform",
+    "description": "Job feed management at scale means scheduled, streamed imports: parse huge feeds in batches, isolate ingestion from live traffic, dedup deterministically, and fail safely.",
+    "image": ["/blog/assets/images/job-feed-management-at-scale.jpg"],
+    "datePublished": "2026-10-16T00:00:00.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Muhammed Shihabudeen Labba"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "inRay Labs Blog",
+      "url": "https://inraylabs.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://inraylabs.com/blog/job-feed-management-at-scale/"
+    }
+  }
+  </script>
+
+  <!-- Blog-specific styles -->
+  <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+
+  <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+    <a href="https://inraylabs.com" class="flex items-center gap-3 group">
+      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+      <a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
+    </div>
+    <a href="https://inraylabs.com/#contact" class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+      Book a Demo
+    </a>
+  </div>
+</nav>
+
+
+  <main class="max-w-container-max mx-auto px-margin-desktop py-12">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+      <a href="https://inraylabs.com" class="hover:text-primary underline transition-colors">Home</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/" class="hover:text-primary underline transition-colors">Blog</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/category/saas-architecture/" class="hover:text-primary underline transition-colors">SaaS Architecture</a>
+      <span class="text-xs opacity-50">/</span>
+      <span class="text-on-surface font-medium truncate max-w-xs">Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform</span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10 max-w-4xl">
+      <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20 inline-block mb-4">SaaS Architecture</span>
+      <h1 class="text-headline-md md:text-headline-lg font-bold text-on-surface tracking-tight mb-4 leading-tight">Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform</h1>
+      <div class="flex flex-wrap items-center gap-4 text-body-md text-on-surface-variant border-b border-outline-variant/30 pb-6">
+        <span class="font-semibold text-on-surface">By Muhammed Shihabudeen Labba</span>
+        <span>•</span>
+        <span>October 16, 2026</span>
+        <span>•</span>
+        <span>5 min read</span>
+      </div>
+    </header>
+
+    
+    <div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+      <img src="/blog/assets/images/job-feed-management-at-scale.jpg" onerror="this.onerror=null; this.src='../assets/images/job-feed-management-at-scale.jpg';" alt="Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform" class="w-full max-h-[500px] object-cover">
+    </div>
+    
+
+    <!-- Content & TOC Sidebar Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Sidebar TOC -->
+      <aside class="lg:col-span-4 order-2 lg:order-1">
+        <div class="sticky top-28 glass-card p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+          <h4 class="font-bold text-on-surface text-body-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">toc</span>
+            <span>Table of Contents</span>
+          </h4>
+          <nav class="toc-nav text-body-md text-on-surface-variant space-y-2">
+            <div class="ice-toc-card">
+  <div class="ice-toc-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+      <line x1="3" y1="18" x2="3.01" y2="18"></line>
+    </svg>
+    <span>Table of Contents</span>
+  </div>
+  <nav class="ice-toc-nav">
+    <ul><li><a href="#why-are-feed-imports-dangerous">Why are feed imports dangerous?</a></li><li><a href="#schedule-pulls-never-import-on-request">Schedule pulls — never import on request</a></li><li><a href="#stream-the-parse-never-load-the-whole-feed">Stream the parse — never load the whole feed</a></li><li><a href="#isolate-ingestion-from-live-traffic">Isolate ingestion from live traffic</a></li><li><a href="#normalize-at-the-edge-of-the-pipeline">Normalize at the edge of the pipeline</a></li><li><a href="#deduplicate-deterministically">Deduplicate deterministically</a></li><li><a href="#fail-safely-partial-imports-never-go-live">Fail safely — partial imports never go live</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li><li class="toc-h3"><a href="#need-feed-infrastructure-that-holds-up">Need feed infrastructure that holds up?</a></li></ul>
+  </nav>
+</div>
+
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Article Body -->
+      <article class="lg:col-span-8 order-1 lg:order-2 ice-post-content font-body-md text-on-surface leading-relaxed prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-relaxed">
+        <h1>Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform</h1>
+<p>Job feed management is the pipeline that imports listings from job providers on a schedule — and the engineering discipline that keeps those imports from ever touching your live site's performance. At scale, a single provider feed can run to hundreds of megabytes holding hundreds of thousands of jobs. Import it naively and you will exhaust memory, lock your database, and take the site down with it. Here is how to do it properly.</p>
+<h2 id="why-are-feed-imports-dangerous">Why are feed imports dangerous?</h2>
+<p>Three things kill naive importers:</p>
+<ul>
+<li><strong>Memory.</strong> Loading a 600 MB XML file into memory crashes the worker before the first job is saved.</li>
+<li><strong>Time.</strong> Processing 190,000 jobs inside a web request will time out many times over.</li>
+<li><strong>Locks.</strong> One giant database transaction inserting hundreds of thousands of rows blocks the reads your live search depends on.</li>
+</ul>
+<p>Every one of these is a solved problem — but only if the pipeline is designed for it.</p>
+<h2 id="schedule-pulls-never-import-on-request">Schedule pulls — never import on request</h2>
+<p>Each provider gets its own cadence: hourly for high-churn sources, daily for the rest, with jitter so providers don't get hammered on the hour. Imports run as background jobs on a scheduler and queue — never inside a web request, and never triggered by a user clicking a button.</p>
+<h2 id="stream-the-parse-never-load-the-whole-feed">Stream the parse — never load the whole feed</h2>
+<p>Parse the feed as a stream: read it job by job with an event-driven parser and write in batches of a few hundred rows. Memory usage stays flat whether the feed holds ten thousand jobs or ten million. The file size stops being a constraint.</p>
+<h2 id="isolate-ingestion-from-live-traffic">Isolate ingestion from live traffic</h2>
+<p>This is the golden rule: a job seeker searching the site should never be able to tell an import is running. In practice that means separate worker processes and queues for import jobs, heavy imports scheduled off-peak, and batched, lock-friendly writes while live search keeps reading undisturbed. Ingestion and serving are different workloads — give them different lanes.</p>
+<h2 id="normalize-at-the-edge-of-the-pipeline">Normalize at the edge of the pipeline</h2>
+<p>Every provider's feed speaks its own dialect — different date formats, salary conventions, location fields, HTML encoding. Write one mapper per provider that converts its dialect into your canonical job schema before anything touches the database. A new provider means a new mapper, not a schema migration and not a special case in your core code.</p>
+<h2 id="deduplicate-deterministically">Deduplicate deterministically</h2>
+<p>Use the provider's stable job ID as the primary key wherever it exists, and fall back to a fingerprint of normalized title, company, and location. Track first-seen timestamps per job so each run can classify listings as new, updated, or closed by set comparison — the same input always produces the same result, which makes the whole pipeline testable.</p>
+<h2 id="fail-safely-partial-imports-never-go-live">Fail safely — partial imports never go live</h2>
+<p>Two rules protect you:</p>
+<ul>
+<li><strong>Stage, then promote.</strong> Import into staging tables, validate counts and schema, then promote to live. A corrupt feed should fail in staging, not on your homepage.</li>
+<li><strong>Never close jobs on a failed run.</strong> A listing missing from a provider's feed is marked closed only after a complete, successful fetch. A timeout or partial parse must never trigger mass closures.</li>
+</ul>
+<p>And monitor the schedule itself: alert when an expected import hasn't succeeded within its window. A missing successful run is the signal that matters — stack traces alone won't tell you an import silently stopped.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3>What is a job feed?</h3>
+<p>A machine-readable listing of a provider's open jobs — usually XML or JSON — published so aggregators and job boards can import them in bulk on a schedule.</p>
+<h3>Should we use XML feeds or APIs?</h3>
+<p>Use whatever the provider offers. APIs are cleaner and support incremental pulls; XML feeds carry more volume but need streaming parsers and per-provider mappers. Most large aggregators support both.</p>
+<h3>How often should feeds update?</h3>
+<p>Match the churn: hourly for high-volume boards, daily for smaller providers. Freshness is a trust feature — stale listings cost you job seekers.</p>
+<h2 id="need-feed-infrastructure-that-holds-up">Need feed infrastructure that holds up?</h2>
+<p>We have built feed management systems that import millions of jobs on schedule without affecting platform performance — streaming parsers, isolated workers, deterministic dedup. If your job platform is outgrowing its importer, <a href="https://inraylabs.com/#contact">talk to our engineering team</a>.</p>
+
+
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform",
+  "description": "Job feed management at scale means scheduled, streamed imports: parse huge feeds in batches, isolate ingestion from live traffic, dedup deterministically, and fail safely.",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammed Shihabudeen Labba"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "InRay Labs"
+  },
+  "datePublished": "2026-10-16",
+  "mainEntityOfPage": "https://inraylabs.com/blog/job-feed-management-at-scale/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a job feed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A machine-readable listing of a provider's open jobs \u2014 usually XML or JSON \u2014 published so aggregators and job boards can import them in bulk on a schedule."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should we use XML feeds or APIs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use whatever the provider offers. APIs are cleaner and support incremental pulls; XML feeds carry more volume but need streaming parsers and per-provider mappers. Most large aggregators support both."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often should feeds update?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Match the churn: hourly for high-volume boards, daily for smaller providers. Freshness is a trust feature \u2014 stale listings cost you job seekers."
+      }
+    }
+  ]
+}
+</script>
+
+
+        <!-- Tags -->
+        <div class="mt-12 pt-6 border-t border-outline-variant/30 flex flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold text-on-surface-variant mr-2">Tags:</span>
+          <a href="/blog/tag/saas/" class="ice-tag-pill">#SaaS</a> <a href="/blog/tag/inray-labs/" class="ice-tag-pill">#InRay Labs</a> <a href="/blog/tag/architecture/" class="ice-tag-pill">#Architecture</a> </div>
+
+        <!-- Prev / Next Navigation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 pt-8 border-t border-outline-variant/30">
+  
+    <a href="/blog/how-job-aggregators-work/" class="glass-card p-6 rounded-2xl border border-outline-variant/40 hover:border-primary transition-all flex flex-col gap-1 text-left group">
+    <span class="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1">
+      <span class="material-symbols-outlined text-sm">arrow_back</span> Previous Article
+    </span>
+    <span class="font-semibold text-on-surface text-base group-hover:text-primary transition-colors line-clamp-2">How Job Aggregators Work: From Millions of Listings to One Search Box</span>
+  </a>
+</div>
+
+      </article>
+    </div>
+
+    <!-- Related Posts -->
+    <section class="mt-20 pt-12 border-t border-outline-variant/30">
+      <h3 class="text-headline-md font-bold text-on-surface mb-8">Related Articles</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+    
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/saas-arch.jpg" alt="Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">SaaS Architecture</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/building-scalable-saas-products/">Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Insights into architecting high-performance, multi-tenant SaaS platforms with modular design systems and zero server bloat.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">inRay Labs Engineering</span>
+          <span>&bull;</span>
+          <span>Jul 23, 2026</span>
+          <span>&bull;</span>
+          <span>1 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-to-scope-an-ai-agent-project.jpg" alt="How to Scope an AI Agent Project That Actually Ships (5 Steps)" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">AI & Automation</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-to-scope-an-ai-agent-project/">How to Scope an AI Agent Project That Actually Ships (5 Steps)</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Scope an AI agent around one workflow, one system of record, tool permissions, a human handoff, and a done metric. Five steps you can do this week.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>Sep 29, 2026</span>
+          <span>&bull;</span>
+          <span>8 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/build-vs-buy-ai-agent-checklist.jpg" alt="Build vs Buy an AI Agent Desk: A Practical Checklist for SaaS Teams" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">AI & Automation</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/build-vs-buy-ai-agent-checklist/">Build vs Buy an AI Agent Desk: A Practical Checklist for SaaS Teams</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Should you build your own AI agent or buy one? Score data access, permissions, integrations, running cost, ownership, evaluation and support with this checklist.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>Oct 13, 2026</span>
+          <span>&bull;</span>
+          <span>5 min read</span>
+        </div>
+      </div>
+    </article>
+  
+  
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+  <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
+      </div>
+      <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
+      <div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+        <p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+        <p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
+      </div>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+      <ul class="space-y-3">
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal & Contact</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+    <p class="text-on-surface-variant text-body-md">&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+    <div class="flex gap-6 text-body-md">
+      <a href="https://inraylabs.com/privacy-policy" class="text-on-surface-variant hover:text-primary">Privacy</a>
+      <a href="https://inraylabs.com/terms-and-conditions" class="text-on-surface-variant hover:text-primary">Terms</a>
+      <a href="https://inraylabs.com/cookie-policy" class="text-on-surface-variant hover:text-primary">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>

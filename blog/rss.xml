@@ -7,6 +7,22 @@
     <language>en</language>
     <atom:link href="https://inraylabs.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>How Job Aggregators Work: From Millions of Listings to One Search Box</title>
+      <link>https://inraylabs.com/blog/how-job-aggregators-work/</link>
+      <guid>https://inraylabs.com/blog/how-job-aggregators-work/</guid>
+      <pubDate>Fri, 16 Oct 2026 00:00:00 GMT</pubDate>
+      <description>How does a job aggregator work? Listings are pulled from ATS feeds, XML feeds and career pages, normalized into one schema, deduplicated, indexed — and served through one fast search.</description>
+      <category>Product Insights</category>
+    </item>
+    <item>
+      <title>Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform</title>
+      <link>https://inraylabs.com/blog/job-feed-management-at-scale/</link>
+      <guid>https://inraylabs.com/blog/job-feed-management-at-scale/</guid>
+      <pubDate>Fri, 16 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Job feed management at scale means scheduled, streamed imports: parse huge feeds in batches, isolate ingestion from live traffic, dedup deterministically, and fail safely.</description>
+      <category>SaaS Architecture</category>
+    </item>
+    <item>
       <title>How to Scope an AI Agent Project That Actually Ships (5 Steps)</title>
       <link>https://inraylabs.com/blog/how-to-scope-an-ai-agent-project/</link>
       <guid>https://inraylabs.com/blog/how-to-scope-an-ai-agent-project/</guid>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Job Aggregators Work: From Millions of Listings to One Search Box | inRay Labs Blog</title>
+  <meta name="description" content="How does a job aggregator work? Listings are pulled from ATS feeds, XML feeds and career pages, normalized into one schema, deduplicated, indexed — and served through one fast search.">
+  <link rel="canonical" href="https://inraylabs.com/blog/how-job-aggregators-work/">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How Job Aggregators Work: From Millions of Listings to One Search Box">
+  <meta property="og:description" content="How does a job aggregator work? Listings are pulled from ATS feeds, XML feeds and career pages, normalized into one schema, deduplicated, indexed — and served through one fast search.">
+  <meta property="og:url" content="https://inraylabs.com/blog/how-job-aggregators-work/">
+  <meta property="og:image" content="/blog/assets/images/how-job-aggregators-work.jpg">
+  <meta property="article:published_time" content="2026-10-16T00:00:00.000Z">
+  <meta property="article:section" content="Product Insights">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Job Aggregators Work: From Millions of Listings to One Search Box">
+  <meta name="twitter:description" content="How does a job aggregator work? Listings are pulled from ATS feeds, XML feeds and career pages, normalized into one schema, deduplicated, indexed — and served through one fast search.">
+  <meta name="twitter:image" content="/blog/assets/images/how-job-aggregators-work.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e0e3e5",
+            "on-surface": "#191c1e",
+            "outline": "#777587",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-container": "#d1dcf4",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary-fixed": "#111c2d",
+            "secondary-fixed-dim": "#d2bbff",
+            "secondary": "#712ae2",
+            "tertiary-container": "#566175",
+            "surface-dim": "#d8dadc",
+            "tertiary-fixed": "#d8e3fb",
+            "on-secondary-fixed": "#25005a",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "tertiary": "#3e495d",
+            "outline-variant": "#c7c4d8",
+            "inverse-surface": "#2d3133",
+            "secondary-container": "#8a4cfc",
+            "surface-container-highest": "#e0e3e5",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "on-surface-variant": "#464555",
+            "surface": "#f7f9fb",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#0f0069",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eff1f3",
+            "on-tertiary-fixed-variant": "#3c475a",
+            "primary-container": "#4f46e5",
+            "secondary-fixed": "#eaddff",
+            "tertiary-fixed-dim": "#bcc7de",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface-tint": "#4d44e3",
+            "background": "#f7f9fb",
+            "surface-bright": "#f7f9fb",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#fffbff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-max": "1280px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "unit": "4px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "label-sm": ["Geist"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "code": ["JetBrains Mono"],
+            "display-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .primary-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .mesh-gradient {
+      background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How Job Aggregators Work: From Millions of Listings to One Search Box",
+    "description": "How does a job aggregator work? Listings are pulled from ATS feeds, XML feeds and career pages, normalized into one schema, deduplicated, indexed — and served through one fast search.",
+    "image": ["/blog/assets/images/how-job-aggregators-work.jpg"],
+    "datePublished": "2026-10-16T00:00:00.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Muhammed Shihabudeen Labba"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "inRay Labs Blog",
+      "url": "https://inraylabs.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://inraylabs.com/blog/how-job-aggregators-work/"
+    }
+  }
+  </script>
+
+  <!-- Blog-specific styles -->
+  <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+
+  <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+    <a href="https://inraylabs.com" class="flex items-center gap-3 group">
+      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+      <a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
+    </div>
+    <a href="https://inraylabs.com/#contact" class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+      Book a Demo
+    </a>
+  </div>
+</nav>
+
+
+  <main class="max-w-container-max mx-auto px-margin-desktop py-12">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+      <a href="https://inraylabs.com" class="hover:text-primary underline transition-colors">Home</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/" class="hover:text-primary underline transition-colors">Blog</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/category/product-insights/" class="hover:text-primary underline transition-colors">Product Insights</a>
+      <span class="text-xs opacity-50">/</span>
+      <span class="text-on-surface font-medium truncate max-w-xs">How Job Aggregators Work: From Millions of Listings to One Search Box</span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10 max-w-4xl">
+      <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20 inline-block mb-4">Product Insights</span>
+      <h1 class="text-headline-md md:text-headline-lg font-bold text-on-surface tracking-tight mb-4 leading-tight">How Job Aggregators Work: From Millions of Listings to One Search Box</h1>
+      <div class="flex flex-wrap items-center gap-4 text-body-md text-on-surface-variant border-b border-outline-variant/30 pb-6">
+        <span class="font-semibold text-on-surface">By Muhammed Shihabudeen Labba</span>
+        <span>•</span>
+        <span>October 16, 2026</span>
+        <span>•</span>
+        <span>6 min read</span>
+      </div>
+    </header>
+
+    
+    <div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+      <img src="/blog/assets/images/how-job-aggregators-work.jpg" onerror="this.onerror=null; this.src='../assets/images/how-job-aggregators-work.jpg';" alt="How Job Aggregators Work: From Millions of Listings to One Search Box" class="w-full max-h-[500px] object-cover">
+    </div>
+    
+
+    <!-- Content & TOC Sidebar Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Sidebar TOC -->
+      <aside class="lg:col-span-4 order-2 lg:order-1">
+        <div class="sticky top-28 glass-card p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+          <h4 class="font-bold text-on-surface text-body-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">toc</span>
+            <span>Table of Contents</span>
+          </h4>
+          <nav class="toc-nav text-body-md text-on-surface-variant space-y-2">
+            <div class="ice-toc-card">
+  <div class="ice-toc-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+      <line x1="3" y1="18" x2="3.01" y2="18"></line>
+    </svg>
+    <span>Table of Contents</span>
+  </div>
+  <nav class="ice-toc-nav">
+    <ul><li><a href="#where-do-the-listings-come-from">Where do the listings come from?</a></li><li><a href="#how-does-ingestion-work">How does ingestion work?</a></li><li><a href="#how-do-formats-become-one-listing">How do thousands of formats become one listing?</a></li><li><a href="#how-are-duplicates-removed">How are duplicates removed?</a></li><li><a href="#how-does-search-stay-fast">How does search stay fast at millions of listings?</a></li><li><a href="#how-do-listings-stay-fresh">How do listings stay fresh?</a></li><li><a href="#how-are-jobs-ranked">How are jobs ranked?</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li><li class="toc-h3"><a href="#building-a-job-platform">Building a job platform?</a></li></ul>
+  </nav>
+</div>
+
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Article Body -->
+      <article class="lg:col-span-8 order-1 lg:order-2 ice-post-content font-body-md text-on-surface leading-relaxed prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-relaxed">
+        <h1>How Job Aggregators Work: From Millions of Listings to One Search Box</h1>
+<p>A job aggregator is a search engine for jobs. Behind a single search box sits a pipeline that pulls listings from thousands of sources — company career pages, applicant tracking systems, and bulk job feeds — converts every format into one clean schema, removes the duplicates, and keeps the whole index fresh. Here is how each stage of that pipeline works.</p>
+<h2 id="where-do-the-listings-come-from">Where do the listings come from?</h2>
+<p>Aggregators rarely host original listings. They collect from four kinds of sources:</p>
+<ul>
+<li><strong>ATS APIs.</strong> Applicant tracking systems like Greenhouse, Lever, Ashby, and Workday expose structured job feeds — often a single JSON endpoint per company. This is the cleanest source: titles, locations, departments, and sometimes structured salary data arrive in predictable fields.</li>
+<li><strong>XML job feeds.</strong> The classic bulk channel. Providers push large XML files — hundreds of megabytes holding hundreds of thousands of jobs — on a schedule. High volume and messy formats, but unmatched coverage.</li>
+<li><strong>Career page crawling.</strong> For employers with no feed, crawlers fetch career pages on a polite schedule and extract listings from the HTML.</li>
+<li><strong>Direct employer posting.</strong> Many aggregators also let employers post directly, which guarantees clean data for those listings.</li>
+</ul>
+<p>The strongest aggregators use all four. No single source covers the whole market.</p>
+<h2 id="how-does-ingestion-work">How does ingestion work?</h2>
+<p>Every source gets its own schedule. Large job boards might be pulled hourly; a small company's ATS feed, once a day. Two rules matter:</p>
+<ul>
+<li><strong>Pull incrementally.</strong> Track what you have already seen and fetch only what changed. Re-downloading millions of listings every cycle wastes everyone's bandwidth.</li>
+<li><strong>Be polite.</strong> Rate-limit requests per domain, respect access rules, and back off when a source is slow. An aggregator that hammers career pages gets blocked — and a blocked source is a dead source.</li>
+</ul>
+<h2 id="how-do-formats-become-one-listing">How do thousands of formats become one listing?</h2>
+<p>This is normalization, and it is where most of the engineering lives. Every source speaks its own dialect:</p>
+<ul>
+<li>Dates arrive as "Posted 3 days ago", "2026-10-13 10:58:56 UTC", or a real ISO timestamp.</li>
+<li>Descriptions come double-encoded as HTML entities and need decoding before the tags are stripped.</li>
+<li>Locations say "2 Locations" instead of naming them; salaries hide inside description text like "$90k–$120k".</li>
+</ul>
+<p>Each source gets a mapper that converts its dialect into one canonical job object: title, company, location, employment type, salary range, description text, apply URL, posted date, source name, and the source's own job ID. Adding a new provider means writing a new mapper — never changing the schema.</p>
+<h2 id="how-are-duplicates-removed">How are duplicates removed?</h2>
+<p>The same role usually appears in several places: the employer's career page, two job boards, and an ATS feed. Show it five times and the product looks broken; show it once and the job seeker trusts the result count.</p>
+<p>Dedup works in two layers. First, fingerprinting: a hash of the normalized title, company, and location catches most copies. Second, source priority: when two listings are the same job, the aggregator keeps the one from the highest-quality source and drops the rest. Stable provider IDs make this deterministic — the same input always resolves to the same surviving listing.</p>
+<h2 id="how-does-search-stay-fast">How does search stay fast at millions of listings?</h2>
+<p>The normalized jobs go into a search index — an inverted index over titles, descriptions, and skills, with faceted filters for location, salary band, remote vs on-site, and employment type. The expensive work (parsing, matching, ranking signals) happens at import time, so the hot path — a user typing a query — is a read-only lookup that returns in milliseconds.</p>
+<h2 id="how-do-listings-stay-fresh">How do listings stay fresh?</h2>
+<p>A job board's trust dies the day someone applies to a role that was filled three weeks ago. Freshness is a pipeline discipline:</p>
+<ul>
+<li><strong>Re-check on schedule.</strong> Every source is re-fetched on its cadence, and listings carry expiry logic.</li>
+<li><strong>Close carefully.</strong> A job missing from a source's latest fetch is marked closed — but only if that fetch succeeded. A timed-out request must never look like a mass closure, or one bad night deletes thousands of live jobs.</li>
+<li><strong>Baseline first.</strong> The very first import is a silent baseline, so "new jobs" alerts don't start with a flood of thousands.</li>
+</ul>
+<h2 id="how-are-jobs-ranked">How are jobs ranked?</h2>
+<p>With duplicates gone and the index fresh, ranking decides what surfaces: title and skill relevance first, then freshness, source quality, and — on mature platforms — engagement signals like click-through and application rates.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3>How do job aggregators get their listings?</h3>
+<p>From ATS APIs, bulk XML feeds, career-page crawling, and direct employer posting — usually all four at once.</p>
+<h3>Do job aggregators scrape websites?</h3>
+<p>Yes, crawling career pages is one of the four sourcing channels, alongside APIs and feeds. Responsible aggregators rate-limit requests, respect access rules, and back off under load.</p>
+<h3>How do job aggregators make money?</h3>
+<p>Typically through sponsored placements, cost-per-click or cost-per-application on outbound apply links, and employer branding products.</p>
+<h2 id="building-a-job-platform">Building a job platform?</h2>
+<p>We have built the ingestion and feed systems behind high-volume job platforms — scheduled imports of millions of listings, normalization at scale, and search that stays fast. If you are building or scaling a job portal, <a href="https://inraylabs.com/#contact">talk to our engineering team</a>.</p>
+
+
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How Job Aggregators Work: From Millions of Listings to One Search Box",
+  "description": "How does a job aggregator work? Listings are pulled from ATS feeds, XML feeds and career pages, normalized into one schema, deduplicated, indexed — and served through one fast search.",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammed Shihabudeen Labba"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "InRay Labs"
+  },
+  "datePublished": "2026-10-16",
+  "mainEntityOfPage": "https://inraylabs.com/blog/how-job-aggregators-work/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do job aggregators get their listings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "From ATS APIs, bulk XML feeds, career-page crawling, and direct employer posting \u2014 usually all four at once."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do job aggregators scrape websites?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, crawling career pages is one of the four sourcing channels, alongside APIs and feeds. Responsible aggregators rate-limit requests, respect access rules, and back off under load."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do job aggregators make money?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Typically through sponsored placements, cost-per-click or cost-per-application on outbound apply links, and employer branding products."
+      }
+    }
+  ]
+}
+</script>
+
+
+        <!-- Tags -->
+        <div class="mt-12 pt-6 border-t border-outline-variant/30 flex flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold text-on-surface-variant mr-2">Tags:</span>
+          <a href="/blog/tag/saas/" class="ice-tag-pill">#SaaS</a> <a href="/blog/tag/inray-labs/" class="ice-tag-pill">#InRay Labs</a> <a href="/blog/tag/architecture/" class="ice-tag-pill">#Architecture</a> </div>
+
+        <!-- Prev / Next Navigation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 pt-8 border-t border-outline-variant/30">
+  
+    <a href="/blog/job-feed-management-at-scale/" class="glass-card p-6 rounded-2xl border border-outline-variant/40 hover:border-primary transition-all flex flex-col gap-1 text-right group">
+    <span class="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1 justify-end">
+      Next Article <span class="material-symbols-outlined text-sm">arrow_forward</span>
+    </span>
+    <span class="font-semibold text-on-surface text-base group-hover:text-primary transition-colors line-clamp-2">Job Feed Management at Scale: Importing Millions of Listings Without Slowing Your Platform</span>
+  </a>
+</div>
+
+      </article>
+    </div>
+
+    <!-- Related Posts -->
+    <section class="mt-20 pt-12 border-t border-outline-variant/30">
+      <h3 class="text-headline-md font-bold text-on-surface mb-8">Related Articles</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+    
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/saas-arch.jpg" alt="Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">SaaS Architecture</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/building-scalable-saas-products/">Building Scalable Multi-Tenant SaaS Products with Modern Web Architecture</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Insights into architecting high-performance, multi-tenant SaaS platforms with modular design systems and zero server bloat.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">inRay Labs Engineering</span>
+          <span>&bull;</span>
+          <span>Jul 23, 2026</span>
+          <span>&bull;</span>
+          <span>1 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-to-run-a-live-player-auction.jpg" alt="How to Run a Live Sports Player Auction: A Step-by-Step Guide for League Organisers" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-to-run-a-live-player-auction/">How to Run a Live Sports Player Auction: A Step-by-Step Guide for League Organisers</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Run a live sports player auction in five stages: registration, teams and purses, base prices and rules, live bidding, and review. Built from our work on PowerAuction.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>Oct 14, 2026</span>
+          <span>&bull;</span>
+          <span>5 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/build-vs-buy-ai-agent-checklist.jpg" alt="Build vs Buy an AI Agent Desk: A Practical Checklist for SaaS Teams" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">AI & Automation</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/build-vs-buy-ai-agent-checklist/">Build vs Buy an AI Agent Desk: A Practical Checklist for SaaS Teams</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Should you build your own AI agent or buy one? Score data access, permissions, integrations, running cost, ownership, evaluation and support with this checklist.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>Oct 13, 2026</span>
+          <span>&bull;</span>
+          <span>5 min read</span>
+        </div>
+      </div>
+    </article>
+  
+  
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+  <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
+      </div>
+      <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
+      <div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+        <p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+        <p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
+      </div>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+      <ul class="space-y-3">
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal & Contact</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+    <p class="text-on-surface-variant text-body-md">&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+    <div class="flex gap-6 text-body-md">
+      <a href="https://inraylabs.com/privacy-policy" class="text-on-surface-variant hover:text-primary">Privacy</a>
+      <a href="https://inraylabs.com/terms-and-conditions" class="text-on-surface-variant hover:text-primary">Terms</a>
+      <a href="https://inraylabs.com/cookie-policy" class="text-on-surface-variant hover:text-primary">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
