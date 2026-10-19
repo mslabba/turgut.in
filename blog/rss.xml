@@ -7,6 +7,30 @@
     <language>en</language>
     <atom:link href="https://inraylabs.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>ATS Integrations Explained: How Greenhouse, Lever, Ashby and Workday Feeds Work</title>
+      <link>https://inraylabs.com/blog/ats-integrations-explained/</link>
+      <guid>https://inraylabs.com/blog/ats-integrations-explained/</guid>
+      <pubDate>Mon, 19 Oct 2026 00:00:00 GMT</pubDate>
+      <description>How do ATS integrations work? Every major ATS exposes a job feed: Greenhouse is friendliest, Lever returns flat JSON, Ashby adds salary data, Workday uses POST.</description>
+      <category>Product Insights</category>
+    </item>
+    <item>
+      <title>ATS Integrations Explained: How Greenhouse, Lever, Ashby and Workday Feeds Work</title>
+      <link>https://inraylabs.com/blog/ats-integrations-explained/</link>
+      <guid>https://inraylabs.com/blog/ats-integrations-explained/</guid>
+      <pubDate>Mon, 19 Oct 2026 00:00:00 GMT</pubDate>
+      <description>How do ATS integrations work? Every major ATS exposes a public job feed: Greenhouse is friendliest, Lever returns flat JSON, Ashby adds salary data, Workday uses POST.</description>
+      <category>Product Insights</category>
+    </item>
+    <item>
+      <title>ATS Integrations Explained: How Greenhouse, Lever, Ashby and Workday Feeds Work</title>
+      <link>https://inraylabs.com/blog/ats-integrations-explained/</link>
+      <guid>https://inraylabs.com/blog/ats-integrations-explained/</guid>
+      <pubDate>Mon, 19 Oct 2026 00:00:00 GMT</pubDate>
+      <description>How do ATS integrations work? Every major ATS exposes a public job feed — Greenhouse is friendliest, Lever returns flat JSON, Ashby adds structured pay, Workday needs POST requests.</description>
+      <category>Product Insights</category>
+    </item>
+    <item>
       <title>How Job Search Ranking Works: Relevance, Freshness and Personalization</title>
       <link>https://inraylabs.com/blog/how-job-search-ranking-works/</link>
       <guid>https://inraylabs.com/blog/how-job-search-ranking-works/</guid>
