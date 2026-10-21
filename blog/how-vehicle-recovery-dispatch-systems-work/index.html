@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs | inRay Labs Blog</title>
+  <meta name="description" content="Vehicle recovery dispatch software finds the nearest capable truck for every breakdown, tracks it live, and keeps customers updated. How each stage works.">
+  <link rel="canonical" href="https://inraylabs.com/blog/how-vehicle-recovery-dispatch-systems-work/">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs">
+  <meta property="og:description" content="Vehicle recovery dispatch software finds the nearest capable truck for every breakdown, tracks it live, and keeps customers updated. How each stage works.">
+  <meta property="og:url" content="https://inraylabs.com/blog/how-vehicle-recovery-dispatch-systems-work/">
+  <meta property="og:image" content="/blog/assets/images/how-vehicle-recovery-dispatch-systems-work.jpg">
+  <meta property="article:published_time" content="2026-10-21T00:00:00.000Z">
+  <meta property="article:section" content="Product Insights">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs">
+  <meta name="twitter:description" content="Vehicle recovery dispatch software finds the nearest capable truck for every breakdown, tracks it live, and keeps customers updated. How each stage works.">
+  <meta name="twitter:image" content="/blog/assets/images/how-vehicle-recovery-dispatch-systems-work.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e0e3e5",
+            "on-surface": "#191c1e",
+            "outline": "#777587",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-container": "#d1dcf4",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary-fixed": "#111c2d",
+            "secondary-fixed-dim": "#d2bbff",
+            "secondary": "#712ae2",
+            "tertiary-container": "#566175",
+            "surface-dim": "#d8dadc",
+            "tertiary-fixed": "#d8e3fb",
+            "on-secondary-fixed": "#25005a",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "tertiary": "#3e495d",
+            "outline-variant": "#c7c4d8",
+            "inverse-surface": "#2d3133",
+            "secondary-container": "#8a4cfc",
+            "surface-container-highest": "#e0e3e5",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "on-surface-variant": "#464555",
+            "surface": "#f7f9fb",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#0f0069",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eff1f3",
+            "on-tertiary-fixed-variant": "#3c475a",
+            "primary-container": "#4f46e5",
+            "secondary-fixed": "#eaddff",
+            "tertiary-fixed-dim": "#bcc7de",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface-tint": "#4d44e3",
+            "background": "#f7f9fb",
+            "surface-bright": "#f7f9fb",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#fffbff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-max": "1280px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "unit": "4px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "label-sm": ["Geist"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "code": ["JetBrains Mono"],
+            "display-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .primary-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .mesh-gradient {
+      background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs",
+    "description": "Vehicle recovery dispatch software finds the nearest capable truck for every breakdown, tracks it live, and keeps customers updated. How each stage works.",
+    "image": ["/blog/assets/images/how-vehicle-recovery-dispatch-systems-work.jpg"],
+    "datePublished": "2026-10-21T00:00:00.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Muhammed Shihabudeen Labba"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "inRay Labs Blog",
+      "url": "https://inraylabs.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://inraylabs.com/blog/how-vehicle-recovery-dispatch-systems-work/"
+    }
+  }
+  </script>
+
+  <!-- Blog-specific styles -->
+  <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+
+  <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+    <a href="https://inraylabs.com" class="flex items-center gap-3 group">
+      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+      <a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
+    </div>
+    <a href="https://inraylabs.com/#contact" class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+      Book a Demo
+    </a>
+  </div>
+</nav>
+
+
+  <main class="max-w-container-max mx-auto px-margin-desktop py-12">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+      <a href="https://inraylabs.com" class="hover:text-primary underline transition-colors">Home</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/" class="hover:text-primary underline transition-colors">Blog</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/category/product-insights/" class="hover:text-primary underline transition-colors">Product Insights</a>
+      <span class="text-xs opacity-50">/</span>
+      <span class="text-on-surface font-medium truncate max-w-xs">How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs</span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10 max-w-4xl">
+      <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20 inline-block mb-4">Product Insights</span>
+      <h1 class="text-headline-md md:text-headline-lg font-bold text-on-surface tracking-tight mb-4 leading-tight">How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs</h1>
+      <div class="flex flex-wrap items-center gap-4 text-body-md text-on-surface-variant border-b border-outline-variant/30 pb-6">
+        <span class="font-semibold text-on-surface">By Muhammed Shihabudeen Labba</span>
+        <span>•</span>
+        <span>October 21, 2026</span>
+        <span>•</span>
+        <span>7 min read</span>
+      </div>
+    </header>
+
+    
+    <div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+      <img src="/blog/assets/images/how-vehicle-recovery-dispatch-systems-work.jpg" onerror="this.onerror=null; this.src='../assets/images/how-job-aggregators-work.jpg';" alt="How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs" class="w-full max-h-[500px] object-cover">
+    </div>
+    
+
+    <!-- Content & TOC Sidebar Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Sidebar TOC -->
+      <aside class="lg:col-span-4 order-2 lg:order-1">
+        <div class="sticky top-28 glass-card p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+          <h4 class="font-bold text-on-surface text-body-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">toc</span>
+            <span>Table of Contents</span>
+          </h4>
+          <nav class="toc-nav text-body-md text-on-surface-variant space-y-2">
+            <div class="ice-toc-card">
+  <div class="ice-toc-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+      <line x1="3" y1="18" x2="3.01" y2="18"></line>
+    </svg>
+    <span>Table of Contents</span>
+  </div>
+  <nav class="ice-toc-nav">
+    <ul><li><a href="#the-recovery-job-lifecycle">The recovery job lifecycle at a glance</a></li><li><a href="#nearest-resource-matching">Nearest-resource matching: capability before distance</a></li><li><a href="#live-eta-engine">How live ETAs are computed</a></li><li><a href="#driver-mobile-app">The driver mobile app: the field end of the system</a></li><li><a href="#customer-communication">Customer communication that removes phone calls</a></li><li><a href="#billing-and-closeout">Billing and closeout: from scene to invoice</a></li><li><a href="#building-recovery-dispatch-software">Building recovery dispatch software?</a></li><li><a href="#faq">Frequently asked questions</a></li><li class="toc-h3"><a href="#faq">What is the difference between dispatch software and fleet GPS tracking?</a></li><li class="toc-h3"><a href="#faq">Can dispatch software assign jobs automatically, or does a dispatcher always decide?</a></li><li class="toc-h3"><a href="#faq">How accurate are live ETAs for recovery trucks?</a></li><li class="toc-h3"><a href="#faq">What does a recovery dispatch system cost to build?</a></li></ul>
+  </nav>
+</div>
+
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Article Body -->
+      <article class="lg:col-span-8 order-1 lg:order-2 ice-post-content font-body-md text-on-surface leading-relaxed prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-relaxed">
+        <h1>How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs</h1>
+<p>A vehicle recovery dispatch system takes a stranded driver's call and turns it into an assigned job in seconds: it captures the location and the problem, finds the nearest truck that can actually do the job, sends the driver everything they need, and tracks the truck live until the vehicle is recovered. Here is how each stage works — and why the "nearest" truck is rarely just the closest dot on the map.</p>
+<h2 id="the-recovery-job-lifecycle">The recovery job lifecycle at a glance</h2>
+<p>Every recovery job follows the same five stages, and the whole point of the system is to shrink the time between them.</p>
+<ol>
+<li><strong>Intake.</strong> The request arrives from a call, a web form, an app, or an integration with a motor club or insurer. The dispatcher captures the location, the vehicle type, and the problem: flat tyre, lockout, dead battery, accident, off-road recovery.</li>
+<li><strong>Matching.</strong> The system filters the fleet for available, capable trucks and ranks them by estimated drive time to the scene.</li>
+<li><strong>Dispatch.</strong> The job goes to the best match — automatically or confirmed by a dispatcher — and the driver accepts in a mobile app.</li>
+<li><strong>Tracking.</strong> Live location feeds the ETA engine and a customer tracking page. Status changes — en route, on scene, loaded, complete — update every record in real time.</li>
+<li><strong>Closeout.</strong> Photos, signatures, and mileage are captured on scene; the invoice is generated from the rate table, and the job archives into the service history.</li>
+</ol>
+<p>A tight loop here means one dispatcher handles dozens of concurrent jobs instead of juggling phone calls and whiteboards.</p>
+<h2 id="nearest-resource-matching">Nearest-resource matching: capability before distance</h2>
+<p>Closest-first sounds simple, but sending the closest truck can be the wrong move. A standard wheel-lift cannot pull a truck out of a ditch, and a light-duty unit cannot recover a loaded van. Real dispatch systems match on capability first and distance second. The matching engine considers:</p>
+<ul>
+<li><strong>Equipment.</strong> Each truck carries a profile — flatbed, wheel-lift, heavy wrecker, winch rating, low-clearance capability. A basement garage job needs a low-clearance unit even if it is further away.</li>
+<li><strong>Driver state.</strong> Available, on shift, or already assigned. Off-duty and mid-job drivers never appear in the candidate list.</li>
+<li><strong>Drive time, not distance.</strong> Rankings use real-time drive time, not straight-line distance. A truck three kilometres away across a river scores worse than one five kilometres away on the same highway.</li>
+<li><strong>Business rules.</strong> Police rotations may require strict rotation order. Contract clients may demand a dedicated fleet. After-hours jobs go only to night-flagged drivers.</li>
+</ul>
+<p>Dispatchers keep an override. Auto-assignment handles routine jobs in seconds; the dispatcher takes over for storms, road closures, and judgement calls the algorithm cannot make.</p>
+<h2 id="live-eta-engine">How live ETAs are computed</h2>
+<p>A live ETA is a small pipeline that recalculates every time something changes:</p>
+<ul>
+<li><strong>GPS pings.</strong> The driver app sends the truck's position every 30 to 90 seconds, over whatever network is available. Signal gaps are normal, so the engine tolerates stale positions rather than failing.</li>
+<li><strong>Route and traffic.</strong> Each assignment triggers a route from the truck's current position to the scene using current traffic conditions. When traffic shifts, the ETA moves with it.</li>
+<li><strong>Driver status events.</strong> Statuses like "accepted", "en route", and "on scene" anchor the estimate. If a driver sits at the depot for three minutes after accepting, the system notices and can reassign the job to the next match.</li>
+<li><strong>Historical data.</strong> Over time, the platform learns that certain zones and hours run longer than the router predicts, and applies corrections.</li>
+</ul>
+<p>The ETA is then shared everywhere it matters: on the customer's tracking page, in SMS updates, and on the dispatcher's board. Accurate ETAs cut "where is my truck?" calls dramatically — which is why the ETA engine is usually the first feature a recovery company asks for.</p>
+<h2 id="driver-mobile-app">The driver mobile app: the field end of the system</h2>
+<p>The driver app is where dispatch becomes reality. It delivers job details, turn-by-turn directions, and hazard flags, and takes back status updates, photos, and signatures. Two design decisions matter most.</p>
+<p>First, <strong>offline capability.</strong> Recovery happens in dead zones — basements, canyons, remote highways. The app must cache the job, record photos and notes without signal, and sync when connectivity returns.</p>
+<p>Second, <strong>status discipline.</strong> The timestamps the driver taps — accepted, en route, on scene, loaded, complete — are the raw data for the ETA engine, the billing record, and the dispute history. The app makes tapping them effortless, because sloppy statuses corrupt everything downstream.</p>
+<h2 id="customer-communication">Customer communication that removes phone calls</h2>
+<p>The biggest operational win of a dispatch platform is invisible: customers stop calling. A live tracking link sent by SMS at dispatch, a "driver is on the way" message with an ETA, and a "driver is two minutes away" alert together remove almost all status inquiries. The dispatcher stops playing relay and starts managing exceptions.</p>
+<p>For motor-club and insurer jobs, the same event stream feeds the partner's systems, so the customer's own app shows the recovery progressing without anyone retyping information.</p>
+<h2 id="billing-and-closeout">Billing and closeout: from scene to invoice</h2>
+<p>Recovery pricing is too complex for mental maths: hook fee, per-mile rate, winch time, after-hours premiums, storage timers, gate fees. The platform stores a rate table per client and service type, and the on-scene data — timestamps, mileage, photos — fills in the invoice automatically.</p>
+<p>For high-volume motor-club work, billing adapters submit claims into each partner's system in their required format, with a queue that tracks every claim from pending to accepted or disputed. Disputes land in a review queue with the job's photos and timestamps attached, so dispatchers resolve them from evidence, not memory.</p>
+<p>Closeout also feeds the analytics loop: average response time by zone, jobs per shift, revenue per truck. Recovery companies use these numbers to position trucks before demand spikes — during storms, holidays, and rush hours.</p>
+<h2 id="faq">Frequently asked questions</h2>
+<h3>What is the difference between dispatch software and fleet GPS tracking?</h3>
+<p>GPS tracking shows where your trucks are. Dispatch software acts on it: it converts requests into jobs, picks the right truck, routes it, keeps the customer updated, and turns the completed job into a bill. Tracking is one input; dispatch is the whole workflow.</p>
+<h3>Can dispatch software assign jobs automatically, or does a dispatcher always decide?</h3>
+<p>Both. Auto-assignment matches capability, availability, and drive time in seconds for routine jobs. Dispatchers keep an override for the unusual — storms, closures, contract rules, and judgement calls.</p>
+<h3>How accurate are live ETAs for recovery trucks?</h3>
+<p>With steady GPS pings, current traffic data, and disciplined driver statuses, ETAs are typically accurate to within a few minutes. The biggest accuracy gains come from historical corrections — learning how long certain zones and job types actually take.</p>
+<h3>What does a recovery dispatch system cost to build?</h3>
+<p>A focused first version — intake, map-based dispatch, driver app, live ETAs, basic billing — typically takes a few months of engineering. Motor-club billing automation is the expensive layer that comes next. Buying an existing platform is usually cheaper for a single fleet; building makes sense when recovery dispatch is the product itself.</p>
+<h2 id="building-recovery-dispatch-software">Building recovery dispatch software?</h2>
+<p>Live map dispatch, a driver app, an ETA engine, or the full platform for your recovery business — the architecture follows the pattern above: intake, capability-aware matching, real-time tracking, and evidence-driven billing. We have shipped these systems. <a href="https://inraylabs.com/#contact">Talk to us about your project.</a></p>
+
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs",
+  "description": "Vehicle recovery dispatch software finds the nearest capable truck for every breakdown, tracks it live, and keeps customers updated. How each stage works.",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammed Shihabudeen Labba"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "InRay Labs"
+  },
+  "datePublished": "2026-10-21",
+  "mainEntityOfPage": "https://inraylabs.com/blog/how-vehicle-recovery-dispatch-systems-work/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between dispatch software and fleet GPS tracking?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPS tracking shows where your trucks are. Dispatch software acts on it: it converts requests into jobs, picks the right truck, routes it, keeps the customer updated, and turns the completed job into a bill. Tracking is one input; dispatch is the whole workflow."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can dispatch software assign jobs automatically, or does a dispatcher always decide?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Both. Auto-assignment matches capability, availability, and drive time in seconds for routine jobs. Dispatchers keep an override for the unusual \u2014 storms, closures, contract rules, and judgement calls."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate are live ETAs for recovery trucks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With steady GPS pings, current traffic data, and disciplined driver statuses, ETAs are typically accurate to within a few minutes. The biggest accuracy gains come from historical corrections \u2014 learning how long certain zones and job types actually take."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does a recovery dispatch system cost to build?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A focused first version \u2014 intake, map-based dispatch, driver app, live ETAs, basic billing \u2014 typically takes a few months of engineering. Motor-club billing automation is the expensive layer that comes next. Buying an existing platform is usually cheaper for a single fleet; building makes sense when recovery dispatch is the product itself."
+      }
+    }
+  ]
+}
+</script>
+
+
+        <!-- Tags -->
+        <div class="mt-12 pt-6 border-t border-outline-variant/30 flex flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold text-on-surface-variant mr-2">Tags:</span>
+          <a href="/blog/tag/saas/" class="ice-tag-pill">#SaaS</a> <a href="/blog/tag/inray-labs/" class="ice-tag-pill">#InRay Labs</a> <a href="/blog/tag/architecture/" class="ice-tag-pill">#Architecture</a> </div>
+
+        <!-- Prev / Next Navigation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 pt-8 border-t border-outline-variant/30">
+  
+      <a href="/blog/how-incident-management-software-works/" class="glass-card p-6 rounded-2xl border border-outline-variant/40 hover:border-primary transition-all flex flex-col gap-1 text-left group">
+    <span class="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1">
+      <span class="material-symbols-outlined text-sm">arrow_back</span> Previous Article
+    </span>
+    <span class="font-semibold text-on-surface text-base group-hover:text-primary transition-colors line-clamp-2">How Incident Management Software Works: From Alert to Resolution</span>
+  </a>
+</div>
+
+      </article>
+    </div>
+
+    <!-- Related Posts -->
+    <section class="mt-20 pt-12 border-t border-outline-variant/30">
+      <h3 class="text-headline-md font-bold text-on-surface mb-8">Related Articles</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+    
+    
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-incident-management-software-works.jpg" alt="How Incident Management Software Works: From Alert to Resolution" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-incident-management-software-works/">How Incident Management Software Works: From Alert to Resolution</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Incident management software turns alerts into action: ingestion, correlation, dispatch, resolution, and review. Here is how each stage of the lifecycle works.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 20, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-to-run-a-live-player-auction.jpg" alt="How to Run a Live Player Auction: Registration to Final Bid" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-to-run-a-live-player-auction/">How to Run a Live Player Auction: Registration to Final Bid</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Run a live sports player auction in five stages: registration, teams and purses, base prices and rules, live bidding, and review. Built from our work on PowerAuction.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 14, 2026</span>
+          <span>&bull;</span>
+          <span>5 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/whatsapp-is-not-your-erp-fee-due-to-paid.jpg" alt="WhatsApp Is Not Your ERP: From Fee Due to Paid" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">AI & Automation</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/whatsapp-is-not-your-erp-fee-due-to-paid/">WhatsApp Is Not Your ERP: From Fee Due to Paid</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">School fee reminder automation keeps the due in the ERP, alerts the right parent, and updates fee status when they pay, without WhatsApp screenshots as the ledger.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 3, 2026</span>
+          <span>&bull;</span>
+          <span>8 min read</span>
+        </div>
+      </div>
+    </article>
+  
+  
+  
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+  <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
+      </div>
+      <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
+      <div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+        <p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+        <p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
+      </div>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+      <ul class="space-y-3">
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal & Contact</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+    <p class="text-on-surface-variant text-body-md">&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+    <div class="flex gap-6 text-body-md">
+      <a href="https://inraylabs.com/privacy-policy" class="text-on-surface-variant hover:text-primary">Privacy</a>
+      <a href="https://inraylabs.com/terms-and-conditions" class="text-on-surface-variant hover:text-primary">Terms</a>
+      <a href="https://inraylabs.com/cookie-policy" class="text-on-surface-variant hover:text-primary">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
