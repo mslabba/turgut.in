@@ -7,6 +7,14 @@
     <language>en</language>
     <atom:link href="https://inraylabs.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>How Live Sports Auction Software Works: Real-Time Bidding Without Latency</title>
+      <link>https://inraylabs.com/blog/how-live-sports-auction-software-works/</link>
+      <guid>https://inraylabs.com/blog/how-live-sports-auction-software-works/</guid>
+      <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
+      <description>How does live sports auction software run a real-time player auction? One server validates each bid against purse rules, sequences it, and updates every screen.</description>
+      <category>Product Insights</category>
+    </item>
+    <item>
       <title>How Mobile Workforce Apps Keep Field Teams in Sync</title>
       <link>https://inraylabs.com/blog/how-mobile-workforce-apps-keep-field-teams-in-sync/</link>
       <guid>https://inraylabs.com/blog/how-mobile-workforce-apps-keep-field-teams-in-sync/</guid>
