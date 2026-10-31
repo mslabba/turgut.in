@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Restaurant POS Software Works: Orders, Kitchen Display and Payments | inRay Labs Blog</title>
+  <meta name="description" content="How does restaurant POS software work? Orders flow from any channel to the kitchen display, bills split cleanly, and every sale updates stock and reports.">
+  <link rel="canonical" href="https://inraylabs.com/blog/how-restaurant-pos-software-works/">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How Restaurant POS Software Works: Orders, Kitchen Display and Payments">
+  <meta property="og:description" content="How does restaurant POS software work? Orders flow from any channel to the kitchen display, bills split cleanly, and every sale updates stock and reports.">
+  <meta property="og:url" content="https://inraylabs.com/blog/how-restaurant-pos-software-works/">
+  <meta property="og:image" content="/blog/assets/images/how-restaurant-pos-software-works.jpg">
+  <meta property="article:published_time" content="2026-10-31T00:00:00.000Z">
+  <meta property="article:section" content="Product Insights">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Restaurant POS Software Works: Orders, Kitchen Display and Payments">
+  <meta name="twitter:description" content="How does restaurant POS software work? Orders flow from any channel to the kitchen display, bills split cleanly, and every sale updates stock and reports.">
+  <meta name="twitter:image" content="/blog/assets/images/how-restaurant-pos-software-works.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e0e3e5",
+            "on-surface": "#191c1e",
+            "outline": "#777587",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-container": "#d1dcf4",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary-fixed": "#111c2d",
+            "secondary-fixed-dim": "#d2bbff",
+            "secondary": "#712ae2",
+            "tertiary-container": "#566175",
+            "surface-dim": "#d8dadc",
+            "tertiary-fixed": "#d8e3fb",
+            "on-secondary-fixed": "#25005a",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "tertiary": "#3e495d",
+            "outline-variant": "#c7c4d8",
+            "inverse-surface": "#2d3133",
+            "secondary-container": "#8a4cfc",
+            "surface-container-highest": "#e0e3e5",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "on-surface-variant": "#464555",
+            "surface": "#f7f9fb",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#0f0069",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eff1f3",
+            "on-tertiary-fixed-variant": "#3c475a",
+            "primary-container": "#4f46e5",
+            "secondary-fixed": "#eaddff",
+            "tertiary-fixed-dim": "#bcc7de",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface-tint": "#4d44e3",
+            "background": "#f7f9fb",
+            "surface-bright": "#f7f9fb",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#fffbff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-max": "1280px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "unit": "4px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "label-sm": ["Geist"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "code": ["JetBrains Mono"],
+            "display-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .primary-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .mesh-gradient {
+      background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How Restaurant POS Software Works: Orders, Kitchen Display and Payments",
+    "description": "How does restaurant POS software work? Orders flow from any channel to the kitchen display, bills split cleanly, and every sale updates stock and reports.",
+    "image": ["/blog/assets/images/how-restaurant-pos-software-works.jpg"],
+    "datePublished": "2026-10-31T00:00:00.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Muhammed Shihabudeen Labba"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "inRay Labs Blog",
+      "url": "https://inraylabs.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://inraylabs.com/blog/how-restaurant-pos-software-works/"
+    }
+  }
+  </script>
+
+  <!-- Blog-specific styles -->
+  <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+
+  <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+    <a href="https://inraylabs.com" class="flex items-center gap-3 group">
+      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+      <a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
+    </div>
+    <a href="https://inraylabs.com/#contact" class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+      Book a Demo
+    </a>
+  </div>
+</nav>
+
+
+  <main class="max-w-container-max mx-auto px-margin-desktop py-12">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+      <a href="https://inraylabs.com" class="hover:text-primary underline transition-colors">Home</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/" class="hover:text-primary underline transition-colors">Blog</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/category/product-insights/" class="hover:text-primary underline transition-colors">Product Insights</a>
+      <span class="text-xs opacity-50">/</span>
+      <span class="text-on-surface font-medium truncate max-w-xs">How Restaurant POS Software Works: Orders, Kitchen Display and Payments</span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10 max-w-4xl">
+      <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20 inline-block mb-4">Product Insights</span>
+      <h1 class="text-headline-md md:text-headline-lg font-bold text-on-surface tracking-tight mb-4 leading-tight">How Restaurant POS Software Works: Orders, Kitchen Display and Payments</h1>
+      <div class="flex flex-wrap items-center gap-4 text-body-md text-on-surface-variant border-b border-outline-variant/30 pb-6">
+        <span class="font-semibold text-on-surface">By Muhammed Shihabudeen Labba</span>
+        <span>•</span>
+        <span>October 31, 2026</span>
+        <span>•</span>
+        <span>6 min read</span>
+      </div>
+    </header>
+
+    
+    <div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+      <img src="/blog/assets/images/how-restaurant-pos-software-works.jpg" onerror="this.onerror=null; this.src='../assets/images/how-job-aggregators-work.jpg';" alt="How Restaurant POS Software Works: Orders, Kitchen Display and Payments" class="w-full max-h-[500px] object-cover">
+    </div>
+    
+
+    <!-- Content & TOC Sidebar Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Sidebar TOC -->
+      <aside class="lg:col-span-4 order-2 lg:order-1">
+        <div class="sticky top-28 glass-card p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+          <h4 class="font-bold text-on-surface text-body-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">toc</span>
+            <span>Table of Contents</span>
+          </h4>
+          <nav class="toc-nav text-body-md text-on-surface-variant space-y-2">
+            <div class="ice-toc-card">
+  <div class="ice-toc-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+      <line x1="3" y1="18" x2="3.01" y2="18"></line>
+    </svg>
+    <span>Table of Contents</span>
+  </div>
+  <nav class="ice-toc-nav">
+    <ul><li><a href="#taking-the-order">Taking the order: one system, every channel</a></li><li><a href="#kitchen-display-system">The kitchen display system: where orders become food</a></li><li><a href="#payments-and-settlement">Payments: splitting bills, settling the day</a></li><li><a href="#inventory-menu-and-reports">What the data gives back: stock, menu and reports</a></li><li><a href="#cloud-offline-and-multi-outlet">Cloud, offline mode and multi-outlet control</a></li><li><a href="#faq">Frequently Asked Questions</a></li><li><a href="#build-with-inray-labs">Build your restaurant system with InRay Labs</a></li></ul>
+  </nav>
+</div>
+
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Article Body -->
+      <article class="lg:col-span-8 order-1 lg:order-2 ice-post-content font-body-md text-on-surface leading-relaxed prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-relaxed">
+        <p>Restaurant POS software works by turning every order into one connected flow: the order is taken once, sent to the right kitchen station automatically, paid for against the same bill, and recorded in the restaurant's sales and stock data. POS stands for point of sale, and in a restaurant it is the system that links the dining room, the kitchen and the till. When it works well, the server never re-keys an order, the kitchen never works from a lost paper ticket, and the owner can see at the end of the night exactly what sold and what is left in stock.</p>
+
+<h2 id="taking-the-order">Taking the order: one system, every channel</h2>
+<p>An order can arrive from several places, and the POS has to treat them all the same. A server takes a dine-in order on a handheld tablet at the table; a customer orders at the counter, from a self-service kiosk, or by scanning a QR code and ordering from their own phone; takeaway and delivery orders arrive from the restaurant's website or delivery apps. In a good system, all of these land in one order queue, not in separate piles staff must reconcile by hand.</p>
+<p>Order entry is built around the menu, not free typing. Items sit in categories, with modifiers for the choices that matter in a kitchen: size, cooking preference, extra toppings, "no onion", allergies. Modifiers are the difference between an order the kitchen cooks correctly first time and one that comes back. Each order is tied to a table, a takeaway ticket or a delivery address, so the bill builds itself as items are added or removed.</p>
+
+<h2 id="kitchen-display-system">The kitchen display system: where orders become food</h2>
+<p>Once an order is confirmed, the POS routes it to the kitchen — and routing is where a POS earns its keep. A single order usually splits across stations: starters to the cold station, mains to the grill, drinks to the bar. Each item goes only to the station that prepares it.</p>
+<p>On a kitchen display system (KDS), orders appear on screens in the kitchen in the order they should be cooked, with the oldest first and new orders clearly flagged. Timers show how long each order has been waiting, and items change colour as they age, so a delayed order is visible before a customer complains. Cooks tap items as they finish them — "bumping" them off the screen — and the server is notified when a table's order is ready to run.</p>
+<p>Course pacing is handled here too: starters fire immediately while mains are held until the starters are served. Screens also remove the two classic paper failures — tickets lost on a spike, and handwriting nobody can read — though many kitchens keep a printer as a backup.</p>
+
+<h2 id="payments-and-settlement">Payments: splitting bills, settling the day</h2>
+<p>Payment is where accuracy matters most to the guest. The POS calculates the bill from the order itself, including taxes, discounts, service charges and tips, so the total is never re-typed and never depends on someone's mental arithmetic. Guests can pay at the table on a handheld card reader, at the counter, or online before pickup, by card, contactless, mobile wallet or cash.</p>
+<p>Splitting the bill is a daily reality, and a good POS handles it without drama: split by item, so each guest pays for what they ordered, or split equally across the table, with each part settled by a different payment method. Partial payments, gift cards and loyalty points all settle against the same check, so the till always balances to the orders.</p>
+<p>At close, the POS reconciles the day: card settlements against the payment provider, cash in the drawer against cash sales, and refunds and voids listed with the reason and approving manager. That reconciliation turns a pile of receipts into accounts the owner can trust.</p>
+
+<h2 id="inventory-menu-and-reports">What the data gives back: stock, menu and reports</h2>
+<p>Every sale is also a stock movement. When a dish sells, the POS deducts its recipe ingredients from inventory, so stock levels fall in real time. Low-stock alerts flag items before they run out mid-service, and an "86" — an item removed from sale — can be pushed to every terminal and online menu in seconds.</p>
+<p>The same data powers menu decisions. Reports show which dishes sell, which barely move, which have the best margin once ingredient costs are counted, and which hours of the week are actually busy. That is the basis for menu engineering: promoting high-margin popular dishes, repricing or removing weak ones, and staffing to real demand rather than guesswork.</p>
+
+<h2 id="cloud-offline-and-multi-outlet">Cloud, offline mode and multi-outlet control</h2>
+<p>Most modern POS systems are cloud-based: menus, prices and data live on remote servers, so an owner can change a price once and see it update on every terminal, check live sales from anywhere, and manage several outlets from one dashboard. The trade-off is the internet connection — and a restaurant cannot stop serving because the Wi-Fi dropped.</p>
+<p>That is why good cloud POS systems are offline-capable. Orders, kitchen tickets and cash payments keep working locally during an outage, and everything syncs to the cloud automatically when the connection returns. For multi-outlet groups, central control is the point: one menu, one price list and one set of staff permissions, applied everywhere, with per-outlet reports that still show each restaurant's own numbers.</p>
+<p>Under the hood, a POS is an integration hub, connecting to payment providers, accounting software, delivery platforms, reservation systems and loyalty tools. Each integration removes one more round of manual re-keying — and every round removed is an error that never reaches a guest's bill.</p>
+
+<h2 id="faq">Frequently Asked Questions</h2>
+<h3>What is a restaurant POS system?</h3>
+<p>It is the combined software and hardware a restaurant uses to take orders, send them to the kitchen, process payments and track sales — terminals or tablets for staff, a kitchen display or printers, a card reader, and the software that ties them together.</p>
+<h3>How is a kitchen display system better than printed tickets?</h3>
+<p>Orders appear instantly, in cooking order, with timers that flag delays and stations that only see their own items. Nothing gets lost, handwriting is never misread, and finished items are bumped off the screen so the pass stays clear during a rush.</p>
+<h3>Can a cloud POS keep working if the internet goes down?</h3>
+<p>Yes, if it has an offline mode. Orders, kitchen tickets and cash payments continue locally and sync to the cloud automatically when the connection returns, so service is not interrupted by an outage.</p>
+<h3>Does a POS system track inventory automatically?</h3>
+<p>Yes. When recipes are set up, each sale deducts the dish's ingredients from stock in real time, and low-stock alerts warn before an item runs out. Accurate recipe data is the key.</p>
+
+<h2 id="build-with-inray-labs">Build your restaurant system with InRay Labs</h2>
+<p>If your restaurant still runs on separate tills, paper tickets and end-of-day guesswork, the problem is not your team — it is the missing system between your tables, your kitchen and your accounts. InRay Labs builds custom POS, ordering and kitchen display software for food businesses that need it to fit how they actually serve, not the other way round. <a href="https://inraylabs.com/#contact">Talk to us about your restaurant operation</a> and we will map out what your system should look like.</p>
+
+
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How Restaurant POS Software Works: Orders, Kitchen Display and Payments",
+  "description": "How does restaurant POS software work? Orders flow from any channel to the kitchen display, bills split cleanly, and every sale updates stock and reports.",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammed Shihabudeen Labba"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "InRay Labs"
+  },
+  "datePublished": "2026-10-31",
+  "mainEntityOfPage": "https://inraylabs.com/blog/how-restaurant-pos-software-works/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a restaurant POS system?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the combined software and hardware a restaurant uses to take orders, send them to the kitchen, process payments and track sales \u2014 terminals or tablets for staff, a kitchen display or printers, a card reader, and the software that ties them together."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is a kitchen display system better than printed tickets?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Orders appear instantly, in cooking order, with timers that flag delays and stations that only see their own items. Nothing gets lost, handwriting is never misread, and finished items are bumped off the screen so the pass stays clear during a rush."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a cloud POS keep working if the internet goes down?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, if it has an offline mode. Orders, kitchen tickets and cash payments continue locally and sync to the cloud automatically when the connection returns, so service is not interrupted by an outage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does a POS system track inventory automatically?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. When recipes are set up, each sale deducts the dish's ingredients from stock in real time, and low-stock alerts warn before an item runs out. Accurate recipe data is the key."
+      }
+    }
+  ]
+}
+</script>
+
+
+        <!-- Tags -->
+        <div class="mt-12 pt-6 border-t border-outline-variant/30 flex flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold text-on-surface-variant mr-2">Tags:</span>
+          <a href="/blog/tag/saas/" class="ice-tag-pill">#SaaS</a> <a href="/blog/tag/inray-labs/" class="ice-tag-pill">#InRay Labs</a> <a href="/blog/tag/architecture/" class="ice-tag-pill">#Architecture</a> </div>
+
+        <!-- Prev / Next Navigation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 pt-8 border-t border-outline-variant/30">
+  
+      <a href="/blog/how-last-mile-delivery-software-works/" class="glass-card p-6 rounded-2xl border border-outline-variant/40 hover:border-primary transition-all flex flex-col gap-1 text-left group">
+    <span class="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1">
+      <span class="material-symbols-outlined text-sm">arrow_back</span> Previous Article
+    </span>
+    <span class="font-semibold text-on-surface text-base group-hover:text-primary transition-colors line-clamp-2">How Last-Mile Delivery Software Works: Route Optimisation and Live Tracking</span>
+  </a>
+</div>
+
+      </article>
+    </div>
+
+    <!-- Related Posts -->
+    <section class="mt-20 pt-12 border-t border-outline-variant/30">
+      <h3 class="text-headline-md font-bold text-on-surface mb-8">Related Articles</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+    
+    
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-last-mile-delivery-software-works.jpg" alt="How Last-Mile Delivery Software Works: Route Optimisation and Live Tracking" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-last-mile-delivery-software-works/">How Last-Mile Delivery Software Works: Route Optimisation and Live Tracking</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does last-mile delivery software work? Smart dispatch, route optimisation, live GPS tracking and proof of delivery make the final leg predictable.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 30, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-pharmacy-management-software-works.jpg" alt="How Pharmacy Management Software Works: Prescriptions, Stock and Compliance" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-pharmacy-management-software-works/">How Pharmacy Management Software Works: Prescriptions, Stock and Compliance</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does pharmacy management software work? One prescription record drives safety checks, FEFO batch picking, controlled-medicine registers and live stock.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 29, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-fleet-tracking-software-works.jpg" alt="How Fleet Tracking Software Works: GPS, Geofencing and Live Dashboards" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-fleet-tracking-software-works/">How Fleet Tracking Software Works: GPS, Geofencing and Live Dashboards</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does fleet tracking software work? GPS trackers, geofences and live dashboards turn every vehicle into a live data source that managers can act on.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 27, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+  
+  
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+  <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
+      </div>
+      <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
+      <div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+        <p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+        <p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
+      </div>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+      <ul class="space-y-3">
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal & Contact</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+    <p class="text-on-surface-variant text-body-md">&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+    <div class="flex gap-6 text-body-md">
+      <a href="https://inraylabs.com/privacy-policy" class="text-on-surface-variant hover:text-primary">Privacy</a>
+      <a href="https://inraylabs.com/terms-and-conditions" class="text-on-surface-variant hover:text-primary">Terms</a>
+      <a href="https://inraylabs.com/cookie-policy" class="text-on-surface-variant hover:text-primary">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
