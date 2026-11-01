@@ -174,4 +174,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://inraylabs.com/blog/how-clinic-appointment-scheduling-software-works/</loc>
+    <lastmod>2026-11-01T00:00:00.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
 </urlset>
