@@ -167,18 +167,18 @@
 
             <!-- Desktop Navigation Menu -->
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-                <a class="hover:text-[#0038FF] transition-colors" href="/about">About Us</a>
-                <a class="hover:text-[#0038FF] transition-colors" href="#products">Products</a>
+                <a class="hover:text-[#0038FF] transition-colors" href="/">Home</a>
                 <a class="hover:text-[#0038FF] transition-colors" href="#services">Services</a>
-                <a class="hover:text-[#0038FF] transition-colors" href="#industries">Industries</a>
-                <a class="hover:text-[#0038FF] transition-colors" href="#process">Process</a>
+                <a class="hover:text-[#0038FF] transition-colors" href="#work">Work</a>
+                <a class="hover:text-[#0038FF] transition-colors" href="/about">About</a>
                 <a class="hover:text-[#0038FF] transition-colors" href="/blog">Blog</a>
+                <a class="hover:text-[#0038FF] transition-colors" href="#contact">Contact</a>
             </div>
 
             <!-- Header Action Button -->
             <div class="hidden md:flex items-center gap-4">
                 <button id="book-a-demo-btn" class="brand-btn-primary px-6 py-2.5 rounded-xl font-medium text-sm shadow-md hover:shadow-lg transition-all cursor-pointer">
-                    Book a Consultation
+                    Get in Touch
                 </button>
             </div>
 
@@ -191,16 +191,16 @@
         <!-- Mobile Navigation Drawer -->
         <div id="mobile-menu" class="hidden md:hidden fixed inset-x-0 top-[73px] bg-white border-b border-slate-200 p-6 shadow-2xl z-40 space-y-4 font-medium text-slate-800 animate-in fade-in slide-in-from-top-4 duration-200">
             <div class="flex flex-col space-y-3 text-base">
-                <a class="px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#0038FF]" href="/about">About Us</a>
-                <a class="px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#0038FF]" href="#products">Products</a>
+                <a class="px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#0038FF]" href="/">Home</a>
                 <a class="px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#0038FF]" href="#services">Services</a>
-                <a class="px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#0038FF]" href="#industries">Industries</a>
-                <a class="px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#0038FF]" href="#process">Process</a>
+                <a class="px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#0038FF]" href="#work">Work</a>
+                <a class="px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#0038FF]" href="/about">About</a>
                 <a class="px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#0038FF]" href="/blog">Blog</a>
+                <a class="px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-[#0038FF]" href="#contact">Contact</a>
             </div>
             <div class="pt-4 border-t border-slate-100">
                 <button id="mobile-book-demo-btn" class="w-full brand-btn-primary py-3 rounded-xl font-medium text-center shadow-md cursor-pointer">
-                    Book a Consultation
+                    Get in Touch
                 </button>
             </div>
         </div>
@@ -208,22 +208,24 @@
 
     <main id="main-content">
         <!-- Hero Section -->
-        <section class="relative pt-16 pb-24 md:pt-24 md:pb-32 overflow-hidden px-margin-mobile md:px-margin-desktop">
-            <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Hero — reference layout, InRay Labs brand -->
+        <section id="home" class="relative pt-16 pb-24 md:pt-24 md:pb-32 overflow-hidden px-margin-mobile md:px-margin-desktop">
+            <div class="rd-dots" aria-hidden="true"></div>
+            <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative">
                 <div class="space-y-8">
                     <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0038FF]/10 text-[#0038FF] text-xs font-semibold uppercase tracking-wider">
                         <span aria-hidden="true" class="material-symbols-outlined text-[16px]">verified</span>
                         Autonomous AI &amp; Custom SaaS Studio
                     </div>
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
-                        Building <span class="brand-gradient-text">Autonomous AI Agents</span> &amp; High-Scale SaaS Systems
+                        We Build <span class="brand-gradient-text">Digital Solutions</span> That Scale.
                     </h1>
                     <p class="text-lg text-slate-600 max-w-xl leading-relaxed">
                         InRay Labs is a software product studio engineering autonomous AI agent workflows, custom multi-tenant SaaS platforms, and enterprise cloud software built to scale.
                     </p>
                     <div class="flex flex-wrap gap-4 pt-2">
-                        <a href="#products" class="brand-btn-primary px-7 py-3.5 rounded-xl font-semibold text-base shadow-lg flex items-center justify-center gap-2">
-                            Explore Products &amp; Solutions
+                        <a href="#work" class="brand-btn-primary px-7 py-3.5 rounded-xl font-semibold text-base shadow-lg flex items-center justify-center gap-2">
+                            Explore More
                             <span aria-hidden="true" class="material-symbols-outlined text-[20px]">arrow_forward</span>
                         </a>
                         <a href="#contact" class="bg-white px-7 py-3.5 rounded-xl text-slate-700 font-semibold text-base border border-slate-300 shadow-xs hover:bg-slate-50 transition-colors text-center">
@@ -231,155 +233,229 @@
                         </a>
                     </div>
                 </div>
-                <!-- Hero Graphic Frame -->
+                <!-- Hero laptop mockup -->
                 <div class="relative flex items-center justify-center">
-                    <div class="relative w-full max-w-lg aspect-square">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-[#0038FF]/10 to-[#0234D5]/20 rounded-3xl blur-xl"></div>
-                        <div class="relative bg-white p-2 rounded-2xl border border-slate-200/80 shadow-2xl">
-                            <img decoding="async" loading="lazy" class="rounded-xl w-full h-auto object-cover border border-slate-100"
+                    <div class="rd-blob" aria-hidden="true"></div>
+                    <div class="rd-laptop relative">
+                        <div class="rd-laptop-screen">
+                            <img decoding="async" loading="lazy" class="w-full h-auto object-cover"
                                 alt="InRay Labs AI Agent and Custom SaaS Product Engineering Platform Interface"
                                 src="images/screen.png" width="600" height="600">
                         </div>
+                        <div class="rd-laptop-base" aria-hidden="true"></div>
+                    </div>
+                    <div class="rd-sphere" aria-hidden="true"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Service strip -->
+        <section class="py-16 px-margin-mobile md:px-margin-desktop">
+            <div class="max-w-container-max mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="glass-card rounded-2xl p-8">
+                    <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[32px]">code</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Web Development</h3>
+                    <p class="text-slate-600 leading-relaxed">Modern and scalable web platforms and SaaS products, engineered for growth.</p>
+                </div>
+                <div class="glass-card rounded-2xl p-8">
+                    <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[32px]">smartphone</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Mobile App Development</h3>
+                    <p class="text-slate-600 leading-relaxed">High-performance Android and iOS apps, like the ConnectEdu parent app.</p>
+                </div>
+                <div class="glass-card rounded-2xl p-8">
+                    <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[32px]">palette</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">UI/UX Design</h3>
+                    <p class="text-slate-600 leading-relaxed">Beautiful and intuitive interfaces that make complex products feel simple.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature strip -->
+        <section class="py-16 px-margin-mobile md:px-margin-desktop">
+            <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="space-y-6">
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 leading-tight">
+                        We create digital products that drive <span class="brand-gradient-text">real results.</span>
+                    </h2>
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        From strategy and design to development and deployment, we build solutions that make an impact — AI agents, SaaS platforms, and enterprise software for teams that want to move fast.
+                    </p>
+                    <div class="pt-2">
+                        <a href="/about" class="brand-btn-primary px-7 py-3.5 rounded-xl font-semibold text-base shadow-lg inline-flex items-center justify-center gap-2">
+                            Learn More
+                            <span aria-hidden="true" class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex gap-6 justify-center items-start">
+                    <div class="rd-phone">
+                        <img decoding="async" loading="lazy" class="w-full h-full object-contain" alt="ConnectEdu mobile app" src="images/connectedu.png">
+                    </div>
+                    <div class="rd-phone rd-phone-offset">
+                        <img decoding="async" loading="lazy" class="w-full h-full object-contain" alt="PowerAuction platform" src="images/powerauction.png">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Trust & Evidence Section -->
-        <section id="trust" class="py-16 bg-slate-100/70 border-y border-slate-200/80">
-            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-                <div class="text-center mb-10">
-                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Trusted Technology Partner</h2>
+        <!-- About -->
+        <section id="about" class="py-24 px-margin-mobile md:px-margin-desktop">
+            <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="space-y-6">
+                    <p class="text-xs font-semibold text-[#0038FF] uppercase tracking-widest">About Us</p>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 leading-tight">
+                        We&rsquo;re a team of engineers and <span class="brand-gradient-text">problem solvers.</span>
+                    </h2>
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        InRay Labs is a software engineering firm specializing in autonomous AI agents, enterprise SaaS platforms, and custom software systems. We combine creativity, technology, and strategy to help brands grow in the digital world.
+                    </p>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <li class="flex items-center gap-2 text-slate-800 font-medium">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[20px]">check_circle</span>
+                            Product strategy &amp; research
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-800 font-medium">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[20px]">check_circle</span>
+                            Creative design
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-800 font-medium">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[20px]">check_circle</span>
+                            AI agent development
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-800 font-medium">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[20px]">check_circle</span>
+                            Support &amp; growth
+                        </li>
+                    </ul>
                 </div>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <div class="space-y-1">
-                        <div class="text-3xl md:text-4xl font-extrabold text-[#0038FF]">15+</div>
-                        <div class="text-sm font-medium text-slate-600">Years Industry Experience</div>
+                <div class="relative flex items-center justify-center">
+                    <div class="relative bg-white p-2 rounded-2xl border border-slate-200/80 shadow-2xl w-full max-w-lg">
+                        <img decoding="async" loading="lazy" class="rounded-xl w-full h-auto object-cover border border-slate-100"
+                            alt="InRay Labs software development team at work" src="images/software-development.png">
                     </div>
-                    <div class="space-y-1">
-                        <div class="text-3xl md:text-4xl font-extrabold text-[#0038FF]">5+</div>
-                        <div class="text-sm font-medium text-slate-600">Flagship SaaS Products</div>
-                    </div>
-                    <div class="space-y-1">
-                        <div class="text-3xl md:text-4xl font-extrabold text-[#0038FF]">100%</div>
-                        <div class="text-sm font-medium text-slate-600">Product Ownership Mindset</div>
-                    </div>
-                    <div class="space-y-1">
-                        <div class="text-3xl md:text-4xl font-extrabold text-[#0038FF]">50+</div>
-                        <div class="text-sm font-medium text-slate-600">Enterprise Deployments</div>
+                    <div class="rd-badge-card">
+                        <p class="text-3xl font-extrabold text-[#0038FF]">Est. 2026</p>
+                        <p class="text-sm text-slate-600 font-medium">Kerala, India</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Products Section -->
-        <section class="py-24 px-margin-mobile md:px-margin-desktop" id="products">
+        <!-- Services / What We Do -->
+        <section id="services" class="py-24 bg-white border-y border-slate-200/80 px-margin-mobile md:px-margin-desktop">
             <div class="max-w-container-max mx-auto">
-                <div class="mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">Our <span class="brand-gradient-text">Product Ecosystem</span></h2>
-                    <p class="text-lg text-slate-600 max-w-2xl">Proprietary SaaS platforms designed, built, and operated by InRay Labs to solve real-world industry problems.</p>
+                <p class="text-xs font-semibold text-[#0038FF] uppercase tracking-widest mb-2">Our Services</p>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">What We Do</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-8">
+                    <div class="glass-card rounded-2xl p-8">
+                        <div class="w-12 h-12 rounded-xl bg-[#0038FF]/10 text-[#0038FF] flex items-center justify-center mb-4">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[24px]">code</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Web Development</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">We build fast, secure, and scalable websites and SaaS platforms.</p>
+                        <a class="text-[#0038FF] font-semibold text-sm flex items-center gap-1.5 hover:underline" href="/services/saas-product-engineering">
+                            Learn More
+                            <span aria-hidden="true" class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                        </a>
+                    </div>
+                    <div class="glass-card rounded-2xl p-8">
+                        <div class="w-12 h-12 rounded-xl bg-[#0038FF]/10 text-[#0038FF] flex items-center justify-center mb-4">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[24px]">smartphone</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Mobile Development</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">We build feature-rich mobile applications for Android and iOS.</p>
+                        <a class="text-[#0038FF] font-semibold text-sm flex items-center gap-1.5 hover:underline" href="/products/connectedu">
+                            Learn More
+                            <span aria-hidden="true" class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                        </a>
+                    </div>
+                    <div class="glass-card rounded-2xl p-8">
+                        <div class="w-12 h-12 rounded-xl bg-[#0038FF]/10 text-[#0038FF] flex items-center justify-center mb-4">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[24px]">palette</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">UI/UX Design</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">We design intuitive and user-friendly interfaces for web and mobile.</p>
+                        <a class="text-[#0038FF] font-semibold text-sm flex items-center gap-1.5 hover:underline" href="/about">
+                            Learn More
+                            <span aria-hidden="true" class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                        </a>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- PowerAuction -->
-                    <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
-                        <div class="mb-6 flex justify-between items-start">
-                            <img width="600" height="400" decoding="async" loading="lazy" alt="PowerAuction Logo" class="w-12 h-12 rounded-xl object-contain" src="images/logo-final.png">
-                            <span class="px-3 py-1 rounded-full bg-blue-50 text-[#0038FF] text-xs font-semibold">Sports Tech</span>
-                        </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-2">PowerAuction</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">Advanced sports player auction software designed for live bidding, team squad balance tracking, and zero-latency draft management.</p>
-                        <div class="flex flex-wrap gap-2 mb-6 text-xs text-slate-600">
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">Live Auctions</span>
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">Squad Valuation</span>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-                            <a class="text-[#0038FF] font-semibold text-sm flex items-center gap-1.5 hover:underline" href="/products/powerauction">
-                                Product Details <span aria-hidden="true" class="material-symbols-outlined text-[18px]">east</span>
+            </div>
+        </section>
+
+        <!-- CTA banner -->
+        <section class="py-24 px-margin-mobile md:px-margin-desktop">
+            <div class="max-w-container-max mx-auto bg-[#0038FF] text-white p-8 md:p-16 rounded-3xl relative overflow-hidden shadow-2xl">
+                <div class="rd-cta-circles" aria-hidden="true"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center relative">
+                    <div class="space-y-6">
+                        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                            Let&rsquo;s build something great together.
+                        </h2>
+                        <p class="text-blue-100 text-base max-w-lg leading-relaxed">
+                            Have a project in mind? Let&rsquo;s talk and bring your ideas to life.
+                        </p>
+                        <div class="pt-2">
+                            <a href="#contact" class="bg-white text-[#0038FF] px-7 py-3.5 rounded-xl font-bold text-base shadow-lg hover:bg-slate-100 transition-colors inline-flex items-center gap-2">
+                                Get in Touch
+                                <span aria-hidden="true" class="material-symbols-outlined text-[20px]">arrow_forward</span>
                             </a>
-                            <a class="text-slate-500 text-xs hover:text-slate-800 underline" href="https://thepowerauction.com" target="_blank" rel="noopener noreferrer">Visit App</a>
                         </div>
                     </div>
+                    <div class="relative bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-2xl">
+                        <img decoding="async" loading="lazy" class="rounded-xl w-full h-auto object-cover"
+                            alt="InRay Labs project collaboration" src="images/cta-background.png">
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                    <!-- ConnectEdu -->
-                    <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
-                        <div class="mb-6 flex justify-between items-start">
-                            <img width="600" height="400" decoding="async" loading="lazy" alt="ConnectEdu Logo" class="h-10 w-auto object-contain" src="images/logo-text.png">
-                            <span class="px-3 py-1 rounded-full bg-blue-50 text-[#0038FF] text-xs font-semibold">EdTech</span>
+        <!-- Work / Selected Projects -->
+        <section id="work" class="py-24 bg-white border-y border-slate-200/80 px-margin-mobile md:px-margin-desktop">
+            <div class="max-w-container-max mx-auto">
+                <p class="text-xs font-semibold text-[#0038FF] uppercase tracking-widest mb-2">Our Work</p>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">Selected Projects</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-8">
+                    <div class="glass-card rounded-2xl rd-card-pad">
+                        <div class="rd-browser">
+                            <div class="rd-browser-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+                            <img decoding="async" loading="lazy" class="w-full rd-img-h object-contain bg-white" alt="ConnectEdu school management platform" src="images/connectedu.png">
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-2">ConnectEdu</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">AI-powered school ERP and management assistant streamlining school administration, attendance tracking, and parent communication.</p>
-                        <div class="flex flex-wrap gap-2 mb-6 text-xs text-slate-600">
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">AI School ERP</span>
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">Campus App</span>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <div class="rd-card-pad">
+                            <h3 class="text-xl font-bold text-slate-900">ConnectEdu</h3>
+                            <p class="text-slate-500 text-sm mb-4">School Management Platform</p>
                             <a class="text-[#0038FF] font-semibold text-sm flex items-center gap-1.5 hover:underline" href="/products/connectedu">
-                                Product Details <span aria-hidden="true" class="material-symbols-outlined text-[18px]">east</span>
+                                Learn More
+                                <span aria-hidden="true" class="material-symbols-outlined text-[18px]">arrow_forward</span>
                             </a>
-                            <a class="text-slate-500 text-xs hover:text-slate-800 underline" href="https://connectedu.in" target="_blank" rel="noopener noreferrer">Visit App</a>
                         </div>
                     </div>
-
-                    <!-- StockFlow -->
-                    <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
-                        <div class="mb-6 flex justify-between items-start">
-                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[28px]">inventory_2</span>
-                            </div>
-                            <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">Retail Tech</span>
+                    <div class="glass-card rounded-2xl rd-card-pad">
+                        <div class="rd-browser">
+                            <div class="rd-browser-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+                            <img decoding="async" loading="lazy" class="w-full rd-img-h object-contain bg-white" alt="PowerAuction sports auction platform" src="images/powerauction.png">
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-2">StockFlow</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">Multi-warehouse inventory and stock management SaaS for retail and wholesale businesses — real-time tracking and sales analytics.</p>
-                        <div class="flex flex-wrap gap-2 mb-6 text-xs text-slate-600">
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">Inventory SaaS</span>
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">Warehouse API</span>
+                        <div class="rd-card-pad">
+                            <h3 class="text-xl font-bold text-slate-900">PowerAuction</h3>
+                            <p class="text-slate-500 text-sm mb-4">Sports Player Auction Platform</p>
+                            <a class="text-[#0038FF] font-semibold text-sm flex items-center gap-1.5 hover:underline" href="/products/powerauction">
+                                Learn More
+                                <span aria-hidden="true" class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </a>
                         </div>
-                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                    </div>
+                    <div class="glass-card rounded-2xl rd-card-pad">
+                        <div class="rd-browser">
+                            <div class="rd-browser-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+                            <img decoding="async" loading="lazy" class="w-full rd-img-h object-contain bg-white" alt="StockFlow inventory platform" src="images/stockflow.png">
+                        </div>
+                        <div class="rd-card-pad">
+                            <h3 class="text-xl font-bold text-slate-900">StockFlow</h3>
+                            <p class="text-slate-500 text-sm mb-4">Inventory Management Platform</p>
                             <a class="text-[#0038FF] font-semibold text-sm flex items-center gap-1.5 hover:underline" href="/products/stockflow">
-                                Product Details <span aria-hidden="true" class="material-symbols-outlined text-[18px]">east</span>
-                            </a>
-                            <a class="text-slate-500 text-xs hover:text-slate-800 underline" href="https://stockflow.turgut.in" target="_blank" rel="noopener noreferrer">Visit App</a>
-                        </div>
-                    </div>
-
-                    <!-- SocialAuto -->
-                    <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
-                        <div class="mb-6 flex justify-between items-start">
-                            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-[#0038FF]">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[28px]">auto_awesome</span>
-                            </div>
-                            <span class="px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold">Coming Q2 2026</span>
-                        </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-2">SocialAuto</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">AI-driven social media content generator and automation platform built for agencies and digital creators.</p>
-                        <div class="flex flex-wrap gap-2 mb-6 text-xs text-slate-600">
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">AI Agents</span>
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">Social Automation</span>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100">
-                            <a class="text-slate-500 font-semibold text-sm flex items-center gap-1.5 hover:text-[#0038FF]" href="/products/socialauto">
-                                View Specification <span aria-hidden="true" class="material-symbols-outlined text-[18px]">schedule</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Sportsademy -->
-                    <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
-                        <div class="mb-6 flex justify-between items-start">
-                            <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-600">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[28px]">sports_soccer</span>
-                            </div>
-                            <span class="px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-semibold">Launching Soon</span>
-                        </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Sportsademy</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">Integrated club and sports academy management software focusing on performance tracking and athlete development.</p>
-                        <div class="flex flex-wrap gap-2 mb-6 text-xs text-slate-600">
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">Club ERP</span>
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">Athlete Analytics</span>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100">
-                            <a class="text-slate-500 font-semibold text-sm flex items-center gap-1.5 hover:text-[#0038FF]" href="/products/sportsademy">
-                                View Specification <span aria-hidden="true" class="material-symbols-outlined text-[18px]">upcoming</span>
+                                Learn More
+                                <span aria-hidden="true" class="material-symbols-outlined text-[18px]">arrow_forward</span>
                             </a>
                         </div>
                     </div>
@@ -387,309 +463,44 @@
             </div>
         </section>
 
-        <!-- Services Section -->
-        <section class="py-24 bg-white border-y border-slate-200/80" id="services">
-            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">Core <span class="brand-gradient-text">Engineering Capabilities</span></h2>
-                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">We build custom software systems and autonomous AI architectures for enterprise partners.</p>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <!-- AI Agent Solutions -->
-                    <div class="bg-[#f8fafc] p-8 md:p-10 rounded-2xl border border-slate-200 flex flex-col">
-                        <div class="flex items-center gap-4 mb-8">
-                            <div class="w-12 h-12 rounded-xl bg-[#0038FF]/10 flex items-center justify-center text-[#0038FF]">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[32px]">smart_toy</span>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-slate-900">AI Agent Development</h3>
-                                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Autonomous &amp; Multi-Agent Workflows</p>
-                            </div>
+        <!-- Stats bar -->
+        <section class="py-16 px-margin-mobile md:px-margin-desktop">
+            <div class="max-w-container-max mx-auto bg-white border border-slate-200/80 rounded-3xl shadow-lg p-8 md:p-10">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-[#0038FF]/10 text-[#0038FF] flex items-center justify-center">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[24px]">apps</span>
                         </div>
-                        <div class="space-y-5">
-                            <div class="flex items-start gap-4">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[20px] mt-0.5">check_circle</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-900 text-base">Autonomous AI Agents</h4>
-                                    <p class="text-slate-600 text-sm">Multi-agent systems using custom tool execution to automate operational workflows.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[20px] mt-0.5">check_circle</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-900 text-base">Knowledge AI (RAG Systems)</h4>
-                                    <p class="text-slate-600 text-sm">Secure Retrieval-Augmented Generation connecting LLMs to private enterprise data.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[20px] mt-0.5">check_circle</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-900 text-base">Document &amp; Voice Intelligence</h4>
-                                    <p class="text-slate-600 text-sm">Structured data extraction from complex PDFs, visual OCR, and voice synthesis.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-8 pt-6 border-t border-slate-200">
-                            <a href="/services/ai-agent-development" class="text-[#0038FF] font-semibold text-sm flex items-center gap-1.5 hover:underline">
-                                Learn about AI Agent Services <span aria-hidden="true" class="material-symbols-outlined text-[18px]">east</span>
-                            </a>
+                        <div>
+                            <p class="text-3xl font-extrabold text-slate-900">5</p>
+                            <p class="text-sm text-slate-500 font-medium">Products in our ecosystem</p>
                         </div>
                     </div>
-
-                    <!-- SaaS Engineering Services -->
-                    <div class="bg-[#f8fafc] p-8 md:p-10 rounded-2xl border border-slate-200 flex flex-col">
-                        <div class="flex items-center gap-4 mb-8">
-                            <div class="w-12 h-12 rounded-xl bg-[#0038FF]/10 flex items-center justify-center text-[#0038FF]">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[32px]">terminal</span>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-slate-900">SaaS Engineering</h3>
-                                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">High-Scale Software Architecture</p>
-                            </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-[#0038FF]/10 text-[#0038FF] flex items-center justify-center">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[24px]">school</span>
                         </div>
-                        <div class="space-y-5">
-                            <div class="flex items-start gap-4">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[20px] mt-0.5">check_circle</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-900 text-base">Multi-Tenant SaaS Architecture</h4>
-                                    <p class="text-slate-600 text-sm">Cloud-native SaaS platforms, subscription billing engines, and tenant isolation.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[20px] mt-0.5">check_circle</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-900 text-base">Enterprise Custom Software</h4>
-                                    <p class="text-slate-600 text-sm">High-security software applications tailored for internal operations and resource planning.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[20px] mt-0.5">check_circle</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-900 text-base">API Architecture &amp; DevOps</h4>
-                                    <p class="text-slate-600 text-sm">REST and GraphQL API engineering, containerization, and zero-downtime CI/CD pipelines.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-8 pt-6 border-t border-slate-200">
-                            <a href="/services/saas-product-engineering" class="text-[#0038FF] font-semibold text-sm flex items-center gap-1.5 hover:underline">
-                                Learn about SaaS Engineering Services <span aria-hidden="true" class="material-symbols-outlined text-[18px]">east</span>
-                            </a>
+                        <div>
+                            <p class="text-3xl font-extrabold text-slate-900">7</p>
+                            <p class="text-sm text-slate-500 font-medium">Schools running ConnectEdu</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Industries Section -->
-        <section id="industries" class="py-24 px-margin-mobile md:px-margin-desktop">
-            <div class="max-w-container-max mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">Industries We <span class="brand-gradient-text">Transform</span></h2>
-                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">Deploying intelligence and operational scale across vertical markets.</p>
-                </div>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                    <div class="glass-card p-6 rounded-xl text-center flex flex-col items-center">
-                        <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[36px] mb-3">sports_soccer</span>
-                        <h4 class="font-bold text-slate-900 text-base mb-1">Sports</h4>
-                        <p class="text-slate-600 text-xs">Live player auctions &amp; team management systems.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-xl text-center flex flex-col items-center">
-                        <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[36px] mb-3">school</span>
-                        <h4 class="font-bold text-slate-900 text-base mb-1">Education</h4>
-                        <p class="text-slate-600 text-xs">AI school assistants &amp; campus ERP platforms.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-xl text-center flex flex-col items-center">
-                        <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[36px] mb-3">work</span>
-                        <h4 class="font-bold text-slate-900 text-base mb-1">Careers</h4>
-                        <p class="text-slate-600 text-xs">Job aggregation &amp; career portals at global scale.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-xl text-center flex flex-col items-center">
-                        <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[36px] mb-3">storefront</span>
-                        <h4 class="font-bold text-slate-900 text-base mb-1">Retail</h4>
-                        <p class="text-slate-600 text-xs">Multi-warehouse stock flow &amp; e-commerce systems.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-xl text-center flex flex-col items-center">
-                        <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[36px] mb-3">local_shipping</span>
-                        <h4 class="font-bold text-slate-900 text-base mb-1">Logistics</h4>
-                        <p class="text-slate-600 text-xs">Fleet tracking &amp; automated logistics workflows.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-xl text-center flex flex-col items-center">
-                        <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF] text-[36px] mb-3">medical_services</span>
-                        <h4 class="font-bold text-slate-900 text-base mb-1">Healthcare</h4>
-                        <p class="text-slate-600 text-xs">Digital clinic workflows &amp; secure patient portals.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tech Stack Section -->
-        <section class="py-24 bg-white border-y border-slate-200/80">
-            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-                <div class="text-center mb-14">
-                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Our Technology Stack</h2>
-                    <h3 class="text-3xl font-bold tracking-tight text-slate-900">Modern Architecture for Enterprise Scale</h3>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-[#f8fafc] p-6 rounded-xl border border-slate-200">
-                        <h4 class="font-bold text-slate-900 text-base mb-4 flex items-center gap-2">
-                            <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF]">psychology</span> AI &amp; LLMs
-                        </h4>
-                        <div class="flex flex-wrap gap-2 text-xs font-medium text-slate-700">
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">OpenAI</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Claude</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Gemini</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">LangGraph</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">MCP</span>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-[#0038FF]/10 text-[#0038FF] flex items-center justify-center">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[24px]">rocket_launch</span>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-extrabold text-slate-900">2</p>
+                            <p class="text-sm text-slate-500 font-medium">Flagship platforms live</p>
                         </div>
                     </div>
-                    <div class="bg-[#f8fafc] p-6 rounded-xl border border-slate-200">
-                        <h4 class="font-bold text-slate-900 text-base mb-4 flex items-center gap-2">
-                            <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF]">dns</span> Backend &amp; Cloud
-                        </h4>
-                        <div class="flex flex-wrap gap-2 text-xs font-medium text-slate-700">
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Laravel</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Node.js</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Python</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Go</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">AWS</span>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-[#0038FF]/10 text-[#0038FF] flex items-center justify-center">
+                            <span aria-hidden="true" class="material-symbols-outlined text-[24px]">event</span>
                         </div>
-                    </div>
-                    <div class="bg-[#f8fafc] p-6 rounded-xl border border-slate-200">
-                        <h4 class="font-bold text-slate-900 text-base mb-4 flex items-center gap-2">
-                            <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF]">grid_view</span> Frontend &amp; Mobile
-                        </h4>
-                        <div class="flex flex-wrap gap-2 text-xs font-medium text-slate-700">
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">React</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Next.js</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Flutter</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Tailwind</span>
-                        </div>
-                    </div>
-                    <div class="bg-[#f8fafc] p-6 rounded-xl border border-slate-200">
-                        <h4 class="font-bold text-slate-900 text-base mb-4 flex items-center gap-2">
-                            <span aria-hidden="true" class="material-symbols-outlined text-[#0038FF]">database</span> Data &amp; Storage
-                        </h4>
-                        <div class="flex flex-wrap gap-2 text-xs font-medium text-slate-700">
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">PostgreSQL</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Redis</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Vector DBs</span>
-                            <span class="bg-white px-2.5 py-1 rounded border border-slate-200">Docker</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Process Section -->
-        <section class="py-24 px-margin-mobile md:px-margin-desktop" id="process">
-            <div class="max-w-container-max mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">Our <span class="brand-gradient-text">Delivery Framework</span></h2>
-                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">A structured engineering process from requirements discovery to global cloud deployment.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-                    <div class="glass-card p-6 rounded-xl text-center">
-                        <div class="w-12 h-12 rounded-full bg-[#0038FF]/10 text-[#0038FF] font-bold text-lg flex items-center justify-center mx-auto mb-4">01</div>
-                        <h3 class="font-bold text-slate-900 text-base mb-1">Discover</h3>
-                        <p class="text-slate-600 text-xs">Deep requirements mapping &amp; architecture strategy.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-xl text-center">
-                        <div class="w-12 h-12 rounded-full bg-[#0038FF]/10 text-[#0038FF] font-bold text-lg flex items-center justify-center mx-auto mb-4">02</div>
-                        <h3 class="font-bold text-slate-900 text-base mb-1">Design</h3>
-                        <p class="text-slate-600 text-xs">Iterative UI/UX prototyping &amp; system specifications.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-xl text-center">
-                        <div class="w-12 h-12 rounded-full bg-[#0038FF]/10 text-[#0038FF] font-bold text-lg flex items-center justify-center mx-auto mb-4">03</div>
-                        <h3 class="font-bold text-slate-900 text-base mb-1">Develop</h3>
-                        <p class="text-slate-600 text-xs">Agile engineering sprints with continuous feedback.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-xl text-center">
-                        <div class="w-12 h-12 rounded-full bg-[#0038FF]/10 text-[#0038FF] font-bold text-lg flex items-center justify-center mx-auto mb-4">04</div>
-                        <h3 class="font-bold text-slate-900 text-base mb-1">Launch</h3>
-                        <p class="text-slate-600 text-xs">Automated testing, security audit, &amp; deployment.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-xl text-center">
-                        <div class="w-12 h-12 rounded-full bg-[#0038FF]/10 text-[#0038FF] font-bold text-lg flex items-center justify-center mx-auto mb-4">05</div>
-                        <h3 class="font-bold text-slate-900 text-base mb-1">Support</h3>
-                        <p class="text-slate-600 text-xs">Ongoing cloud scaling &amp; feature maintenance.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section class="py-24 bg-white border-y border-slate-200/80">
-            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-center">
-                    <div class="lg:col-span-1 space-y-4">
-                        <h2 class="text-3xl font-bold tracking-tight text-slate-900">Verified Success Stories</h2>
-                        <p class="text-slate-600 text-sm">See how our software engineering team delivers value for corporate partners.</p>
-                        <div class="flex gap-3 pt-2">
-                            <button id="testimonial-prev" class="w-10 h-10 rounded-full border border-slate-300 flex items-center justify-center hover:bg-slate-100 transition-colors opacity-50 cursor-not-allowed" aria-label="Previous Success Story" disabled>
-                                <span aria-hidden="true" class="material-symbols-outlined text-[20px]">west</span>
-                            </button>
-                            <button id="testimonial-next" class="w-10 h-10 rounded-full border border-slate-300 flex items-center justify-center hover:bg-slate-100 transition-colors cursor-pointer" aria-label="Next Success Story">
-                                <span aria-hidden="true" class="material-symbols-outlined text-[20px]">east</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="lg:col-span-3 overflow-hidden relative">
-                        <div id="testimonials-track" class="flex transition-transform duration-300 ease-out -mx-3">
-                            <div class="testimonial-card w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
-                                <div class="bg-[#f8fafc] p-6 rounded-xl border border-slate-200 flex flex-col justify-between h-full">
-                                    <p class="text-slate-700 text-sm italic mb-6">"InRay Labs designed and developed a highly modern, responsive website for IKON Engineering. Their product engineering mindset vastly elevated our brand."</p>
-                                    <div>
-                                        <div class="font-bold text-slate-900 text-sm">Abdul Kalam</div>
-                                        <div class="text-xs text-slate-500">IKON Engineering</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testimonial-card w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
-                                <div class="bg-[#f8fafc] p-6 rounded-xl border border-slate-200 flex flex-col justify-between h-full">
-                                    <p class="text-slate-700 text-sm italic mb-6">"Chirag Kids Home has benefited immensely from their intuitive, secure ERP platform, saving our administrative team hours every week."</p>
-                                    <div>
-                                        <div class="font-bold text-slate-900 text-sm">Shibu Sir</div>
-                                        <div class="text-xs text-slate-500">Chirag Kids Home</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testimonial-card w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
-                                <div class="bg-[#f8fafc] p-6 rounded-xl border border-slate-200 flex flex-col justify-between h-full">
-                                    <p class="text-slate-700 text-sm italic mb-6">"Conducting the player auction for KACL Season 3 using InRay Labs' PowerAuction software was phenomenal. The real-time bidding tracker was a hit."</p>
-                                    <div>
-                                        <div class="font-bold text-slate-900 text-sm">Sadham A Das</div>
-                                        <div class="text-xs text-slate-500">KACL Season 3</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testimonial-card w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
-                                <div class="bg-[#f8fafc] p-6 rounded-xl border border-slate-200 flex flex-col justify-between h-full">
-                                    <p class="text-slate-700 text-sm italic mb-6">"PowerAuction processed high-stakes, fast-paced live bidding with zero latency, giving us total confidence during the player draft."</p>
-                                    <div>
-                                        <div class="font-bold text-slate-900 text-sm">Siju Illikkal</div>
-                                        <div class="text-xs text-slate-500">VASCO Season 7</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testimonial-card w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
-                                <div class="bg-[#f8fafc] p-6 rounded-xl border border-slate-200 flex flex-col justify-between h-full">
-                                    <div class="mb-6">
-                                        <div class="text-[11px] font-semibold uppercase tracking-widest text-[#0038FF] mb-2">Case study</div>
-                                        <p class="text-slate-900 text-sm font-bold mb-2">Feed engineering for one of the world's largest job aggregators</p>
-                                        <p class="text-slate-600 text-sm mb-3">We built the feed management systems behind one of the largest job aggregators in the world — importing millions of jobs from different providers on scheduled intervals, normalized and deduplicated, without affecting the performance of the platform.</p>
-                                        <ul class="text-slate-600 text-xs space-y-1 list-disc list-inside">
-                                            <li>Millions of listings ingested on schedule from multiple providers</li>
-                                            <li>Normalization &amp; dedup at scale</li>
-                                            <li>Ingestion isolated from live traffic — zero performance impact</li>
-                                            <li>Fast search across millions of jobs</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <div class="font-bold text-slate-900 text-sm">Job Aggregation Platform</div>
-                                        <div class="text-xs text-slate-500">Confidential client</div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div>
+                            <p class="text-3xl font-extrabold text-slate-900">2026</p>
+                            <p class="text-sm text-slate-500 font-medium">Founded in Kerala, India</p>
                         </div>
                     </div>
                 </div>
