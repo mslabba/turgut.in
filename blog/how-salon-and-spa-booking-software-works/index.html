@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Salon and Spa Booking Software Works: Chairs, Staff Calendars and Memberships | inRay Labs Blog</title>
+  <meta name="description" content="How does salon and spa booking software work? Live staff calendars, chair and room checks, reminders, deposits and memberships keep every chair full and booked.">
+  <link rel="canonical" href="https://inraylabs.com/blog/how-salon-and-spa-booking-software-works/">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How Salon and Spa Booking Software Works: Chairs, Staff Calendars and Memberships">
+  <meta property="og:description" content="How does salon and spa booking software work? Live staff calendars, chair and room checks, reminders, deposits and memberships keep every chair full and booked.">
+  <meta property="og:url" content="https://inraylabs.com/blog/how-salon-and-spa-booking-software-works/">
+  <meta property="og:image" content="/blog/assets/images/how-salon-and-spa-booking-software-works.jpg">
+  <meta property="article:published_time" content="2026-11-06T00:00:00.000Z">
+  <meta property="article:section" content="Product Insights">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Salon and Spa Booking Software Works: Chairs, Staff Calendars and Memberships">
+  <meta name="twitter:description" content="How does salon and spa booking software work? Live staff calendars, chair and room checks, reminders, deposits and memberships keep every chair full and booked.">
+  <meta name="twitter:image" content="/blog/assets/images/how-salon-and-spa-booking-software-works.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e0e3e5",
+            "on-surface": "#191c1e",
+            "outline": "#777587",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-container": "#d1dcf4",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary-fixed": "#111c2d",
+            "secondary-fixed-dim": "#d2bbff",
+            "secondary": "#712ae2",
+            "tertiary-container": "#566175",
+            "surface-dim": "#d8dadc",
+            "tertiary-fixed": "#d8e3fb",
+            "on-secondary-fixed": "#25005a",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "tertiary": "#3e495d",
+            "outline-variant": "#c7c4d8",
+            "inverse-surface": "#2d3133",
+            "secondary-container": "#8a4cfc",
+            "surface-container-highest": "#e0e3e5",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "on-surface-variant": "#464555",
+            "surface": "#f7f9fb",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#0f0069",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eff1f3",
+            "on-tertiary-fixed-variant": "#3c475a",
+            "primary-container": "#4f46e5",
+            "secondary-fixed": "#eaddff",
+            "tertiary-fixed-dim": "#bcc7de",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface-tint": "#4d44e3",
+            "background": "#f7f9fb",
+            "surface-bright": "#f7f9fb",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#fffbff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-max": "1280px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "unit": "4px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "label-sm": ["Geist"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "code": ["JetBrains Mono"],
+            "display-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .primary-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .mesh-gradient {
+      background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How Salon and Spa Booking Software Works: Chairs, Staff Calendars and Memberships",
+    "description": "How does salon and spa booking software work? Live staff calendars, chair and room checks, reminders, deposits and memberships keep every chair full and booked.",
+    "image": ["/blog/assets/images/how-salon-and-spa-booking-software-works.jpg"],
+    "datePublished": "2026-11-06T00:00:00.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Muhammed Shihabudeen Labba"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "inRay Labs Blog",
+      "url": "https://inraylabs.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://inraylabs.com/blog/how-salon-and-spa-booking-software-works/"
+    }
+  }
+  </script>
+
+  <!-- Blog-specific styles -->
+  <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+
+  <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+    <a href="https://inraylabs.com" class="flex items-center gap-3 group">
+      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+      <a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
+    </div>
+    <a href="https://inraylabs.com/#contact" class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+      Book a Demo
+    </a>
+  </div>
+</nav>
+
+
+  <main class="max-w-container-max mx-auto px-margin-desktop py-12">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+      <a href="https://inraylabs.com" class="hover:text-primary underline transition-colors">Home</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/" class="hover:text-primary underline transition-colors">Blog</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/category/product-insights/" class="hover:text-primary underline transition-colors">Product Insights</a>
+      <span class="text-xs opacity-50">/</span>
+      <span class="text-on-surface font-medium truncate max-w-xs">How Salon and Spa Booking Software Works: Chairs, Staff Calendars and Memberships</span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10 max-w-4xl">
+      <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20 inline-block mb-4">Product Insights</span>
+      <h1 class="text-headline-md md:text-headline-lg font-bold text-on-surface tracking-tight mb-4 leading-tight">How Salon and Spa Booking Software Works: Chairs, Staff Calendars and Memberships</h1>
+      <div class="flex flex-wrap items-center gap-4 text-body-md text-on-surface-variant border-b border-outline-variant/30 pb-6">
+        <span class="font-semibold text-on-surface">By Muhammed Shihabudeen Labba</span>
+        <span>•</span>
+        <span>November 6, 2026</span>
+        <span>•</span>
+        <span>6 min read</span>
+      </div>
+    </header>
+
+    
+    <div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+      <img src="/blog/assets/images/how-salon-and-spa-booking-software-works.jpg" onerror="this.onerror=null; this.src='../assets/images/how-job-aggregators-work.jpg';" alt="How Salon and Spa Booking Software Works: Chairs, Staff Calendars and Memberships" class="w-full max-h-[500px] object-cover">
+    </div>
+    
+
+    <!-- Content & TOC Sidebar Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Sidebar TOC -->
+      <aside class="lg:col-span-4 order-2 lg:order-1">
+        <div class="sticky top-28 glass-card p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+          <h4 class="font-bold text-on-surface text-body-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">toc</span>
+            <span>Table of Contents</span>
+          </h4>
+          <nav class="toc-nav text-body-md text-on-surface-variant space-y-2">
+            <div class="ice-toc-card">
+  <div class="ice-toc-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+      <line x1="3" y1="18" x2="3.01" y2="18"></line>
+    </svg>
+    <span>Table of Contents</span>
+  </div>
+  <nav class="ice-toc-nav">
+    <ul><li><a href="#the-online-booking-page">The online booking page: where a booking starts</a></li><li><a href="#chairs-rooms-and-staff-calendars">Chairs, rooms and staff calendars: the three resources that must line up</a></li><li><a href="#services-durations-and-processing-time">Services, durations and processing time</a></li><li><a href="#reminders-deposits-and-no-shows">Reminders, deposits and no-shows</a></li><li><a href="#memberships-packages-and-prepaid-sessions">Memberships, packages and prepaid sessions</a></li><li><a href="#checkout-commissions-and-the-front-desk">Checkout, commissions and the front desk</a></li><li><a href="#what-good-salon-booking-software-gets-right">What good salon booking software gets right</a></li><li><a href="#faqs">Frequently asked questions</a></li><li class="toc-h3"><a href="#faq-double-booking">How does salon booking software stop double bookings?</a></li><li class="toc-h3"><a href="#faq-no-shows">How does salon software reduce no-shows?</a></li><li class="toc-h3"><a href="#faq-memberships">How do memberships and packages work in salon software?</a></li><li class="toc-h3"><a href="#faq-multi-location">Can salon software handle more than one branch?</a></li><li><a href="#build-with-inray-labs">Build your salon booking platform with InRay Labs</a></li></ul>
+  </nav>
+</div>
+
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Article Body -->
+      <article class="lg:col-span-8 order-1 lg:order-2 ice-post-content font-body-md text-on-surface leading-relaxed prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-relaxed">
+        <p>Salon and spa booking software is the system that turns a salon's chairs, staff and service list into appointments that clients can book online, in seconds, at any hour. Behind one simple "Book now" button sit an online booking page, a staff calendar, a chair and room plan, a service list, automatic reminders, payments and deposits, and memberships. When those parts share one live record of every chair, every stylist and every booking, double bookings disappear, chairs stay full, and the front desk stops answering the same phone call all day.</p>
+
+<h2 id="the-online-booking-page">The online booking page: where a booking starts</h2>
+<p>Every booking begins on a page the client can reach from the salon's website, its social media profiles or a search result. The client picks a service, then a staff member — or "first available" — then a date and time. The page only shows slots that are actually free, because it checks the live calendar before it offers anything. Once the client confirms, the booking appears on the staff calendar at once, and the client gets a confirmation message by email or text. The salon sets its own rules on booking lead time, cancellation deadlines and deposits. Walk-ins made at the front desk land in the same calendar, so the online page and the paper diary can never disagree.</p>
+
+<h2 id="chairs-rooms-and-staff-calendars">Chairs, rooms and staff calendars: the three resources that must line up</h2>
+<p>A salon sells time, and that time lives in three places at once: a staff member, a chair or station, and — in a spa — a treatment room. A booking is only possible when all three are free at the same moment. The software models each one as a resource with its own calendar: stylist hours and days off, chair locations, room capacity. When a client books a 60-minute massage, the system checks the therapist and a free room together. When a client books a colour and a cut, it blocks the stylist for the full combined time. If any resource clashes, the slot simply is not offered — the detail that stops the most common salon failure: two clients arriving to find one chair.</p>
+
+<h2 id="services-durations-and-processing-time">Services, durations and processing time</h2>
+<p>The service list is the heart of the system. Each service has a name, a price, a duration and the staff who can perform it — a skin fade only with the senior barber, a balayage only with a trained colourist. Some services need two staff at once, such as a manicure and pedicure together, or a four-hands massage; the software books both people and only offers times when both are free. Processing time is the subtle part: a colour takes 45 minutes of work but 90 minutes of chair time, and the stylist is free during the wait. Good systems track both, so the chair stays blocked while the stylist can take a quick trim in between. Prices can also vary by staff level.</p>
+
+<h2 id="reminders-deposits-and-no-shows">Reminders, deposits and no-shows</h2>
+<p>An empty chair is money a salon cannot recover, so no-shows are the problem booking software is judged on. The first defence is reminders: an automatic message a day before the appointment, and another a few hours before, on the channel the client actually reads — text, WhatsApp or email. The second is a deposit: the client pays a percentage or a fixed amount when booking, held against the final bill and lost if they do not show up. The third is the no-show record: the system counts how many appointments each client has missed, so the salon can ask repeat offenders for a deposit before holding a Saturday slot. A waitlist closes the loop: when a cancellation opens a gap, the next client is notified automatically.</p>
+
+<h2 id="memberships-packages-and-prepaid-sessions">Memberships, packages and prepaid sessions</h2>
+<p>Regular clients are a salon's steadiest income, and memberships turn them into recurring revenue. A monthly membership might include one facial and a discount on everything else; a prepaid package might be six hair spas bought at once. The software tracks every membership's balance: sessions left, expiry date and next payment. It flags packages about to expire and sends renewal reminders before the client lapses. At booking time, a member's session is deducted automatically instead of being charged. Done well, memberships fill quiet weekday slots with clients who have already paid.</p>
+
+<h2 id="checkout-commissions-and-the-front-desk">Checkout, commissions and the front desk</h2>
+<p>When the service is done, checkout should take seconds. The bill is pre-filled from the appointment: the services, the stylist, the member discount and any retail products sold, such as shampoo. The client pays by card, wallet or UPI, and the payment is recorded against the same booking. Tips are kept separate from sales, and commissions are worked out per person: each stylist has a rate, and the system splits the revenue when two people shared a visit. At the end of the day the owner sees a simple report — takings per stylist, chair utilisation, no-shows, renewals due — instead of adding up a paper book.</p>
+
+<h2 id="what-good-salon-booking-software-gets-right">What good salon booking software gets right</h2>
+<p>The best systems are boring in the right ways. They keep one live record of every chair, room and stylist, so a booking can never clash. They make the client's path short: pick a service, pick a person, pick a time, pay a deposit, done. They treat reminders, deposits and waitlists as one system, because an empty chair is the most expensive thing in a salon. And they give the owner clean numbers instead of reports stitched together from a diary, a card machine and a spreadsheet.</p>
+
+<h2 id="faqs">Frequently asked questions</h2>
+<h3 id="faq-double-booking">How does salon booking software stop double bookings?</h3>
+<p>Every booking checks three resources at once — the staff member, the chair or station, and the treatment room — against one shared live calendar. A slot is only offered when all three are free, and once booked it locks immediately, so two clients can never confirm the same chair.</p>
+<h3 id="faq-no-shows">How does salon software reduce no-shows?</h3>
+<p>Automatic reminders go out before each appointment, deposits make clients commit when they book, and the system tracks each client's no-show history so repeat offenders can be asked for a deposit. Waitlists fill cancelled slots automatically.</p>
+<h3 id="faq-memberships">How do memberships and packages work in salon software?</h3>
+<p>A membership or prepaid package is stored as a balance on the client's record: sessions remaining, expiry date and next payment. When a member books, the session is deducted automatically. The system flags expiring packages and sends renewal reminders before the client lapses.</p>
+<h3 id="faq-multi-location">Can salon software handle more than one branch?</h3>
+<p>Yes. Each branch gets its own calendar, team and chairs, while the client record stays shared — so a regular is a regular at every branch. The owner sees combined reports across branches, and clients can book at whichever location suits them.</p>
+
+<h2 id="build-with-inray-labs">Build your salon booking platform with InRay Labs</h2>
+<p>If you run a salon or spa and need booking software built around your chairs, your team and your memberships — online booking, staff calendars, reminders, deposits and all — InRay Labs builds it. <a href="https://inraylabs.com/#contact">Talk to us about your booking platform</a> and we will scope a system that fits how your salon actually runs.</p>
+
+
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How Salon and Spa Booking Software Works: Chairs, Staff Calendars and Memberships",
+  "description": "How does salon and spa booking software work? Live staff calendars, chair and room checks, reminders, deposits and memberships keep every chair full and booked.",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammed Shihabudeen Labba"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "InRay Labs"
+  },
+  "datePublished": "2026-11-06",
+  "mainEntityOfPage": "https://inraylabs.com/blog/how-salon-and-spa-booking-software-works/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does salon booking software stop double bookings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every booking checks three resources at once \u2014 the staff member, the chair or station, and the treatment room \u2014 against one shared live calendar. A slot is only offered when all three are free, and once booked it locks immediately, so two clients can never confirm the same chair."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does salon software reduce no-shows?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Automatic reminders go out before each appointment, deposits make clients commit when they book, and the system tracks each client's no-show history so repeat offenders can be asked for a deposit. Waitlists fill cancelled slots automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do memberships and packages work in salon software?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A membership or prepaid package is stored as a balance on the client's record: sessions remaining, expiry date and next payment. When a member books, the session is deducted automatically. The system flags expiring packages and sends renewal reminders before the client lapses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can salon software handle more than one branch?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Each branch gets its own calendar, team and chairs, while the client record stays shared \u2014 so a regular is a regular at every branch. The owner sees combined reports across branches, and clients can book at whichever location suits them."
+      }
+    }
+  ]
+}
+</script>
+
+
+        <!-- Tags -->
+        <div class="mt-12 pt-6 border-t border-outline-variant/30 flex flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold text-on-surface-variant mr-2">Tags:</span>
+          <a href="/blog/tag/saas/" class="ice-tag-pill">#SaaS</a> <a href="/blog/tag/inray-labs/" class="ice-tag-pill">#InRay Labs</a> <a href="/blog/tag/architecture/" class="ice-tag-pill">#Architecture</a> </div>
+
+        <!-- Prev / Next Navigation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 pt-8 border-t border-outline-variant/30">
+  
+      <a href="/blog/how-event-ticketing-software-works/" class="glass-card p-6 rounded-2xl border border-outline-variant/40 hover:border-primary transition-all flex flex-col gap-1 text-left group">
+    <span class="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1">
+      <span class="material-symbols-outlined text-sm">arrow_back</span> Previous Article
+    </span>
+    <span class="font-semibold text-on-surface text-base group-hover:text-primary transition-colors line-clamp-2">How Event Ticketing Software Works: Seat Maps, QR Entry and Live Sales</span>
+  </a>
+</div>
+
+      </article>
+    </div>
+
+    <!-- Related Posts -->
+    <section class="mt-20 pt-12 border-t border-outline-variant/30">
+      <h3 class="text-headline-md font-bold text-on-surface mb-8">Related Articles</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+    
+    
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-clinic-appointment-scheduling-software-works.jpg" alt="How Clinic Appointment Scheduling Software Works: Calendars, Reminders and No-Shows" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-clinic-appointment-scheduling-software-works/">How Clinic Appointment Scheduling Software Works: Calendars, Reminders and No-Shows</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does clinic appointment scheduling software work? Live doctor calendars, automatic reminders and waitlists keep slots filled and cut no-shows.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>November 1, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-hotel-property-management-software-works.jpg" alt="How Hotel Property Management Software Works: Reservations, Housekeeping and Billing" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-hotel-property-management-software-works/">How Hotel Property Management Software Works: Reservations, Housekeeping and Billing</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does hotel property management software work? One shared record drives reservations, housekeeping and billing — here is how a PMS keeps a hotel in sync.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>November 2, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-restaurant-pos-software-works.jpg" alt="How Restaurant POS Software Works: Orders, Kitchen Display and Payments" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-restaurant-pos-software-works/">How Restaurant POS Software Works: Orders, Kitchen Display and Payments</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does restaurant POS software work? Orders flow from any channel to the kitchen display, bills split cleanly, and every sale updates stock and reports.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>Oct 31, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+  
+  
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+  <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
+      </div>
+      <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
+      <div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+        <p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+        <p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
+      </div>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+      <ul class="space-y-3">
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal & Contact</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+    <p class="text-on-surface-variant text-body-md">&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+    <div class="flex gap-6 text-body-md">
+      <a href="https://inraylabs.com/privacy-policy" class="text-on-surface-variant hover:text-primary">Privacy</a>
+      <a href="https://inraylabs.com/terms-and-conditions" class="text-on-surface-variant hover:text-primary">Terms</a>
+      <a href="https://inraylabs.com/cookie-policy" class="text-on-surface-variant hover:text-primary">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
