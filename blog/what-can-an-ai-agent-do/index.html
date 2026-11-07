@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>What Can an AI Agent Do? Tools, Actions and Limits | InRay Labs</title>
+<meta content="An AI agent isn't just chat. Plain-English guide to the tools it can call, the actions it can take, the limits that keep it safe, and when a chatbot is enough instead." name="description"/>
+<link href="https://inraylabs.com/blog/what-can-an-ai-agent-do/" rel="canonical"/>
+<!-- OpenGraph -->
+<meta content="article" property="og:type"/>
+<meta content="What Can an AI Agent Actually Do? Tools, Actions and Limits" property="og:title"/>
+<meta content="An AI agent isn't just chat. Plain-English guide to the tools it can call, the actions it can take, the limits that keep it safe, and when a chatbot is enough instead." property="og:description"/>
+<meta content="https://inraylabs.com/blog/what-can-an-ai-agent-do/" property="og:url"/>
+<meta content="https://inraylabs.com/blog/assets/images/what-can-an-ai-agent-do.jpg" property="og:image"/>
+<meta content="2026-11-07T00:00:00+05:30" property="article:published_time"/>
+<meta content="AI &amp; Automation" property="article:section"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="What Can an AI Agent Actually Do? Tools, Actions and Limits" name="twitter:title"/>
+<meta content="An AI agent isn't just chat. Plain-English guide to the tools it can call, the actions it can take, the limits that keep it safe, and when a chatbot is enough instead." name="twitter:description"/>
+<meta content="https://inraylabs.com/blog/assets/images/what-can-an-ai-agent-do.jpg" name="twitter:image"/>
+<!-- Favicon -->
+<link href="https://inraylabs.com/images/turgut-logo.svg" rel="icon" type="image/svg+xml"/>
+<!-- Tailwind CSS & Google Fonts -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Geist:wght@400;500;600&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e0e3e5",
+            "on-surface": "#191c1e",
+            "outline": "#777587",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-container": "#d1dcf4",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary-fixed": "#111c2d",
+            "secondary-fixed-dim": "#d2bbff",
+            "secondary": "#712ae2",
+            "tertiary-container": "#566175",
+            "surface-dim": "#d8dadc",
+            "tertiary-fixed": "#d8e3fb",
+            "on-secondary-fixed": "#25005a",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "tertiary": "#3e495d",
+            "outline-variant": "#c7c4d8",
+            "inverse-surface": "#2d3133",
+            "secondary-container": "#8a4cfc",
+            "surface-container-highest": "#e0e3e5",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "on-surface-variant": "#464555",
+            "surface": "#f7f9fb",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#0f0069",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eff1f3",
+            "on-tertiary-fixed-variant": "#3c475a",
+            "primary-container": "#4f46e5",
+            "secondary-fixed": "#eaddff",
+            "tertiary-fixed-dim": "#bcc7de",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface-tint": "#4d44e3",
+            "background": "#f7f9fb",
+            "surface-bright": "#f7f9fb",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#fffbff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-max": "1280px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "unit": "4px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "label-sm": ["Geist"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "code": ["JetBrains Mono"],
+            "display-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .primary-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .mesh-gradient {
+      background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<!-- Schema.org JSON-LD -->
+
+<!-- Blog-specific styles -->
+<link href="/blog/assets/css/blog-base.css" rel="stylesheet"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "What Can an AI Agent Actually Do? Tools, Actions and Limits",
+      "datePublished": "2026-11-07",
+      "author": {
+        "@type": "Person",
+        "name": "Muhammed Shihabudeen Labba"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "InRay Labs",
+        "url": "https://inraylabs.com"
+      },
+      "image": "https://inraylabs.com/blog/assets/images/what-can-an-ai-agent-do.jpg",
+      "mainEntityOfPage": "https://inraylabs.com/blog/what-can-an-ai-agent-do/",
+      "description": "An AI agent isn't just chat. Plain-English guide to the tools it can call, the actions it can take, the limits that keep it safe, and when a chatbot is enough instead."
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What can an AI agent actually do?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can use connected tools to look up live data, update records, send messages, trigger workflows, and hand unfinished work to a person. Its capabilities depend on its integrations and permissions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is an AI agent the same as a chatbot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not exactly. The terms overlap, and some chatbots also use tools. An agent typically chooses and carries out steps toward a goal. What matters is the behaviour and permissions, not the label. See AI agent vs chatbot."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What limits should an AI agent have?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "High-impact actions — money, public messages, deletions, and access changes — need explicit controls. Start with human approval or leave them outside the agent’s permissions. Any automated exceptions should be narrowly defined and tested."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I always need an AI agent?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. If requests mostly need answers from documents, a document-search chatbot may be enough. Consider an agent when the task also requires actions or a sequence of decisions in your systems."
+          }
+        }
+      ]
+    }
+  ]
+}</script></head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+<nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+<div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+<a class="flex items-center gap-3 group" href="https://inraylabs.com">
+<img alt="InRay Labs Logo" class="w-8 h-8 object-contain" src="https://inraylabs.com/images/turgut-logo.svg"/>
+<span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+</a>
+<div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+<a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
+</div>
+<a class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all" href="https://inraylabs.com/#contact">
+      Book a Demo
+    </a>
+</div>
+</nav>
+<main class="max-w-container-max mx-auto px-margin-desktop py-12">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+<a class="hover:text-primary underline transition-colors" href="https://inraylabs.com">Home</a>
+<span class="text-xs opacity-50">/</span>
+<a class="hover:text-primary underline transition-colors" href="/blog/">Blog</a>
+<span class="text-xs opacity-50">/</span>
+<a class="hover:text-primary underline transition-colors" href="/blog/category/ai-and-automation/">AI &amp; Automation</a>
+<span class="text-xs opacity-50">/</span>
+<span class="text-on-surface font-medium truncate max-w-xs">What Can an AI Agent Actually Do? Tools, Actions and Limits</span>
+</div>
+<!-- Header -->
+<header class="mb-10 max-w-4xl">
+<span class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20 inline-block mb-4">AI &amp; Automation</span>
+<h1 class="text-headline-md md:text-headline-lg font-bold text-on-surface tracking-tight mb-4 leading-tight">What Can an AI Agent Actually Do? Tools, Actions and Limits</h1>
+<div class="flex flex-wrap items-center gap-4 text-body-md text-on-surface-variant border-b border-outline-variant/30 pb-6">
+<span class="font-semibold text-on-surface">By Muhammed Shihabudeen Labba</span>
+<span>•</span>
+<span>November 7, 2026</span>
+<span>•</span>
+<span>6 min read</span>
+</div>
+</header>
+<div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+<img alt="Illustration of an AI agent connected to data sources and actions, with a human approval checkpoint." class="w-full max-h-[500px] object-cover" src="/blog/assets/images/what-can-an-ai-agent-do.jpg"/>
+</div>
+<!-- Content & TOC Sidebar Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Sidebar TOC -->
+<aside class="lg:col-span-4 order-2 lg:order-1">
+<div class="sticky top-28 glass-card p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+<h4 class="font-bold text-on-surface text-body-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">toc</span>
+<span>Table of Contents</span>
+</h4>
+<nav class="toc-nav text-body-md text-on-surface-variant space-y-2">
+<div class="ice-toc-card">
+<div class="ice-toc-header">
+<svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+<line x1="8" x2="21" y1="6" y2="6"></line>
+<line x1="8" x2="21" y1="12" y2="12"></line>
+<line x1="8" x2="21" y1="18" y2="18"></line>
+<line x1="3" x2="3.01" y1="6" y2="6"></line>
+<line x1="3" x2="3.01" y1="12" y2="12"></line>
+<line x1="3" x2="3.01" y1="18" y2="18"></line>
+</svg>
+<span>Table of Contents</span>
+</div>
+<nav class="ice-toc-nav"><ul><li><a href="#what-does-tools-and-actions-mean-for-an-ai-agent">What does “tools and actions” mean for an AI agent?</a></li><li><a href="#what-kinds-of-work-can-an-agent-take-on">What kinds of work can an agent take on?</a></li><li><a href="#what-should-an-agent-not-do-on-its-own">What should an agent not do on its own?</a></li><li><a href="#how-do-you-decide-what-the-agent-is-allowed-to-touch">How do you decide what the agent is allowed to touch?</a></li><li><a href="#what-does-a-good-agent-setup-look-like-day-to-day">What does a good agent setup look like day to day?</a></li><li><a href="#a-short-checklist-before-you-commit-to-an-agent">A short checklist before you commit to an agent</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li><li><a href="#what-can-an-ai-agent-actually-do">What can an AI agent actually do?</a></li><li><a href="#is-an-ai-agent-the-same-as-a-chatbot">Is an AI agent the same as a chatbot?</a></li><li><a href="#what-limits-should-an-ai-agent-have">What limits should an AI agent have?</a></li><li><a href="#do-i-always-need-an-ai-agent">Do I always need an AI agent?</a></li></ul></nav>
+</div>
+</nav>
+</div>
+</aside>
+<!-- Main Article Body -->
+<article class="lg:col-span-8 order-1 lg:order-2 ice-post-content font-body-md text-on-surface leading-relaxed prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-relaxed"><p>An AI agent is not just a smarter chat box. It can call tools, read your systems, take actions you approve, and hand unfinished work to a person. The chat window is often the front door; what happens behind it is what makes it an agent.</p>
+<p>If you already know <a href="https://inraylabs.com/blog/ai-agent-vs-chatbot/">how an AI agent differs from a chatbot</a>, this post goes one level deeper: tools, actions, limits, and how to tell whether you need an agent at all.</p>
+<h2 id="what-does-tools-and-actions-mean-for-an-ai-agent">What does “tools and actions” mean for an AI agent?</h2>
+<p>A language model on its own generates output. An agent gets work done because someone connected it to tools — controlled capabilities it is allowed to use:</p>
+<ul>
+<li><strong>Look something up.</strong> Read a CRM record, an order status, a fee balance, a calendar, or a knowledge base.</li>
+<li><strong>Write something back.</strong> Create a ticket, update a field, book a slot, or mark a task done.</li>
+<li><strong>Send a message.</strong> Email, WhatsApp, SMS, or an internal notification — only through channels you’ve connected and within the permissions you’ve set.</li>
+<li><strong>Trigger another system.</strong> Start a workflow, call an API, or pass a job to another agent.</li>
+</ul>
+<p>The agent chooses a tool, reads the result, and chooses the next step. That repeated process is how it completes a task. Some systems divide the work between agents: one plans, another looks up information, and another drafts a reply.</p>
+<p>The exact setup depends on the job. An agent may need document search, voice capabilities, or access to a business system; it does not automatically need all three.</p>
+<h2 id="what-kinds-of-work-can-an-agent-take-on">What kinds of work can an agent take on?</h2>
+<p>Agents are useful for tasks that end in something done, not only something said. Common patterns include:</p>
+<ol>
+<li><strong>Answer with live data.</strong> “What’s outstanding on this invoice?” needs today’s numbers, not last month’s PDF.</li>
+<li><strong>Complete a multi-step request.</strong> Find the booking, check free slots, offer options, update the calendar, and confirm.</li>
+<li><strong>Triage and route.</strong> Read an inbound email or form, classify it, create the right ticket, and notify the owner.</li>
+<li><strong>Background jobs.</strong> Run on a schedule or trigger — summarise overnight activity or flag exceptions — with no chat window at all.</li>
+<li><strong>Human-facing outreach.</strong> A voice or messaging agent can talk to people, then write the outcome back into your system. We put one to work <a href="https://inraylabs.com/blog/we-put-an-ai-voice-agent-to-work-automating-connectedu-school-outreach/">automating ConnectEdu school outreach</a>; I also use <a href="https://inraylabs.com/blog/how-i-run-my-day-with-a-team-of-grok-bots/">a team of agents in my own day</a>.</li>
+</ol>
+<p>None of these require the agent to know everything. They need clear goals, the right tools, and data accurate enough to trust.</p>
+<h2 id="what-should-an-agent-not-do-on-its-own">What should an agent not do on its own?</h2>
+<p>An agent that can act can also act wrongly. High-impact steps should have explicit controls, with human approval as the starting point.</p>
+<p>Examples include:</p>
+<ul>
+<li>Changing money, prices, invoices, or refunds</li>
+<li>Sending messages to customers or the public</li>
+<li>Deleting or overwriting records</li>
+<li>Granting access or changing passwords and permissions</li>
+<li>Anything irreversible or hard to undo</li>
+</ul>
+<p>In a human-in-the-loop setup, the agent prepares the action, a person confirms it, and then the tool runs. Any later automation should have a clearly defined scope, suitable checks, and a way to stop or recover from errors. Reliability on a simple task is not permission to take on unrelated, higher-risk actions.</p>
+<h2 id="how-do-you-decide-what-the-agent-is-allowed-to-touch">How do you decide what the agent is allowed to touch?</h2>
+<p>Before quoting or building, map three things:</p>
+<ol>
+<li><strong>Data sources.</strong> Which systems hold the authoritative records? Who can access them? How fresh is the data?</li>
+<li><strong>Actions.</strong> Which updates and messages are allowed, which need approval, and which are forbidden?</li>
+<li><strong>Handoffs.</strong> When the agent is unsure, wrong, or blocked, who takes over and how?</li>
+</ol>
+<p>During scoping, we check data sources, access, and freshness before we quote a build. If the records are incomplete or outdated, those problems need attention before automating the work.</p>
+<p>We also tell clients when a chatbot would be enough: if a chatbot will do the job, we’ll tell you. Adding actions introduces integration, testing, and maintenance work. Choose them because the task needs them, not because “agent” sounds more advanced.</p>
+<p>If you’re still framing the project, start with <a href="https://inraylabs.com/blog/how-to-scope-an-ai-agent-project/">how to scope an AI agent project</a> and the <a href="https://inraylabs.com/blog/build-vs-buy-ai-agent-checklist/">build vs buy checklist</a>. Tools, integrations, testing, and ongoing review are covered in <a href="https://inraylabs.com/blog/ai-agent-development-cost-drivers/">what drives AI agent development cost</a>.</p>
+<h2 id="what-does-a-good-agent-setup-look-like-day-to-day">What does a good agent setup look like day to day?</h2>
+<p>A practical setup usually includes:</p>
+<ul>
+<li><strong>A clear goal per agent.</strong> A well-defined job is easier to test than a vague “help with everything” instruction.</li>
+<li><strong>Tools with narrow permissions.</strong> Prefer “update this field” over unrestricted database access.</li>
+<li><strong>Logs of tool calls, outcomes, and approvals,</strong> with appropriate privacy and retention controls.</li>
+<li><strong>A handoff to a person</strong> with the relevant context attached.</li>
+<li><strong>A test set</strong> of representative tasks to run before changes go live.</li>
+<li><strong>A named business owner</strong> after launch.</li>
+</ul>
+<p>Multi-tenant products add another requirement: each customer’s data and permissions must stay isolated. That belongs in the initial <a href="https://inraylabs.com/blog/multi-tenant-saas-architecture-guide/">multi-tenant SaaS architecture</a> discussion, not as an afterthought once the agent is live.</p>
+<h2 id="a-short-checklist-before-you-commit-to-an-agent">A short checklist before you commit to an agent</h2>
+<p>Ask yourself:</p>
+<ul>
+<li>Does this task need an action in a system, or only an answer?</li>
+<li>Can we name the tools and the systems they touch?</li>
+<li>Is the data accurate, accessible, and fresh enough?</li>
+<li>Which actions need human approval every time?</li>
+<li>Who reviews failures and owns updates after launch?</li>
+<li>Would a chatbot cover most of the need with fewer permissions?</li>
+</ul>
+<p>If most requests need answers only, start by assessing a chatbot. If they need work completed in your systems, plan tools, limits, and handoffs from day one.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="what-can-an-ai-agent-actually-do">What can an AI agent actually do?</h3>
+<p>It can use connected tools to look up live data, update records, send messages, trigger workflows, and hand unfinished work to a person. Its capabilities depend on its integrations and permissions.</p>
+<h3 id="is-an-ai-agent-the-same-as-a-chatbot">Is an AI agent the same as a chatbot?</h3>
+<p>Not exactly. The terms overlap, and some chatbots also use tools. An agent typically chooses and carries out steps toward a goal. What matters is the behaviour and permissions, not the label. See <a href="https://inraylabs.com/blog/ai-agent-vs-chatbot/">AI agent vs chatbot</a>.</p>
+<h3 id="what-limits-should-an-ai-agent-have">What limits should an AI agent have?</h3>
+<p>High-impact actions — money, public messages, deletions, and access changes — need explicit controls. Start with human approval or leave them outside the agent’s permissions. Any automated exceptions should be narrowly defined and tested.</p>
+<h3 id="do-i-always-need-an-ai-agent">Do I always need an AI agent?</h3>
+<p>No. If requests mostly need answers from documents, a document-search chatbot may be enough. Consider an agent when the task also requires actions or a sequence of decisions in your systems.</p>
+<hr/>
+<p><strong>Wondering whether you need an agent, a chatbot, or neither?</strong> <a href="https://calendly.com/mslabba-turgut/30min">Book a 30-minute call</a> or email <a href="mailto:hello@inraylabs.com">hello@inraylabs.com</a>. Learn more about our <a href="https://inraylabs.com/services/ai-agent-development/">AI agent development</a> work.</p></article>
+</div>
+<!-- Related Posts -->
+<section class="mt-20 pt-12 border-t border-outline-variant/30">
+<h3 class="text-headline-md font-bold text-on-surface mb-8">Related Articles</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+<img alt="What Drives the Cost of an AI Agent? A Plain-English Breakdown (India, 2026)" class="w-full h-48 object-cover" loading="lazy" src="/blog/assets/images/ai-agent-development-cost-drivers.jpg"/>
+<div class="p-6 flex flex-col flex-grow">
+<span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">AI &amp; Automation</span>
+<h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+<a href="/blog/ai-agent-development-cost-drivers/">What Drives the Cost of an AI Agent? A Plain-English Breakdown (India, 2026)</a>
+</h3>
+<p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">AI agent cost depends on integrations, data preparation, channels, approval steps, model choice, monthly running costs and maintenance. Here's how each driver works.</p>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+<span class="font-medium">Muhammed Shihabudeen Labba</span>
+<span>•</span>
+<span>Oct 15, 2026</span>
+<span>•</span>
+<span>5 min read</span>
+</div>
+</div>
+</article>
+<article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+<img alt="Build vs Buy an AI Agent Desk: A Practical Checklist for SaaS Teams" class="w-full h-48 object-cover" loading="lazy" src="/blog/assets/images/build-vs-buy-ai-agent-checklist.jpg"/>
+<div class="p-6 flex flex-col flex-grow">
+<span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">AI &amp; Automation</span>
+<h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+<a href="/blog/build-vs-buy-ai-agent-checklist/">Build vs Buy an AI Agent Desk: A Practical Checklist for SaaS Teams</a>
+</h3>
+<p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Should you build your own AI agent or buy one? Score data access, permissions, integrations, running cost, ownership, evaluation and support with this checklist.</p>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+<span class="font-medium">Muhammed Shihabudeen Labba</span>
+<span>•</span>
+<span>Oct 13, 2026</span>
+<span>•</span>
+<span>5 min read</span>
+</div>
+</div>
+</article>
+<article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+<img alt="How to Scope an AI Agent Project That Actually Ships (5 Steps)" class="w-full h-48 object-cover" loading="lazy" src="/blog/assets/images/how-to-scope-an-ai-agent-project.jpg"/>
+<div class="p-6 flex flex-col flex-grow">
+<span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">AI &amp; Automation</span>
+<h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+<a href="/blog/how-to-scope-an-ai-agent-project/">How to Scope an AI Agent Project That Actually Ships (5 Steps)</a>
+</h3>
+<p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Scope an AI agent around one workflow, one system of record, tool permissions, a human handoff, and a done metric. Five steps you can do this week.</p>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+<span class="font-medium">Muhammed Shihabudeen Labba</span>
+<span>•</span>
+<span>Sep 29, 2026</span>
+<span>•</span>
+<span>8 min read</span>
+</div>
+</div>
+</article>
+</div>
+</section>
+</main>
+<footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+<div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<img alt="InRay Labs Logo" class="w-8 h-8 object-contain" src="https://inraylabs.com/images/turgut-logo.svg"/>
+<span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
+</div>
+<p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture &amp; AI Innovations</p>
+<div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+<p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+<p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
+</div>
+</div>
+<div class="space-y-4">
+<h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+<ul class="space-y-3">
+<li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+<li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+<li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+<li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+<li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+<ul class="space-y-3">
+<li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI &amp; Automation</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal &amp; Contact</h6>
+<ul class="space-y-3">
+<li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms &amp; Conditions</a></li>
+<li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+<p class="text-on-surface-variant text-body-md">© 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+<div class="flex gap-6 text-body-md">
+<a class="text-on-surface-variant hover:text-primary" href="https://inraylabs.com/privacy-policy">Privacy</a>
+<a class="text-on-surface-variant hover:text-primary" href="https://inraylabs.com/terms-and-conditions">Terms</a>
+<a class="text-on-surface-variant hover:text-primary" href="https://inraylabs.com/cookie-policy">Cookies</a>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,5 +1,19 @@
 [
   {
+    "title": "What Can an AI Agent Actually Do? Tools, Actions and Limits",
+    "slug": "what-can-an-ai-agent-do",
+    "description": "An AI agent can use connected tools to complete tasks. Learn about actions, permissions and human approval.",
+    "category": "AI & Automation",
+    "tags": [
+      "AI",
+      "Automation",
+      "AI Agents",
+      "InRay Labs"
+    ],
+    "url": "https://inraylabs.com/blog/what-can-an-ai-agent-do/",
+    "date": "2026-11-07T00:00:00.000Z"
+  },
+  {
     "title": "How to Scope an AI Agent Project That Actually Ships (5 Steps)",
     "slug": "how-to-scope-an-ai-agent-project",
     "description": "Scope an AI agent around one workflow, one system of record, tool permissions, a human handoff, and a done metric. Five steps you can do this week.",

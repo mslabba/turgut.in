@@ -6,7 +6,8 @@
     <description>Engineering, SaaS Architecture &amp; AI Innovations</description>
     <language>en</language>
     <atom:link href="https://inraylabs.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
-    <item>
+    <item><title>What Can an AI Agent Actually Do? Tools, Actions and Limits</title><link>https://inraylabs.com/blog/what-can-an-ai-agent-do/</link><guid>https://inraylabs.com/blog/what-can-an-ai-agent-do/</guid><pubDate>Sat, 07 Nov 2026 09:28:00 GMT</pubDate><description>An AI agent isn&#x27;t just chat. Plain-English guide to the tools it can call, the actions it can take, the limits that keep it safe, and when a chatbot is enough instead.</description></item>
+<item>
       <title>How Gym Membership Software Works: Check-ins, Plans and Renewals</title>
       <link>https://inraylabs.com/blog/how-gym-membership-software-works/</link>
       <guid>https://inraylabs.com/blog/how-gym-membership-software-works/</guid>
