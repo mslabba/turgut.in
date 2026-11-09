@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Taxi Dispatch Software Works: Matching Drivers, Surge Pricing and Live Tracking | inRay Labs Blog</title>
+  <meta name="description" content="How does taxi dispatch software work? Live driver locations, smart matching, surge pricing and real-time tracking turn a tap into a car at your door in minutes.">
+  <link rel="canonical" href="https://inraylabs.com/blog/how-taxi-dispatch-software-works/">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How Taxi Dispatch Software Works: Matching Drivers, Surge Pricing and Live Tracking">
+  <meta property="og:description" content="How does taxi dispatch software work? Live driver locations, smart matching, surge pricing and real-time tracking turn a tap into a car at your door in minutes.">
+  <meta property="og:url" content="https://inraylabs.com/blog/how-taxi-dispatch-software-works/">
+  <meta property="og:image" content="/blog/assets/images/how-taxi-dispatch-software-works.jpg">
+  <meta property="article:published_time" content="2026-11-09T00:00:00.000Z">
+  <meta property="article:section" content="Product Insights">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Taxi Dispatch Software Works: Matching Drivers, Surge Pricing and Live Tracking">
+  <meta name="twitter:description" content="How does taxi dispatch software work? Live driver locations, smart matching, surge pricing and real-time tracking turn a tap into a car at your door in minutes.">
+  <meta name="twitter:image" content="/blog/assets/images/how-taxi-dispatch-software-works.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e0e3e5",
+            "on-surface": "#191c1e",
+            "outline": "#777587",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-container": "#d1dcf4",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary-fixed": "#111c2d",
+            "secondary-fixed-dim": "#d2bbff",
+            "secondary": "#712ae2",
+            "tertiary-container": "#566175",
+            "surface-dim": "#d8dadc",
+            "tertiary-fixed": "#d8e3fb",
+            "on-secondary-fixed": "#25005a",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "tertiary": "#3e495d",
+            "outline-variant": "#c7c4d8",
+            "inverse-surface": "#2d3133",
+            "secondary-container": "#8a4cfc",
+            "surface-container-highest": "#e0e3e5",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "on-surface-variant": "#464555",
+            "surface": "#f7f9fb",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#0f0069",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eff1f3",
+            "on-tertiary-fixed-variant": "#3c475a",
+            "primary-container": "#4f46e5",
+            "secondary-fixed": "#eaddff",
+            "tertiary-fixed-dim": "#bcc7de",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface-tint": "#4d44e3",
+            "background": "#f7f9fb",
+            "surface-bright": "#f7f9fb",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#fffbff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-max": "1280px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "unit": "4px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "label-sm": ["Geist"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "code": ["JetBrains Mono"],
+            "display-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .primary-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .mesh-gradient {
+      background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How Taxi Dispatch Software Works: Matching Drivers, Surge Pricing and Live Tracking",
+    "description": "How does taxi dispatch software work? Live driver locations, smart matching, surge pricing and real-time tracking turn a tap into a car at your door in minutes.",
+    "image": ["/blog/assets/images/how-taxi-dispatch-software-works.jpg"],
+    "datePublished": "2026-11-09T00:00:00.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Muhammed Shihabudeen Labba"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "inRay Labs Blog",
+      "url": "https://inraylabs.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://inraylabs.com/blog/how-taxi-dispatch-software-works/"
+    }
+  }
+  </script>
+
+  <!-- Blog-specific styles -->
+  <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+
+  <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+    <a href="https://inraylabs.com" class="flex items-center gap-3 group">
+      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+      <a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
+    </div>
+    <a href="https://inraylabs.com/#contact" class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+      Book a Demo
+    </a>
+  </div>
+</nav>
+
+
+  <main class="max-w-container-max mx-auto px-margin-desktop py-12">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+      <a href="https://inraylabs.com" class="hover:text-primary underline transition-colors">Home</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/" class="hover:text-primary underline transition-colors">Blog</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/category/product-insights/" class="hover:text-primary underline transition-colors">Product Insights</a>
+      <span class="text-xs opacity-50">/</span>
+      <span class="text-on-surface font-medium truncate max-w-xs">How Taxi Dispatch Software Works: Matching Drivers, Surge Pricing and Live Tracking</span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10 max-w-4xl">
+      <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20 inline-block mb-4">Product Insights</span>
+      <h1 class="text-headline-md md:text-headline-lg font-bold text-on-surface tracking-tight mb-4 leading-tight">How Taxi Dispatch Software Works: Matching Drivers, Surge Pricing and Live Tracking</h1>
+      <div class="flex flex-wrap items-center gap-4 text-body-md text-on-surface-variant border-b border-outline-variant/30 pb-6">
+        <span class="font-semibold text-on-surface">By Muhammed Shihabudeen Labba</span>
+        <span>•</span>
+        <span>November 9, 2026</span>
+        <span>•</span>
+        <span>6 min read</span>
+      </div>
+    </header>
+
+    
+    <div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+      <img src="/blog/assets/images/how-taxi-dispatch-software-works.jpg" onerror="this.onerror=null; this.src='../assets/images/how-job-aggregators-work.jpg';" alt="How Taxi Dispatch Software Works: Matching Drivers, Surge Pricing and Live Tracking" class="w-full max-h-[500px] object-cover">
+    </div>
+    
+
+    <!-- Content & TOC Sidebar Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Sidebar TOC -->
+      <aside class="lg:col-span-4 order-2 lg:order-1">
+        <div class="sticky top-28 glass-card p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+          <h4 class="font-bold text-on-surface text-body-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">toc</span>
+            <span>Table of Contents</span>
+          </h4>
+          <nav class="toc-nav text-body-md text-on-surface-variant space-y-2">
+            <div class="ice-toc-card">
+  <div class="ice-toc-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+      <line x1="3" y1="18" x2="3.01" y2="18"></line>
+    </svg>
+    <span>Table of Contents</span>
+  </div>
+  <nav class="ice-toc-nav">
+    <ul><li><a href="#the-three-apps">Three apps, one system</a></li><li><a href="#finding-the-right-driver">Finding the right driver: matching, not just nearest</a></li><li><a href="#surge-pricing">Surge pricing: balancing supply and demand</a></li><li><a href="#live-tracking">Live tracking: the map that never lies</a></li><li><a href="#payments-and-ratings">Payments, ratings and the loop that keeps quality up</a></li><li><a href="#the-dispatcher-console">The dispatcher console: humans in the loop</a></li><li><a href="#faqs">Frequently asked questions</a></li><li class="toc-h3"><a href="#faq-how-long-to-match">How long does taxi dispatch software take to match a driver?</a></li><li class="toc-h3"><a href="#faq-why-surge">Why does the price change when it rains or during rush hour?</a></li><li class="toc-h3"><a href="#faq-nearest-driver">Why didn't I get the closest driver on the map?</a></li><li class="toc-h3"><a href="#faq-what-if-driver-cancels">What happens if my driver cancels after accepting?</a></li><li><a href="#build-with-inray-labs">Build your taxi dispatch platform with InRay Labs</a></li></ul>
+  </nav>
+</div>
+
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Article Body -->
+      <article class="lg:col-span-8 order-1 lg:order-2 ice-post-content font-body-md text-on-surface leading-relaxed prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-relaxed">
+        <p>Taxi dispatch software is the system that turns a tap on a phone into a car at your door. Behind that one tap sit three apps — rider, driver and dispatcher — connected by a matching engine, a pricing engine and a live map. A rider asks for a car, the software finds the best available driver nearby, agrees a price, and tracks the trip until the rider is dropped off and paid up.</p>
+
+<h2 id="the-three-apps">Three apps, one system</h2>
+<p>Every taxi dispatch platform is really three products working together. The rider app handles the request: pickup point, destination, vehicle type and payment method. The driver app handles the supply side: drivers go online when they are ready to work, receive trip offers, navigate to the pickup and mark the trip complete. The dispatcher console is the operator's view: a live map of every driver and trip, with tools to reassign a ride, message a driver or adjust prices in a zone.</p>
+<p>Underneath sits a set of services: a location service ingesting GPS positions every few seconds, a matching service, a pricing service, a trip service tracking each trip through its states — requested, matched, arriving, on trip, completed — and a payments service. The apps are the visible surface; these services do the work.</p>
+
+<h2 id="finding-the-right-driver">Finding the right driver: matching, not just nearest</h2>
+<p>Matching looks simple — send the nearest car — but nearest by straight-line distance is often the wrong answer. A driver 500 metres away across a river or a one-way system can take ten minutes to reach the pickup, while a driver a kilometre away on the right road takes two. Dispatch therefore ranks drivers by estimated arrival time on real roads, using live traffic and historical travel times.</p>
+<p>To find candidates fast, the map is divided into small cells. Each cell has an ID, and the software keeps an index of which available drivers sit in which cell. A request looks up the rider's cell and its neighbours instead of scanning every driver in the city — that is what keeps the match under a second even with thousands of cars online.</p>
+<p>Busy areas add one more step: batching. Instead of matching each request the instant it arrives, the system collects requests for a few seconds and solves the assignment for the whole batch at once, so one rider does not steal the only nearby car and leave another stranded.</p>
+<p>Once a driver is chosen, the offer goes out with a short clock, usually 10 to 15 seconds. If the driver declines or the clock runs out, the offer moves to the next driver on the list. The driver is locked to that trip the moment they accept, so two riders can never be promised the same car.</p>
+
+<h2 id="surge-pricing">Surge pricing: balancing supply and demand</h2>
+<p>When more people want rides than there are cars nearby, prices rise. That is surge pricing, and it works per zone, not city-wide. The city is split into small areas, and every few minutes the pricing engine compares the number of ride requests with the number of available drivers in each area. When demand outruns supply, a multiplier is applied to the fare — say 1.5x — and it falls again as drivers move into the area or demand drops.</p>
+<p>The multiplier does two jobs at once. It tells riders the honest cost of a scarce car right now, and it pulls drivers towards the busy zone, because a driver earns more per trip there. Good systems cap the multiplier, show it clearly before the rider confirms, and let operators override it during a festival or a storm, when a runaway price would damage trust.</p>
+<p>The base fare itself is built from the route: distance and expected travel time from a mapping service, plus the operator's base rate, per-kilometre and per-minute charges, tolls and any booking fee.</p>
+
+<h2 id="live-tracking">Live tracking: the map that never lies</h2>
+<p>After the match, both sides watch the same live map. The driver app streams its GPS position every few seconds, and the rider app draws the car moving towards the pickup pin, with an arrival time that updates as traffic changes. That arrival time is recalculated continuously from the driver's real position and current road conditions, not from the estimate made at booking.</p>
+<p>Live tracking is also a safety layer. The trip is recorded end to end — route, speed, stops and duration — so a dispute about a fare or a route can be checked against the record. Many platforms add a share-trip link, an emergency button and an in-app call that masks both phone numbers.</p>
+
+<h2 id="payments-and-ratings">Payments, ratings and the loop that keeps quality up</h2>
+<p>When the trip ends, the driver marks it complete and the fare is charged to the rider's saved card, wallet or cash. The receipt is generated automatically, the driver's earnings are credited, and any commission or platform fee is split out in the same step. Both sides then rate each other, and those ratings feed straight back into matching: consistently low-rated drivers get fewer offers, and riders with a history of no-shows can be flagged.</p>
+
+<h2 id="the-dispatcher-console">The dispatcher console: humans in the loop</h2>
+<p>Automation handles the normal case, but a fleet still needs a human watching the map. The console shows every driver and trip live, flags trips that breach their service level — a driver who has not moved, a pickup taking too long — and lets an operator reassign the ride or message the driver.</p>
+
+<h2 id="faqs">Frequently asked questions</h2>
+<h3 id="faq-how-long-to-match">How long does taxi dispatch software take to match a driver?</h3>
+<p>Usually a few seconds. The matching engine looks up nearby drivers in a spatial index, ranks them by road-aware arrival time, and sends an offer to the top driver. If that driver declines, the offer moves to the next candidate, so most riders see a confirmed driver within 15 to 30 seconds.</p>
+<h3 id="faq-why-surge">Why does the price change when it rains or during rush hour?</h3>
+<p>Because demand rises faster than the number of available cars. Surge pricing raises the fare in the affected zone: it encourages drivers to head there and asks riders to pay the real cost of a scarce car. The multiplier falls as soon as supply catches up.</p>
+<h3 id="faq-nearest-driver">Why didn't I get the closest driver on the map?</h3>
+<p>Dispatch ranks drivers by estimated arrival time on real roads, not by straight-line distance. A car that looks close can be on the wrong side of a flyover or a one-way street, while a slightly further car on the right road reaches you sooner.</p>
+<h3 id="faq-what-if-driver-cancels">What happens if my driver cancels after accepting?</h3>
+<p>The trip returns to the matching engine automatically and is offered to the next best driver, usually within seconds. The console also flags repeated cancellations, so operators can see which drivers cancel often.</p>
+
+<h2 id="build-with-inray-labs">Build your taxi dispatch platform with InRay Labs</h2>
+<p>If you run a taxi fleet, a shuttle service or a ride-hailing startup and need dispatch software built around your city, your fares and your rules — matching, surge pricing, live tracking and payouts included — InRay Labs builds it. <a href="https://inraylabs.com/#contact">Talk to us about your dispatch platform</a> and we will scope a system that fits how your fleet actually runs.</p>
+
+
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How Taxi Dispatch Software Works: Matching Drivers, Surge Pricing and Live Tracking",
+  "description": "How does taxi dispatch software work? Live driver locations, smart matching, surge pricing and real-time tracking turn a tap into a car at your door in minutes.",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammed Shihabudeen Labba"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "InRay Labs"
+  },
+  "datePublished": "2026-11-09",
+  "mainEntityOfPage": "https://inraylabs.com/blog/how-taxi-dispatch-software-works/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How long does taxi dispatch software take to match a driver?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually a few seconds. The matching engine looks up nearby drivers in a spatial index, ranks them by road-aware arrival time, and sends an offer to the top driver. If that driver declines, the offer moves to the next candidate, so most riders see a confirmed driver within 15 to 30 seconds."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the price change when it rains or during rush hour?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because demand rises faster than the number of available cars. Surge pricing raises the fare in the affected zone: it encourages drivers to head there and asks riders to pay the real cost of a scarce car. The multiplier falls as soon as supply catches up."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why didn't I get the closest driver on the map?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dispatch ranks drivers by estimated arrival time on real roads, not by straight-line distance. A car that looks close can be on the wrong side of a flyover or a one-way street, while a slightly further car on the right road reaches you sooner."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if my driver cancels after accepting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The trip returns to the matching engine automatically and is offered to the next best driver, usually within seconds. The console also flags repeated cancellations, so operators can see which drivers cancel often."
+      }
+    }
+  ]
+}
+</script>
+
+
+        <!-- Tags -->
+        <div class="mt-12 pt-6 border-t border-outline-variant/30 flex flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold text-on-surface-variant mr-2">Tags:</span>
+          <a href="/blog/tag/saas/" class="ice-tag-pill">#SaaS</a> <a href="/blog/tag/inray-labs/" class="ice-tag-pill">#InRay Labs</a> <a href="/blog/tag/architecture/" class="ice-tag-pill">#Architecture</a> </div>
+
+        <!-- Prev / Next Navigation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 pt-8 border-t border-outline-variant/30">
+  
+      <a href="/blog/how-online-exam-software-works/" class="glass-card p-6 rounded-2xl border border-outline-variant/40 hover:border-primary transition-all flex flex-col gap-1 text-left group">
+    <span class="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1">
+      <span class="material-symbols-outlined text-sm">arrow_back</span> Previous Article
+    </span>
+    <span class="font-semibold text-on-surface text-base group-hover:text-primary transition-colors line-clamp-2">How Online Exam Software Works: Proctoring, Question Banks and Grading</span>
+  </a>
+</div>
+
+      </article>
+    </div>
+
+    <!-- Related Posts -->
+    <section class="mt-20 pt-12 border-t border-outline-variant/30">
+      <h3 class="text-headline-md font-bold text-on-surface mb-8">Related Articles</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+    
+    
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-fleet-tracking-software-works.jpg" alt="How Fleet Tracking Software Works: GPS, Geofencing and Live Dashboards" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-fleet-tracking-software-works/">How Fleet Tracking Software Works: GPS, Geofencing and Live Dashboards</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does fleet tracking software work? GPS trackers, geofences and live dashboards turn every vehicle into a live data source that managers can act on.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 27, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-last-mile-delivery-software-works.jpg" alt="How Last-Mile Delivery Software Works: Route Optimisation and Live Tracking" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-last-mile-delivery-software-works/">How Last-Mile Delivery Software Works: Route Optimisation and Live Tracking</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does last-mile delivery software work? Smart dispatch, route optimisation, live GPS tracking and proof of delivery make the final leg predictable.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 30, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-vehicle-recovery-dispatch-systems-work.jpg" alt="How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-vehicle-recovery-dispatch-systems-work/">How Vehicle Recovery Dispatch Systems Work: Nearest-Resource Dispatch and Live ETAs</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Vehicle recovery dispatch software finds the nearest capable truck for every breakdown, tracks it live, and keeps customers updated. How each stage works.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 21, 2026</span>
+          <span>&bull;</span>
+          <span>7 min read</span>
+        </div>
+      </div>
+    </article>
+  
+  
+  
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+  <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
+      </div>
+      <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
+      <div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+        <p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+        <p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
+      </div>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+      <ul class="space-y-3">
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal & Contact</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+    <p class="text-on-surface-variant text-body-md">&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+    <div class="flex gap-6 text-body-md">
+      <a href="https://inraylabs.com/privacy-policy" class="text-on-surface-variant hover:text-primary">Privacy</a>
+      <a href="https://inraylabs.com/terms-and-conditions" class="text-on-surface-variant hover:text-primary">Terms</a>
+      <a href="https://inraylabs.com/cookie-policy" class="text-on-surface-variant hover:text-primary">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
