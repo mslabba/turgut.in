@@ -7,6 +7,14 @@
     <language>en</language>
     <atom:link href="https://inraylabs.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>How Warehouse Management Software Works: Bins, Barcodes and Pick Routes</title>
+      <link>https://inraylabs.com/blog/how-warehouse-management-software-works/</link>
+      <guid>https://inraylabs.com/blog/how-warehouse-management-software-works/</guid>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>How does warehouse management software work? Bin addresses, barcode scans, putaway rules and guided pick routes keep every item tracked from dock to door.</description>
+      <category>Product Insights</category>
+    </item>
+    <item>
       <title>How Taxi Dispatch Software Works: Matching Drivers, Surge Pricing and Live Tracking</title>
       <link>https://inraylabs.com/blog/how-taxi-dispatch-software-works/</link>
       <guid>https://inraylabs.com/blog/how-taxi-dispatch-software-works/</guid>
