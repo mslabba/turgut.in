@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Car Rental Software Works: Fleet, Bookings and Damage Checks | inRay Labs Blog</title>
+  <meta name="description" content="How does car rental software work? Live availability, fleet boards, photo handovers, damage checks and deposits — the full rental, from booking to return.">
+  <link rel="canonical" href="https://inraylabs.com/blog/how-car-rental-software-works/">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How Car Rental Software Works: Fleet, Bookings and Damage Checks">
+  <meta property="og:description" content="How does car rental software work? Live availability, fleet boards, photo handovers, damage checks and deposits — the full rental, from booking to return.">
+  <meta property="og:url" content="https://inraylabs.com/blog/how-car-rental-software-works/">
+  <meta property="og:image" content="/blog/assets/images/how-car-rental-software-works.jpg">
+  <meta property="article:published_time" content="2026-11-13T00:00:00.000Z">
+  <meta property="article:section" content="Product Insights">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Car Rental Software Works: Fleet, Bookings and Damage Checks">
+  <meta name="twitter:description" content="How does car rental software work? Live availability, fleet boards, photo handovers, damage checks and deposits — the full rental, from booking to return.">
+  <meta name="twitter:image" content="/blog/assets/images/how-car-rental-software-works.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e0e3e5",
+            "on-surface": "#191c1e",
+            "outline": "#777587",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-container": "#d1dcf4",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary-fixed": "#111c2d",
+            "secondary-fixed-dim": "#d2bbff",
+            "secondary": "#712ae2",
+            "tertiary-container": "#566175",
+            "surface-dim": "#d8dadc",
+            "tertiary-fixed": "#d8e3fb",
+            "on-secondary-fixed": "#25005a",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "tertiary": "#3e495d",
+            "outline-variant": "#c7c4d8",
+            "inverse-surface": "#2d3133",
+            "secondary-container": "#8a4cfc",
+            "surface-container-highest": "#e0e3e5",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "on-surface-variant": "#464555",
+            "surface": "#f7f9fb",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#0f0069",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eff1f3",
+            "on-tertiary-fixed-variant": "#3c475a",
+            "primary-container": "#4f46e5",
+            "secondary-fixed": "#eaddff",
+            "tertiary-fixed-dim": "#bcc7de",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface-tint": "#4d44e3",
+            "background": "#f7f9fb",
+            "surface-bright": "#f7f9fb",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#fffbff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-max": "1280px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "unit": "4px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "label-sm": ["Geist"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "code": ["JetBrains Mono"],
+            "display-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .primary-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .mesh-gradient {
+      background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How Car Rental Software Works: Fleet, Bookings and Damage Checks",
+    "description": "How does car rental software work? Live availability, fleet boards, photo handovers, damage checks and deposits — the full rental, from booking to return.",
+    "image": ["/blog/assets/images/how-car-rental-software-works.jpg"],
+    "datePublished": "2026-11-13T00:00:00.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Muhammed Shihabudeen Labba"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "inRay Labs Blog",
+      "url": "https://inraylabs.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://inraylabs.com/blog/how-car-rental-software-works/"
+    }
+  }
+  </script>
+
+  <!-- Blog-specific styles -->
+  <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+
+  <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+    <a href="https://inraylabs.com" class="flex items-center gap-3 group">
+      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+      <a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
+    </div>
+    <a href="https://inraylabs.com/#contact" class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+      Book a Demo
+    </a>
+  </div>
+</nav>
+
+
+  <main class="max-w-container-max mx-auto px-margin-desktop py-12">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+      <a href="https://inraylabs.com" class="hover:text-primary underline transition-colors">Home</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/" class="hover:text-primary underline transition-colors">Blog</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/category/product-insights/" class="hover:text-primary underline transition-colors">Product Insights</a>
+      <span class="text-xs opacity-50">/</span>
+      <span class="text-on-surface font-medium truncate max-w-xs">How Car Rental Software Works: Fleet, Bookings and Damage Checks</span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10 max-w-4xl">
+      <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20 inline-block mb-4">Product Insights</span>
+      <h1 class="text-headline-md md:text-headline-lg font-bold text-on-surface tracking-tight mb-4 leading-tight">How Car Rental Software Works: Fleet, Bookings and Damage Checks</h1>
+      <div class="flex flex-wrap items-center gap-4 text-body-md text-on-surface-variant border-b border-outline-variant/30 pb-6">
+        <span class="font-semibold text-on-surface">By Muhammed Shihabudeen Labba</span>
+        <span>•</span>
+        <span>November 13, 2026</span>
+        <span>•</span>
+        <span>6 min read</span>
+      </div>
+    </header>
+
+    
+    <div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+      <img src="/blog/assets/images/how-car-rental-software-works.jpg" onerror="this.onerror=null; this.src='../assets/images/how-job-aggregators-work.jpg';" alt="How Car Rental Software Works: Fleet, Bookings and Damage Checks" class="w-full max-h-[500px] object-cover">
+    </div>
+    
+
+    <!-- Content & TOC Sidebar Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Sidebar TOC -->
+      <aside class="lg:col-span-4 order-2 lg:order-1">
+        <div class="sticky top-28 glass-card p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+          <h4 class="font-bold text-on-surface text-body-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">toc</span>
+            <span>Table of Contents</span>
+          </h4>
+          <nav class="toc-nav text-body-md text-on-surface-variant space-y-2">
+            <div class="ice-toc-card">
+  <div class="ice-toc-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+      <line x1="3" y1="18" x2="3.01" y2="18"></line>
+    </svg>
+    <span>Table of Contents</span>
+  </div>
+  <nav class="ice-toc-nav">
+    <ul><li><a href="#booking-and-availability">Booking and availability</a></li><li><a href="#pricing-and-extras">Pricing and extras</a></li><li><a href="#the-fleet-board">The fleet board: every car on one screen</a></li><li><a href="#handover">Handover: the pick-up inspection</a></li><li><a href="#return-and-damage-checks">Return and damage checks</a></li><li><a href="#deposits-and-payments">Deposits and payments</a></li><li><a href="#maintenance-and-compliance">Maintenance and compliance</a></li><li><a href="#multi-branch-and-one-way">Multi-branch and one-way rentals</a></li><li><a href="#what-good-car-rental-software-gets-right">What good car rental software gets right</a></li><li><a href="#faqs">Frequently asked questions</a></li><li class="toc-h3"><a href="#faq-self-drive-vs-chauffeur">What is the difference between self-drive and chauffeur-driven car rental software?</a></li><li class="toc-h3"><a href="#faq-damage-disputes">How does car rental software prevent damage disputes?</a></li><li class="toc-h3"><a href="#faq-deposit">How do deposits work in car rental software?</a></li><li class="toc-h3"><a href="#faq-small-rental-business">Is car rental software worth it for a small rental business?</a></li><li><a href="#build-with-inray-labs">Build your car rental software with InRay Labs</a></li></ul>
+  </nav>
+</div>
+
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Article Body -->
+      <article class="lg:col-span-8 order-1 lg:order-2 ice-post-content font-body-md text-on-surface leading-relaxed prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-relaxed">
+        <p>Car rental software is the operating system of a rental business. It runs everything from the moment a customer searches for a car to the moment the car comes back: the booking, the price, the fleet, the handover, the damage check, the deposit and the invoice.</p>
+
+<h2 id="booking-and-availability">Booking and availability</h2>
+<p>Every rental starts with a search: pick-up branch, dates, and vehicle class. The system checks live availability before it shows a price, so a car that is already out, in the workshop, or held for another booking never appears as available. Customers book a class — compact, sedan, SUV — not a specific car. Staff assign a real car by number plate at pick-up, so one car going off the road does not cancel a booking. A good system blocks double bookings at the database level, so two bookings can never hold the same car for overlapping dates, and it enforces a turnaround buffer between rentals for cleaning and checks.</p>
+
+<h2 id="pricing-and-extras">Pricing and extras</h2>
+<p>The price is worked out by rules, not by hand. A rate card sets the daily price per vehicle class, then rules adjust it: weekend uplift, seasonal rates, longer-rental discounts, and per-kilometre charges above a free allowance. Extras are added at the same step — child seat, extra driver, GPS, insurance upgrades — each with its own price and stock limit. Corporate accounts get their own rate cards and monthly consolidated invoices. The quote the customer sees is the price the desk sees, because both come from the same engine.</p>
+
+<h2 id="the-fleet-board">The fleet board: every car on one screen</h2>
+<p>The fleet board is where the rental day starts. It shows every car, its branch, and its status: available, reserved, on rent, in maintenance, or blocked. Statuses update as staff work: pick-up puts a car on rent, return makes it available again, and a maintenance block takes it out of sale for those dates. Each car carries its papers — insurance, fitness certificate, pollution certificate, and permit — each with an expiry date. A car with an expired paper is blocked from new bookings until it is renewed, so it cannot go out by mistake.</p>
+
+<h2 id="handover">Handover: the pick-up inspection</h2>
+<p>At pick-up, the handover is done on a phone, not on paper. Staff confirm the driver's licence and identity, then walk around the car and record its condition: fuel level, odometer reading, and photos of all four sides. Existing scratches and dents are marked on a car diagram, so there is a clear record of what was already there. The customer signs the agreement on the phone screen. Every step is timestamped, so arguments about fuel, mileage, or a scratch are settled before they start.</p>
+
+<h2 id="return-and-damage-checks">Return and damage checks</h2>
+<p>Return is the mirror of handover. Staff record the odometer and fuel level again, photograph the car, and compare the new condition report side by side with the one from pick-up. New damage is flagged on the spot, priced from a standard damage tariff, and charged against the deposit or raised as a claim. Late returns and excess kilometres are calculated automatically from the agreed return time and the free allowance. Some systems use AI to analyse the photos and generate the condition report in minutes. Either way, the before and after records live on the same rental, so a dispute has an answer instead of an argument.</p>
+
+<h2 id="deposits-and-payments">Deposits and payments</h2>
+<p>Money moves in three parts: the rental charge, the deposit, and any extras. The deposit is usually a hold on the customer's card rather than a charge, set per vehicle class, and it is released automatically once the return is accepted and any damage charges are settled. Deposits are kept in a separate ledger from revenue. The invoice — with tax, deposit, and extras broken out — is generated from the same record as the rental, so the bill always matches what actually happened.</p>
+
+<h2 id="maintenance-and-compliance">Maintenance and compliance</h2>
+<p>A rental car earns money only when it is on the road, so the system schedules its downtime. Servicing is booked by mileage or by date, and the car is blocked from new rentals for those days. The system sends alerts before each paper expires, and it tracks service history per car, so repeat faults show up before they strand a customer. Utilisation reports show which cars earn and which sit idle, and which vehicle classes bring the best margin — the numbers an owner uses to decide what to buy next.</p>
+
+<h2 id="multi-branch-and-one-way">Multi-branch and one-way rentals</h2>
+<p>Once a business grows past one branch, the software has to know where every car is. Each branch has its own opening hours, fleet, and fees, and staff at one branch can see availability at the others. A customer can pick up at one branch and return at another, and the system moves the car to the return branch's fleet and charges the drop-off fee automatically. For larger operators, the same engine also feeds booking marketplaces and travel agents through an API, without double bookings.</p>
+
+<h2 id="what-good-car-rental-software-gets-right">What good car rental software gets right</h2>
+<p>They give every rental one record and one number, and every booking, handover, return, payment, and damage note updates that same record — so everyone sees the same truth. They never promise a car they do not have, because availability is checked live and a car cannot be booked twice. They photograph the car at both ends of the rental, so damage is a fact, not a memory. And they close the loop on money: deposits held and released, and invoices that match the rental.</p>
+
+<h2 id="faqs">Frequently asked questions</h2>
+<h3 id="faq-self-drive-vs-chauffeur">What is the difference between self-drive and chauffeur-driven car rental software?</h3>
+<p>Self-drive software focuses on damage inspection, deposits, and telematics, because the customer drives the car alone. Chauffeur-driven software focuses on driver allocation, duty slips, and garage-to-garage kilometres and hours, because the business supplies the driver with the car.</p>
+<h3 id="faq-damage-disputes">How does car rental software prevent damage disputes?</h3>
+<p>It photographs the car at pick-up and at return, records fuel and odometer readings at both ends, and marks existing damage on a car diagram that the customer signs. The before and after reports sit on the same rental record, so any new damage is visible side by side with what was already there.</p>
+<h3 id="faq-deposit">How do deposits work in car rental software?</h3>
+<p>The deposit is usually a hold on the customer's card, set per vehicle class, rather than a charge. It is released automatically once the return is accepted and any damage or late-return charges are settled, and it is tracked in a separate ledger from rental revenue.</p>
+<h3 id="faq-small-rental-business">Is car rental software worth it for a small rental business?</h3>
+<p>Yes, once the fleet outgrows a spreadsheet and a wall calendar. A small operator gains from live availability that prevents double bookings, photo handovers that end damage arguments, automatic pricing, and deposit tracking — the bookings and disputes it prevents usually pay for the system.</p>
+
+<h2 id="build-with-inray-labs">Build your car rental software with InRay Labs</h2>
+<p>If you run a car rental business and need software that knows every car, every booking, and every handover — fleet, pricing, photo inspections, deposits, and invoices in one place — InRay Labs builds it. <a href="https://inraylabs.com/#contact">Talk to us about your car rental system</a>.</p>
+
+
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How Car Rental Software Works: Fleet, Bookings and Damage Checks",
+  "description": "How does car rental software work? Live availability, fleet boards, photo handovers, damage checks and deposits — the full rental, from booking to return.",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammed Shihabudeen Labba"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "InRay Labs"
+  },
+  "datePublished": "2026-11-13",
+  "mainEntityOfPage": "https://inraylabs.com/blog/how-car-rental-software-works/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between self-drive and chauffeur-driven car rental software?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Self-drive software focuses on damage inspection, deposits, and telematics, because the customer drives the car alone. Chauffeur-driven software focuses on driver allocation, duty slips, and garage-to-garage kilometres and hours, because the business supplies the driver with the car."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does car rental software prevent damage disputes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It photographs the car at pick-up and at return, records fuel and odometer readings at both ends, and marks existing damage on a car diagram that the customer signs. The before and after reports sit on the same rental record, so any new damage is visible side by side with what was already there."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do deposits work in car rental software?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The deposit is usually a hold on the customer's card, set per vehicle class, rather than a charge. It is released automatically once the return is accepted and any damage or late-return charges are settled, and it is tracked in a separate ledger from rental revenue."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is car rental software worth it for a small rental business?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, once the fleet outgrows a spreadsheet and a wall calendar. A small operator gains from live availability that prevents double bookings, photo handovers that end damage arguments, automatic pricing, and deposit tracking \u2014 the bookings and disputes it prevents usually pay for the system."
+      }
+    }
+  ]
+}
+</script>
+
+
+        <!-- Tags -->
+        <div class="mt-12 pt-6 border-t border-outline-variant/30 flex flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold text-on-surface-variant mr-2">Tags:</span>
+          <a href="/blog/tag/saas/" class="ice-tag-pill">#SaaS</a> <a href="/blog/tag/inray-labs/" class="ice-tag-pill">#InRay Labs</a> <a href="/blog/tag/architecture/" class="ice-tag-pill">#Architecture</a> </div>
+
+        <!-- Prev / Next Navigation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 pt-8 border-t border-outline-variant/30">
+  
+      <a href="/blog/how-courier-management-software-works/" class="glass-card p-6 rounded-2xl border border-outline-variant/40 hover:border-primary transition-all flex flex-col gap-1 text-left group">
+    <span class="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1">
+      <span class="material-symbols-outlined text-sm">arrow_back</span> Previous Article
+    </span>
+    <span class="font-semibold text-on-surface text-base group-hover:text-primary transition-colors line-clamp-2">How Courier Management Software Works: Parcels, Hubs and Delivery Routes</span>
+  </a>
+</div>
+
+      </article>
+    </div>
+
+    <!-- Related Posts -->
+    <section class="mt-20 pt-12 border-t border-outline-variant/30">
+      <h3 class="text-headline-md font-bold text-on-surface mb-8">Related Articles</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+    
+    
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-courier-management-software-works.jpg" alt="How Courier Management Software Works: Parcels, Hubs and Delivery Routes" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-courier-management-software-works/">How Courier Management Software Works: Parcels, Hubs and Delivery Routes</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does courier management software work? Bookings, airway bills, hub sorting, linehaul, route optimisation and proof of delivery, door to door.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>November 12, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-veterinary-clinic-software-works.jpg" alt="How Veterinary Clinic Software Works: Patient Records, Appointments and Billing" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-veterinary-clinic-software-works/">How Veterinary Clinic Software Works: Patient Records, Appointments and Billing</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does veterinary clinic software work? One record per animal links history, SOAP notes, appointments, lab results, billing and reminders into one visit.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>November 11, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-warehouse-management-software-works.jpg" alt="How Warehouse Management Software Works: Bins, Barcodes and Pick Routes" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-warehouse-management-software-works/">How Warehouse Management Software Works: Bins, Barcodes and Pick Routes</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does warehouse management software work? Bin addresses, barcode scans, putaway rules and guided pick routes keep every item tracked from dock to door.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>November 10, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+  
+  
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+  <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
+      </div>
+      <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
+      <div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+        <p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+        <p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
+      </div>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+      <ul class="space-y-3">
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal & Contact</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+    <p class="text-on-surface-variant text-body-md">&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+    <div class="flex gap-6 text-body-md">
+      <a href="https://inraylabs.com/privacy-policy" class="text-on-surface-variant hover:text-primary">Privacy</a>
+      <a href="https://inraylabs.com/terms-and-conditions" class="text-on-surface-variant hover:text-primary">Terms</a>
+      <a href="https://inraylabs.com/cookie-policy" class="text-on-surface-variant hover:text-primary">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
