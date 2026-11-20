@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why Schools Still Chase Fees in Cash — and How UPI Collection with Reminders and Receipts Fixes It | inRay Labs Blog</title>
+  <meta name="description" content="Why do schools still chase fees in cash? Queues, hand-written receipts and invisible defaulters — UPI collection, reminders and instant receipts fix it.">
+  <link rel="canonical" href="https://inraylabs.com/blog/why-schools-still-chase-fees-in-cash/">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Why Schools Still Chase Fees in Cash — and How UPI Collection with Reminders and Receipts Fixes It">
+  <meta property="og:description" content="Why do schools still chase fees in cash? Queues, hand-written receipts and invisible defaulters — UPI collection, reminders and instant receipts fix it.">
+  <meta property="og:url" content="https://inraylabs.com/blog/why-schools-still-chase-fees-in-cash/">
+  <meta property="og:image" content="/blog/assets/images/why-schools-still-chase-fees-in-cash.jpg">
+  <meta property="article:published_time" content="2026-11-20T00:00:00.000Z">
+  <meta property="article:section" content="Product Insights">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Why Schools Still Chase Fees in Cash — and How UPI Collection with Reminders and Receipts Fixes It">
+  <meta name="twitter:description" content="Why do schools still chase fees in cash? Queues, hand-written receipts and invisible defaulters — UPI collection, reminders and instant receipts fix it.">
+  <meta name="twitter:image" content="/blog/assets/images/why-schools-still-chase-fees-in-cash.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://inraylabs.com/images/turgut-logo.svg">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e0e3e5",
+            "on-surface": "#191c1e",
+            "outline": "#777587",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-container": "#d1dcf4",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary-fixed": "#111c2d",
+            "secondary-fixed-dim": "#d2bbff",
+            "secondary": "#712ae2",
+            "tertiary-container": "#566175",
+            "surface-dim": "#d8dadc",
+            "tertiary-fixed": "#d8e3fb",
+            "on-secondary-fixed": "#25005a",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "tertiary": "#3e495d",
+            "outline-variant": "#c7c4d8",
+            "inverse-surface": "#2d3133",
+            "secondary-container": "#8a4cfc",
+            "surface-container-highest": "#e0e3e5",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "on-surface-variant": "#464555",
+            "surface": "#f7f9fb",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#0f0069",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eff1f3",
+            "on-tertiary-fixed-variant": "#3c475a",
+            "primary-container": "#4f46e5",
+            "secondary-fixed": "#eaddff",
+            "tertiary-fixed-dim": "#bcc7de",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface-tint": "#4d44e3",
+            "background": "#f7f9fb",
+            "surface-bright": "#f7f9fb",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#fffbff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-max": "1280px",
+            "gutter": "24px",
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "unit": "4px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "label-sm": ["Geist"],
+            "display-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "code": ["JetBrains Mono"],
+            "display-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .primary-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .mesh-gradient {
+      background: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Why Schools Still Chase Fees in Cash — and How UPI Collection with Reminders and Receipts Fixes It",
+    "description": "Why do schools still chase fees in cash? Queues, hand-written receipts and invisible defaulters — UPI collection, reminders and instant receipts fix it.",
+    "image": ["/blog/assets/images/why-schools-still-chase-fees-in-cash.jpg"],
+    "datePublished": "2026-11-20T00:00:00.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Muhammed Shihabudeen Labba"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "inRay Labs Blog",
+      "url": "https://inraylabs.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://inraylabs.com/blog/why-schools-still-chase-fees-in-cash/"
+    }
+  }
+  </script>
+
+  <!-- Blog-specific styles -->
+  <link rel="stylesheet" href="/blog/assets/css/blog-base.css">
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container mesh-gradient overflow-x-hidden">
+
+  <nav class="sticky top-0 w-full z-50 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/20 dark:border-outline-variant/20 shadow-sm transition-all duration-300 ease-in-out">
+  <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop py-4">
+    <a href="https://inraylabs.com" class="flex items-center gap-3 group">
+      <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+      <span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface-variant">InRay Labs</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/about">About Us</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#products">Products</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#services">Services</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#industries">Industries</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="https://inraylabs.com/#process">Process</a>
+      <a class="text-primary font-semibold transition-colors duration-200" href="/blog/">Blog</a>
+    </div>
+    <a href="https://inraylabs.com/#contact" class="primary-gradient px-6 py-2.5 rounded-full text-on-primary font-label-sm text-label-sm shadow-lg hover:shadow-primary-container/20 hover:scale-105 transition-all">
+      Book a Demo
+    </a>
+  </div>
+</nav>
+
+
+  <main class="max-w-container-max mx-auto px-margin-desktop py-12">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+      <a href="https://inraylabs.com" class="hover:text-primary underline transition-colors">Home</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/" class="hover:text-primary underline transition-colors">Blog</a>
+      <span class="text-xs opacity-50">/</span>
+      <a href="/blog/category/product-insights/" class="hover:text-primary underline transition-colors">Product Insights</a>
+      <span class="text-xs opacity-50">/</span>
+      <span class="text-on-surface font-medium truncate max-w-xs">Why Schools Still Chase Fees in Cash — and How UPI Collection with Reminders and Receipts Fixes It</span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10 max-w-4xl">
+      <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20 inline-block mb-4">Product Insights</span>
+      <h1 class="text-headline-md md:text-headline-lg font-bold text-on-surface tracking-tight mb-4 leading-tight">Why Schools Still Chase Fees in Cash — and How UPI Collection with Reminders and Receipts Fixes It</h1>
+      <div class="flex flex-wrap items-center gap-4 text-body-md text-on-surface-variant border-b border-outline-variant/30 pb-6">
+        <span class="font-semibold text-on-surface">By Muhammed Shihabudeen Labba</span>
+        <span>•</span>
+        <span>November 20, 2026</span>
+        <span>•</span>
+        <span>6 min read</span>
+      </div>
+    </header>
+
+    
+    <div class="mb-12 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-lg max-w-4xl">
+      <img src="/blog/assets/images/why-schools-still-chase-fees-in-cash.jpg" onerror="this.onerror=null; this.src='../assets/images/how-job-aggregators-work.jpg';" alt="Why Schools Still Chase Fees in Cash — and How UPI Collection with Reminders and Receipts Fixes It" class="w-full max-h-[500px] object-cover">
+    </div>
+    
+
+    <!-- Content & TOC Sidebar Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Sidebar TOC -->
+      <aside class="lg:col-span-4 order-2 lg:order-1">
+        <div class="sticky top-28 glass-card p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+          <h4 class="font-bold text-on-surface text-body-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">toc</span>
+            <span>Table of Contents</span>
+          </h4>
+          <nav class="toc-nav text-body-md text-on-surface-variant space-y-2">
+            <div class="ice-toc-card">
+  <div class="ice-toc-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6"></line>
+      <line x1="8" y1="12" x2="21" y2="12"></line>
+      <line x1="8" y1="18" x2="21" y2="18"></line>
+      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+      <line x1="3" y1="18" x2="3.01" y2="18"></line>
+    </svg>
+    <span>Table of Contents</span>
+  </div>
+  <nav class="ice-toc-nav">
+    <ul><li><a href="#why-cash-fails">Why cash collection quietly leaks money</a></li><li><a href="#how-upi-collection-works">How UPI collection actually works</a></li><li><a href="#reminders-that-do-the-chasing">Reminders that do the chasing</a></li><li><a href="#receipts-parents-can-trust">Receipts parents can trust</a></li><li><a href="#how-connectedu-does-it">How Connectedu puts it together</a></li><li><a href="#faq">Frequently asked questions</a></li><li class="toc-h3"><a href="#faq-pay-by-upi">Can parents pay school fees by UPI?</a></li><li class="toc-h3"><a href="#faq-still-accept-cash">Does the school still have to accept cash?</a></li><li class="toc-h3"><a href="#faq-no-app">What if a parent has not installed the school app?</a></li><li class="toc-h3"><a href="#faq-cost">What does online fee collection cost the school?</a></li><li><a href="#talk-to-us">Talk to us about fee collection at your school</a></li></ul>
+  </nav>
+</div>
+
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Article Body -->
+      <article class="lg:col-span-8 order-1 lg:order-2 ice-post-content font-body-md text-on-surface leading-relaxed prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-relaxed">
+        <p>Every term, the same scene repeats in school offices across India. A queue forms at the fee counter, parents wait with cash in hand, and the clerk writes receipts by hand in a register. Meanwhile, those same parents pay for groceries, electricity and train tickets on their phones in seconds. The school is the one place that still asks them to come in person, during working hours, with cash. UPI collection with automatic reminders and instant receipts fixes this — not by adding a payment link, but by replacing the whole chase with a system that collects itself. That is how Connectedu is built.</p>
+
+<h2 id="why-cash-fails">Why cash collection quietly leaks money</h2>
+<p>Cash collection fails in four ways, and none of them is about parents refusing to pay.</p>
+<p><strong>Defaulters stay invisible.</strong> Finding out who has not paid means checking ledger cards, cross-referencing bank statements and compiling a list in Excel. By the time the list is ready, it is already two or three weeks past the due date — and the longer a school waits to follow up, the harder the money is to collect.</p>
+<p><strong>There is only one way to pay.</strong> Cash at the counter between nine and two, or a cheque. Working parents cannot visit during school hours, so they keep postponing. Every extra step between a parent and a payment reduces the number who pay on time.</p>
+<p><strong>Nobody is reminded.</strong> Parents are busy and they forget — not because they cannot pay, but because nobody reminded them at the right time. Without reminders, a school misses the follow-up windows when most late payers would happily pay.</p>
+<p><strong>The records cannot be trusted.</strong> A paper receipt works until the register goes missing, a page tears, or a new clerk cannot read the last one's handwriting. When the principal asks how much is outstanding, the answer takes days to compile — and by then the collection window has passed.</p>
+
+<h2 id="how-upi-collection-works">How UPI collection actually works</h2>
+<p>Online fee collection is not a QR code stuck on the office wall. It is a complete flow, and each step removes a manual job.</p>
+<p>First, the school raises the term's fees from its fee plan — tuition, transport, activities and exam fees, with discounts and concessions applied per student. Each parent sees the exact amount due for their own child in the parent app, with the due date beside it.</p>
+<p>Second, the parent pays from the phone: UPI, card or net banking, through a licensed payment gateway. The school never handles card or bank details, and the payment is matched to the student automatically.</p>
+<p>Third, the money settles into the school's own bank account, and the fee ledger updates the moment the payment succeeds: paid, partial or pending. Cash and cheques taken at the counter are entered into the same ledger, so there is one record of everything, not two systems running side by side.</p>
+<p>When paying takes sixty seconds from the sofa instead of half a morning at the counter, most parents pay on time — and the school stops spending its term chasing them.</p>
+
+<h2 id="reminders-that-do-the-chasing">Reminders that do the chasing</h2>
+<p>Reminders are where online collection saves the most staff time. A simple schedule, sent automatically, does the follow-up the office used to do by phone.</p>
+<p>Seven days before the due date, a friendly reminder goes out with the amount and a payment link. On the due date, a short message: fees are due today. A few days after the due date, a reminder goes only to the families who have not paid yet — not to the parents who already paid. A final reminder follows a week or two later, and only then does the office pick up the phone.</p>
+<p>Because the reminders come from the fee record itself, they are always accurate: the right amount, the right child, the right due date. The awkward conversation about money becomes a polite, automatic message — and the office gets its mornings back.</p>
+
+<h2 id="receipts-parents-can-trust">Receipts parents can trust</h2>
+<p>Every payment, online or at the counter, should produce a numbered receipt from the same series. That is what an auditor asks for, and what a parent brings back two years later.</p>
+<p>With online collection, the receipt is created the moment the payment succeeds and sent straight to the parent — in the app, by message or by email — with no office involvement. It stays in the student's record, re-printable years later, so a lost paper receipt is never a problem again.</p>
+<p>This matters more than it sounds. A receipt a parent can find in seconds is proof the school is organised, and it ends the disputes that used to eat office time: "I paid last term" is answered by pulling up the record, not by searching a cupboard.</p>
+
+<h2 id="how-connectedu-does-it">How Connectedu puts it together</h2>
+<p>In Connectedu, fee collection sits inside the school platform, because the fees are only as accurate as the student records behind them. Fee structures, concessions and transport routes are set once, and each student's dues are calculated from the same record that holds their attendance and class.</p>
+<p>Parents see dues, pay by UPI, card or net banking, and download receipts in the parent app. Reminders go out on the schedule the school chooses, by app notification, SMS or message. Counter payments in cash or by cheque are recorded in the same ledger, so the collection report always shows the true position. And the principal can open a live defaulter list on a Monday morning — who owes what, since when — instead of waiting days for a compiled report.</p>
+<p>Families facing genuine hardship are handled with care, not automation: the school can flag an account, pause reminders for that student, and record an instalment arrangement.</p>
+
+<h2 id="faq">Frequently asked questions</h2>
+<h3 id="faq-pay-by-upi">Can parents pay school fees by UPI?</h3>
+<p>Yes. With online fee collection, parents pay by UPI, debit or credit card, or net banking from their phone, and the payment is matched to the student automatically. UPI is the most popular choice, because it needs no card details and works from any bank app.</p>
+<h3 id="faq-still-accept-cash">Does the school still have to accept cash?</h3>
+<p>No school has to stop taking cash. Counter payments in cash or by cheque are entered into the same fee ledger as online payments, so the school keeps one record of everything. The difference is that cash becomes the exception, not the only way to pay.</p>
+<h3 id="faq-no-app">What if a parent has not installed the school app?</h3>
+<p>The reminder still reaches them. Fee reminders go out by SMS or message with a secure payment link, so a parent can pay without the app. The receipt arrives the same way, and the school can see who has not installed the app and nudge them.</p>
+<h3 id="faq-cost">What does online fee collection cost the school?</h3>
+<p>A small gateway charge applies to each online payment. Many schools absorb it, because the improvement in on-time collection is worth far more than the charge.</p>
+
+<h2 id="talk-to-us">Talk to us about fee collection at your school</h2>
+<p>If your office still spends every term chasing fees in cash, Connectedu can give you UPI collection, automatic reminders and instant receipts in one place. <a href="https://inraylabs.com/#contact">Talk to InRay Labs</a> and we will show you how it works on your own school's data.</p>
+
+
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Why Schools Still Chase Fees in Cash — and How UPI Collection with Reminders and Receipts Fixes It",
+  "description": "Why do schools still chase fees in cash? Queues, hand-written receipts and invisible defaulters — UPI collection, reminders and instant receipts fix it.",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammed Shihabudeen Labba"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "InRay Labs"
+  },
+  "datePublished": "2026-11-20",
+  "mainEntityOfPage": "https://inraylabs.com/blog/why-schools-still-chase-fees-in-cash/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can parents pay school fees by UPI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. With online fee collection, parents pay by UPI, debit or credit card, or net banking from their phone, and the payment is matched to the student automatically. UPI is the most popular choice, because it needs no card details and works from any bank app."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the school still have to accept cash?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No school has to stop taking cash. Counter payments in cash or by cheque are entered into the same fee ledger as online payments, so the school keeps one record of everything. The difference is that cash becomes the exception, not the only way to pay."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if a parent has not installed the school app?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The reminder still reaches them. Fee reminders go out by SMS or message with a secure payment link, so a parent can pay without the app. The receipt arrives the same way, and the school can see who has not installed the app and nudge them."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does online fee collection cost the school?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A small gateway charge applies to each online payment. Many schools absorb it, because the improvement in on-time collection is worth far more than the charge."
+      }
+    }
+  ]
+}
+</script>
+
+
+        <!-- Tags -->
+        <div class="mt-12 pt-6 border-t border-outline-variant/30 flex flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold text-on-surface-variant mr-2">Tags:</span>
+          <a href="/blog/tag/saas/" class="ice-tag-pill">#SaaS</a> <a href="/blog/tag/inray-labs/" class="ice-tag-pill">#InRay Labs</a> <a href="/blog/tag/architecture/" class="ice-tag-pill">#Architecture</a> </div>
+
+        <!-- Prev / Next Navigation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 pt-8 border-t border-outline-variant/30">
+  
+      <a href="/blog/how-travel-agency-software-works/" class="glass-card p-6 rounded-2xl border border-outline-variant/40 hover:border-primary transition-all flex flex-col gap-1 text-left group">
+    <span class="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1">
+      <span class="material-symbols-outlined text-sm">arrow_back</span> Previous Article
+    </span>
+    <span class="font-semibold text-on-surface text-base group-hover:text-primary transition-colors line-clamp-2">How Travel Agency Software Works: Itineraries, Bookings and Supplier Rates</span>
+  </a>
+</div>
+
+      </article>
+    </div>
+
+    <!-- Related Posts -->
+    <section class="mt-20 pt-12 border-t border-outline-variant/30">
+      <h3 class="text-headline-md font-bold text-on-surface mb-8">Related Articles</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+    
+    
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/why-school-messages-get-lost-on-whatsapp.jpg" alt="Why School Messages Get Lost on WhatsApp — and How Structured Parent Communication Fixes It" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/why-school-messages-get-lost-on-whatsapp/">Why School Messages Get Lost on WhatsApp — and How Structured Parent Communication Fixes It</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">Why do school messages get lost on WhatsApp? Class groups bury notices under chatter, with no record and no read receipts — structured communication fixes it.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>November 18, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-school-erp-systems-work.jpg" alt="How School ERP Systems Work: Attendance, Fees and Parent Communication in One Platform" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-school-erp-systems-work/">How School ERP Systems Work: Attendance, Fees and Parent Communication in One Platform</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does a school ERP system work? One shared student record drives attendance, fee collection and parent communication — here is how each module fits together.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>October 25, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+    <article class="glass-card rounded-2xl overflow-hidden border border-outline-variant/40 flex flex-col h-full hover:shadow-xl transition-all">
+      <img src="/blog/assets/images/how-travel-agency-software-works.jpg" alt="How Travel Agency Software Works: Itineraries, Bookings and Supplier Rates" class="w-full h-48 object-cover" loading="lazy">
+      <div class="p-6 flex flex-col flex-grow">
+        <span class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Product Insights</span>
+        <h3 class="text-xl font-bold text-on-surface mb-3 line-clamp-2 hover:text-primary transition-colors">
+          <a href="/blog/how-travel-agency-software-works/">How Travel Agency Software Works: Itineraries, Bookings and Supplier Rates</a>
+        </h3>
+        <p class="text-on-surface-variant text-body-md mb-6 flex-grow line-clamp-3">How does travel agency software work? One system searches supplier rates, builds itineraries, books flights and hotels, and tracks payments and commissions.</p>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant/80 border-t border-outline-variant/30 pt-4 mt-auto">
+          <span class="font-medium">Muhammed Shihabudeen Labba</span>
+          <span>&bull;</span>
+          <span>November 19, 2026</span>
+          <span>&bull;</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  
+  
+  
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface border-t border-outline-variant/30 mt-20">
+  <div class="max-w-container-max mx-auto px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <img src="https://inraylabs.com/images/turgut-logo.svg" alt="InRay Labs Logo" class="w-8 h-8 object-contain">
+        <span class="text-headline-md font-headline-md font-bold">InRay Labs</span>
+      </div>
+      <p class="text-body-md text-on-surface-variant leading-relaxed">Engineering, SaaS Architecture & AI Innovations</p>
+      <div class="pt-2 text-label-sm text-on-surface-variant border-t border-outline-variant/20">
+        <p class="font-semibold text-on-surface">INRAY LABS PRIVATE LIMITED</p>
+        <p class="text-xs opacity-75">CIN: U62099KL2026PTC104994</p>
+      </div>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Navigation</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/">Home</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/about">About Us</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="/blog/">Blog</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#products">Products</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Categories</h6>
+      <ul class="space-y-3">
+        <li><a href="/blog/category/saas-architecture/">SaaS Architecture</a></li><li><a href="/blog/category/ai-and-automation/">AI & Automation</a></li><li><a href="/blog/category/product-insights/">Product Insights</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h6 class="font-bold text-on-surface text-label-sm uppercase tracking-wider">Legal & Contact</h6>
+      <ul class="space-y-3">
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/privacy-policy">Privacy Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/terms-and-conditions">Terms & Conditions</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/cookie-policy">Cookie Policy</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary underline transition-all text-body-md" href="https://inraylabs.com/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+    <p class="text-on-surface-variant text-body-md">&copy; 2026 INRAY LABS PRIVATE LIMITED. All rights reserved.</p>
+    <div class="flex gap-6 text-body-md">
+      <a href="https://inraylabs.com/privacy-policy" class="text-on-surface-variant hover:text-primary">Privacy</a>
+      <a href="https://inraylabs.com/terms-and-conditions" class="text-on-surface-variant hover:text-primary">Terms</a>
+      <a href="https://inraylabs.com/cookie-policy" class="text-on-surface-variant hover:text-primary">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
